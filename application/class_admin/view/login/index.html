@@ -1,0 +1,40 @@
+<!--包含头部文件-->
+{include file="public/header" /}
+<div class="layui-container">
+<h1 style="text-align:center;margin:20px auto">贝壳辅导班-班级管理员登录</h1>
+  <form class="layui-form" style="width:600px;margin: 0 auto;margin-top: 50px"> <!-- 提示：如果你不想用form，你可以换成div等任何一个普通元素 -->
+    <div class="layui-form-item">
+        <label class="layui-form-label">账号</label>
+        <div class="layui-input-block">
+            <input type="text" name="" lay-verify="required" placeholder="手机号" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item" style="margin-top:30px">
+        <label class="layui-form-label">密码</label>
+        <div class="layui-input-block">
+            <input type="text" name="" lay-verify="required" placeholder="密码" autocomplete="off" class="layui-input">
+        </div>
+    </div>      
+
+    <div class="layui-form-item">
+        <div class="layui-input-block" style="margin-top:30px">
+            <button class="layui-btn" lay-submit lay-filter="*">登录</button>
+            <button class="layui-btn" lay-submit lay-filter="*" style="margin-left: 100px;">注册辅导班</button>
+        </div>
+    </div>
+    <!-- 更多表单结构排版请移步文档左侧【页面元素-表单】一项阅览 -->
+  </form>
+</div>
+  <script src="__STATIC__/layui/layui.js"></script>
+  <script>
+  layui.use('form', function(){
+    var form = layui.form;
+    
+    //各种基于事件的操作，下面会有进一步介绍
+  });
+
+
+  </script>
+<!--包含尾部文件-->
+{include file="public/footer" /}
