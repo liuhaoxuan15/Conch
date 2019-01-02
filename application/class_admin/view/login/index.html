@@ -2,31 +2,41 @@
 {include file="public/header" /}
 <div class="layui-container">
 <h1 style="text-align:center;margin:20px auto">贝壳辅导班-班级管理员登录</h1>
-  <form class="layui-form" style="width:600px;margin: 0 auto;margin-top: 50px"> <!-- 提示：如果你不想用form，你可以换成div等任何一个普通元素 -->
+  <form class="layui-form" style="width:600px;margin: 0 auto;margin-top: 50px" action="" method="post"> <!-- 提示：如果你不想用form，你可以换成div等任何一个普通元素 -->
+    
     <div class="layui-form-item">
         <label class="layui-form-label">账号</label>
         <div class="layui-input-block">
-            <input type="text" name="" lay-verify="required" placeholder="手机号" autocomplete="off" class="layui-input">
+            <input type="text" name="admin_account" lay-verify="required" placeholder="手机号" autocomplete="off" class="layui-input">
         </div>
     </div>
 
     <div class="layui-form-item" style="margin-top:30px">
         <label class="layui-form-label">密码</label>
         <div class="layui-input-block">
-            <input type="text" name="" lay-verify="required" placeholder="密码" autocomplete="off" class="layui-input">
+            <input type="text" name="admin_password" lay-verify="required" placeholder="密码" autocomplete="off" class="layui-input">
+        </div>
+    </div>      
+
+    <div class="layui-form-item" style="margin-top:30px">
+        <label class="layui-form-label">验证码</label>
+        <div class="layui-input-block">
+          <input  class="layui-input" lay-verify="required"  type="text" id="verifycode" placeholder="请输入验证码" name="verifycode"> 
+        <div><img src="{:url('show_captcha')}" alt="captcha"  onclick="this.src=this.src"+'?'/></div>
         </div>
     </div>      
 
     <div class="layui-form-item">
         <div class="layui-input-block" style="margin-top:30px">
-            <button class="layui-btn" lay-submit lay-filter="*">登录</button>
-            <button class="layui-btn" lay-submit lay-filter="*" style="margin-left: 100px;">注册辅导班</button>
+            <input style="width:105px" type="submit" class="layui-btn" onclick="check()"  lay-submit lay-filter="*" value="&nbsp;登&nbsp;&nbsp;&nbsp;&nbsp;录&nbsp;">
+            <button class="layui-btn" lay-filter="*" style="margin-left: 100px;">注册辅导班</button>
         </div>
     </div>
     <!-- 更多表单结构排版请移步文档左侧【页面元素-表单】一项阅览 -->
   </form>
 </div>
   <script src="__STATIC__/layui/layui.js"></script>
+  <script src="__STATIC__/jquery-3.3.1.min.js"></script>
   <script>
   layui.use('form', function(){
     var form = layui.form;
@@ -36,5 +46,48 @@
 
 
   </script>
+
+    <script type="text/javascript">  
+    var code;//声明一个变量用于存储生成的验证码  
+    document.getElementById("code").onclick=changeImg;  
+    function changeImg(){  
+        //alert("换图片");  
+        var arrays=new Array(  
+            '1','2','3','4','5','6','7','8','9','0',  
+            'a','b','c','d','e','f','g','h','i','j',  
+            'k','l','m','n','o','p','q','r','s','t',  
+            'u','v','w','x','y','z',  
+            'A','B','C','D','E','F','G','H','I','J',  
+            'K','L','M','N','O','P','Q','R','S','T',  
+            'U','V','W','X','Y','Z'               
+        );  
+        code='';//重新初始化验证码  
+        //alert(arrays.length);  
+        //随机从数组中获取四个元素组成验证码  
+        for(var i=0;i<4;i++){  
+        //随机获取一个数组的下标  
+            var r=parseInt(Math.random()*arrays.length);  
+            code+=arrays[r];  
+            //alert(arrays[r]);  
+        }  
+        //alert(code);  
+        document.getElementById('code').innerHTML=code;//将验证码写入指定区域  
+    }         
+        
+    //效验验证码(表单被提交时触发)  
+    function check(){  
+        //获取用户输入的验证码  
+        var input_code=document.getElementById('vcode').value;  
+        //alert(input_code+"----"+code);  
+        if(input_code.toLowerCase()==code.toLowerCase())  
+        {  
+            //验证码正确(表单提交)  
+            return true;  
+        }  
+        alert("请输入正确的验证码!");  
+        //验证码不正确,表单不允许提交  
+        return false;  
+    }  
+    </script>   
 <!--包含尾部文件-->
 {include file="public/footer" /}
