@@ -33,6 +33,9 @@ class Login extends Controller
         }
               return $this->fetch();	
     }
+    public function register(){
+        return $this->redirect('register/index');
+    }
     public function show_captcha(){
         ob_clean();
         $captcha = new \think\captcha\Captcha();
