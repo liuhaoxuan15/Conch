@@ -9,7 +9,7 @@ class Register extends Controller
         return $this->fetch();
 	}
     public function register() {
-        if (request()->isPost()) {
+        // if (request()->isPost()) {
             $data = [
                 'class_name'=>input('param.class_name'),
                 'class_peopleNumber'=>input('param.class_peopleNumber'),
@@ -17,11 +17,11 @@ class Register extends Controller
                 'class_info'=>input('param.class_info'),
                 'class_position'=>input('param.class_position'),
             ];
-        }
+        // }
         //存入数据库
         $res = Db::name("classes")->insert($data);
         if($res){
-            return alert_success("申请成功，请耐心等待审核通过。");
+            return alert_success("申请成功，请耐心等待审核通过。","index/index");
         } else {
             return $this->alert_error("申请失败");
         }

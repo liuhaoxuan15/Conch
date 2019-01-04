@@ -1,5 +1,19 @@
 <!--包含头部文件-->
 {include file="public/header" /}
+<script>
+  function ajaxPost(){  
+    var formData = $("#form").serialize();  
+    //serialize() 方法通过序列化表单值，创建 URL 编码文本字符串,这个是jquery提供的方法  
+    $.ajax({  
+        type:"post",  
+        url:"{:url('register/register')}",  
+        data:formData,//这里data传递过去的是序列化以后的字符串  
+        success:function(data){  
+            $("#content").append(data);//获取成功以后输出返回值  
+        }  
+    });  
+}
+</script>
 <div class="layui-container">
 <h1 style="text-align:center;margin:20px auto">贝壳辅导班申请</h1>
   <form id="form" class="layui-form" action="{:url('register/register')}" method="post" data-auto="true" style="width:600px;margin: 0 auto;" > <!-- 提示：如果你不想用form，你可以换成div等任何一个普通元素 -->
@@ -57,7 +71,7 @@
 
 </div>
 <script type="text/javascript" src="http://api.map.baidu.com/api?v=3.0&ak=tXGsWreUyZr7DzWa20TRGC1YUbRKnANH"></script>
-<script src="__STATIC__/jquery-3.3.1.min.js"></script>
+
   <script src="__STATIC__/layui/layui.js"></script>
   <script>
   layui.use('form', function(){
@@ -132,16 +146,7 @@
   </script>
   
   <script>
-    
-    // $('#submit').click(function () {
-    //     $.post("{:url('register/register')}", $('#form').serialize(), function (result) {
-    //         if (result.code == 1) {
-    //             layer.msg(result.msg, {icon: 1});
-    //         }  else {
-    //             layer.msg(result.msg, {icon: 5});
-    //         }
-    //     }, 'json');
-    // });
+
   </script>
 <!--包含尾部文件-->
 {include file="public/footer" /}

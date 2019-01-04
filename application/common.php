@@ -18,7 +18,7 @@
  * $time 弹出维持时间（单位秒）
  */
 function alert_success($msg='',$url='',$time=3){ 
-    $str='<script type="text/javascript" src="__STATIC__/jquery-3.3.1.min.js"></script> <script type="text/javascript" src="/static/layer/layer.js"></script>';//加载jquery和layer
+    $str='<script type="text/javascript" src="/conch/public/static/jquery-3.3.1.min.js"></script> <script type="text/javascript" src="/conch/public/static/layer/layer.js"></script>';//加载jquery和layer
     $str.='<script>
         $(function(){
             layer.msg("'.$msg.'",{icon:"6",time:'.($time*1000).'});
@@ -36,7 +36,7 @@ function alert_success($msg='',$url='',$time=3){
  * $time 弹出维持时间（单位秒）
  */
 function alert_error($msg='',$time=3){ 
-    $str='<script type="text/javascript" src="__STATIC__/jquery-3.3.1.min.js"></script> <script type="text/javascript" src="/static/layer/layer.js"></script>';//加载jquery和layer
+    $str='<script type="text/javascript" src="/conch/public/static/jquery-3.3.1.min.js"></script> <script type="text/javascript" src="/conch/public/static/layer/layer.js"></script>';//加载jquery和layer
     $str.='<script>
         $(function(){
             layer.msg("'.$msg.'",{icon:"5",time:'.($time*1000).'});
