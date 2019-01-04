@@ -18,13 +18,12 @@ class Register extends Controller
                 'class_position'=>input('param.class_position'),
             ];
         }
-
         //存入数据库
         $res = Db::name("classes")->insert($data);
         if($res){
-            return alert_success("申请成功，请耐心等待审核通过。",'index/index');
+            return alert_success("申请成功，请耐心等待审核通过。");
         } else {
-            return alert_error("申请失败");
+            return $this->alert_error("申请失败");
         }
 
     }

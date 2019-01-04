@@ -2,39 +2,39 @@
 {include file="public/header" /}
 <div class="layui-container">
 <h1 style="text-align:center;margin:20px auto">贝壳辅导班申请</h1>
-  <form class="layui-form" style="width:600px;margin: 0 auto;" action="{:url('register/register')}" method="post" > <!-- 提示：如果你不想用form，你可以换成div等任何一个普通元素 -->
+  <form id="form" class="layui-form" action="{:url('register/register')}" method="post" data-auto="true" style="width:600px;margin: 0 auto;" > <!-- 提示：如果你不想用form，你可以换成div等任何一个普通元素 -->
     <div class="layui-form-item">
       <label class="layui-form-label">辅导班班名</label>
       <div class="layui-input-block">
-        <input type="text" name="class_name" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+        <input type="text" name="class_name" lay-verType="msg" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
       </div>
     </div>
 
     <div class="layui-form-item">
       <label class="layui-form-label">班级人数</label>
       <div class="layui-input-block">
-        <input type="text" name="class_peopleNumber" lay-verify="number" placeholder="请输入" autocomplete="off" class="layui-input">
+        <input type="text" name="class_peopleNumber" lay-verify="required|number" placeholder="请输入" autocomplete="off" class="layui-input">
       </div>
     </div>
 
     <div class="layui-form-item">
       <label class="layui-form-label">上课时间</label>
       <div class="layui-input-block">
-        <input type="text" name="class_time" class="layui-input" id="class_time">
+        <input type="text" lay-verify="required" name="class_time" class="layui-input" id="class_time">
       </div>
     </div>
 
     <div class="layui-form-item layui-form-text">
       <label class="layui-form-label">班级简介</label>
       <div class="layui-input-block">
-        <textarea name="class_info" placeholder="请输入内容" class="layui-textarea"></textarea>
+        <textarea name="class_info" lay-verify="required" placeholder="请输入内容" class="layui-textarea"></textarea>
       </div>
     </div>
 
     <div class="layui-form-item">
       <label class="layui-form-label">班级定位</label>
         <div class="layui-input-block">
-            <input name="class_position" type="text" lay-verify="text" id="suggestId" placeholder="请输入" autocomplete="off" class="layui-input">
+            <input name="class_position" lay-verify="required" type="text" lay-verify="text" id="suggestId" placeholder="请输入" autocomplete="off" class="layui-input">
         </div> 
 
         <br>
@@ -48,7 +48,7 @@
 
     <div class="layui-form-item">
       <div class="layui-input-block">
-        <button class="layui-btn" lay-submit lay-filter="*">立即提交</button>
+        <button id="submit" class="layui-btn" lay-submit lay-filter="*">立即提交</button>
         <button type="reset" class="layui-btn layui-btn-primary">重置</button>
       </div>
     </div>
@@ -130,6 +130,18 @@
 	}
 
   </script>
-
+  
+  <script>
+    
+    // $('#submit').click(function () {
+    //     $.post("{:url('register/register')}", $('#form').serialize(), function (result) {
+    //         if (result.code == 1) {
+    //             layer.msg(result.msg, {icon: 1});
+    //         }  else {
+    //             layer.msg(result.msg, {icon: 5});
+    //         }
+    //     }, 'json');
+    // });
+  </script>
 <!--包含尾部文件-->
 {include file="public/footer" /}
