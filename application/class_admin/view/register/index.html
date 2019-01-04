@@ -55,9 +55,6 @@
         <div id="searchResultPanel" style="border:1px solid #C0C0C0;width:150px;height:auto; display:none;"></div>
     </div>
 
-    <button id="getInfo">获取经纬度</button>
-
-
     <div class="layui-form-item">
       <div class="layui-input-block">
         <button class="layui-btn" lay-submit lay-filter="*">立即提交</button>
@@ -66,6 +63,7 @@
     </div>
     <!-- 更多表单结构排版请移步文档左侧【页面元素-表单】一项阅览 -->
   </form>
+
 </div>
 <script type="text/javascript" src="http://api.map.baidu.com/api?v=3.0&ak=tXGsWreUyZr7DzWa20TRGC1YUbRKnANH"></script>
 <script src="__STATIC__/jquery-3.3.1.min.js"></script>
@@ -161,18 +159,5 @@ layui.use('upload', function(){
 
   </script>
 
-  <script>
-    // var val = document.getElementById('#suggestId');
-    var cs = $("#suggestId").val();
-    var url1 = 'http://api.map.baidu.com/geocoder/v2/?address=' +  cs + '&output=json&ak=tXGsWreUyZr7DzWa20TRGC1YUbRKnANH'
-    $('#getInfo').click(function(){
-      $.ajax({
-        url:"url1",
-        success: function(result){
-          alert(result)
-        }
-        })
-    })
-  </script>
 <!--包含尾部文件-->
 {include file="public/footer" /}
