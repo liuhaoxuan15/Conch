@@ -2,7 +2,7 @@
 {include file="public/header" /}
 <div class="layui-container">
 <h1 style="text-align:center;margin:20px auto">贝壳辅导班申请</h1>
-  <form class="layui-form" style="width:600px;margin: 0 auto;"> <!-- 提示：如果你不想用form，你可以换成div等任何一个普通元素 -->
+  <form class="layui-form" style="width:600px;margin: 0 auto;" action="{:url('register/register')}" method="post" > <!-- 提示：如果你不想用form，你可以换成div等任何一个普通元素 -->
     <div class="layui-form-item">
       <label class="layui-form-label">辅导班班名</label>
       <div class="layui-input-block">
@@ -75,25 +75,6 @@
     ,range: true //或 range: '~' 来自定义分割字符
   });
 });
-
-
-layui.use('upload', function(){
-  var upload = layui.upload;
-   
-  //执行实例
-  var uploadInst = upload.render({
-    elem: '#test1' //绑定元素
-    ,url: '/upload/' //上传接口
-    ,auto: false
-    ,done: function(res){
-      //上传完毕回调
-    }
-    ,error: function(){
-      //请求异常回调
-    }
-  });
-});
-
 
 	// 百度地图API功能
 	function G(id) {
