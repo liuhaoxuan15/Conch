@@ -1,33 +1,43 @@
 <!--包含头部文件-->
 {include file="public/header" /}
 <script>
-  function ajaxPost(){  
-    var formData = $("#form").serialize();  
-    //serialize() 方法通过序列化表单值，创建 URL 编码文本字符串,这个是jquery提供的方法  
-    $.ajax({  
-        type:"post",  
-        url:"{:url('register/register')}",  
-        data:formData,//这里data传递过去的是序列化以后的字符串  
-        success:function(data){  
-            $("#content").append(data);//获取成功以后输出返回值  
-        }  
-    });  
-}
+  function register() {
+    $.ajax({
+    //几个参数需要注意一下
+        type: "POST",//方法类型
+        dataType: "json",//预期服务器返回的数据类型
+        url: "Register/register" ,//url
+        data: $('#form').serialize(),
+        success: function (result) {
+            console.log(result);//打印服务端返回的数据(调试用)
+            if (result.resultCode == 200) {
+                alert("SUCCESS");
+            }
+            ;
+        },
+        error : function() {
+            alert("异常！");
+        }
+    });
+  }
 </script>
 <div class="layui-container">
-<h1 style="text-align:center;margin:20px auto">贝壳辅导班申请</h1>
-  <form id="form" class="layui-form" action="{:url('register/register')}" method="post" data-auto="true" style="width:600px;margin: 0 auto;" > <!-- 提示：如果你不想用form，你可以换成div等任何一个普通元素 -->
+  <h1 style="text-align:center;margin:20px auto">贝壳辅导班申请</h1>
+  <form class="layui-form" style="width:600px;margin: 0 auto;">
+    <!-- 提示：如果你不想用form，你可以换成div等任何一个普通元素 -->
     <div class="layui-form-item">
       <label class="layui-form-label">辅导班班名</label>
       <div class="layui-input-block">
-        <input type="text" name="class_name" lay-verType="msg" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+        <input type="text" name="class_name" lay-verType="msg" required lay-verify="required" placeholder="请输入" autocomplete="off"
+          class="layui-input">
       </div>
     </div>
 
     <div class="layui-form-item">
       <label class="layui-form-label">班级人数</label>
       <div class="layui-input-block">
-        <input type="text" name="class_peopleNumber" lay-verify="required|number" placeholder="请输入" autocomplete="off" class="layui-input">
+        <input type="text" name="class_peopleNumber" lay-verify="required|number" placeholder="请输入" autocomplete="off"
+          class="layui-input">
       </div>
     </div>
 
@@ -47,22 +57,23 @@
 
     <div class="layui-form-item">
       <label class="layui-form-label">班级定位</label>
-        <div class="layui-input-block">
-            <input name="class_position" lay-verify="required" type="text" lay-verify="text" id="suggestId" placeholder="请输入" autocomplete="off" class="layui-input">
-        </div> 
+      <div class="layui-input-block">
+        <input name="class_position" lay-verify="required" type="text" lay-verify="text" id="suggestId" placeholder="请输入"
+          autocomplete="off" class="layui-input">
+      </div>
 
-        <br>
+      <br>
 
-        <div class="layui-input-block">
-          <div id="l-map" style="width:490px;height:300px;border: 1px solid #cccccc;border-radius: 5px;"></div>
-        </div> 
+      <div class="layui-input-block">
+        <div id="l-map" style="width:490px;height:300px;border: 1px solid #cccccc;border-radius: 5px;"></div>
+      </div>
 
-        <div id="searchResultPanel" style="border:1px solid #C0C0C0;width:150px;height:auto; display:none;"></div>
+      <div id="searchResultPanel" style="border:1px solid #C0C0C0;width:150px;height:auto; display:none;"></div>
     </div>
 
     <div class="layui-form-item">
       <div class="layui-input-block">
-        <button id="submit" class="layui-btn" lay-submit lay-filter="*">立即提交</button>
+        <button class="layui-btn" id="ajaxsubmit" onclick="register()" lay-filter="*">立即提交</button>
         <button type="reset" class="layui-btn layui-btn-primary">重置</button>
       </div>
     </div>
@@ -72,81 +83,97 @@
 </div>
 <script type="text/javascript" src="http://api.map.baidu.com/api?v=3.0&ak=tXGsWreUyZr7DzWa20TRGC1YUbRKnANH"></script>
 
-  <script src="__STATIC__/layui/layui.js"></script>
-  <script>
-  layui.use('form', function(){
+<script src="__STATIC__/layui/layui.js"></script>
+<script>
+  layui.use('form', function () {
     var form = layui.form;
-    
+
     //各种基于事件的操作，下面会有进一步介绍
   });
-  layui.use('laydate', function(){
-  var laydate = layui.laydate;
-  
-  //执行一个laydate实例
-  laydate.render({
-    elem: '#class_time'
-    ,type: 'time'
-    ,range: true //或 range: '~' 来自定义分割字符
+  layui.use('laydate', function () {
+    var laydate = layui.laydate;
+
+    //执行一个laydate实例
+    laydate.render({
+      elem: '#class_time',
+      type: 'time',
+      range: true //或 range: '~' 来自定义分割字符
+    });
   });
-});
 
-	// 百度地图API功能
-	function G(id) {
-		return document.getElementById(id);
-	}
+  // 百度地图API功能
+  function G(id) {
+    return document.getElementById(id);
+  }
 
-	var map = new BMap.Map("l-map");
-	map.centerAndZoom("北京",12);                   // 初始化地图,设置城市和地图级别。
+  var map = new BMap.Map("l-map");
+  map.centerAndZoom("北京", 12); // 初始化地图,设置城市和地图级别。
 
-	var ac = new BMap.Autocomplete(    //建立一个自动完成的对象
-		{"input" : "suggestId"
-		,"location" : map
-	});
+  var ac = new BMap.Autocomplete( //建立一个自动完成的对象
+    {
+      "input": "suggestId",
+      "location": map
+    });
 
-	ac.addEventListener("onhighlight", function(e) {  //鼠标放在下拉列表上的事件
-	var str = "";
-		var _value = e.fromitem.value;
-		var value = "";
-		if (e.fromitem.index > -1) {
-			value = _value.province +  _value.city +  _value.district +  _value.street +  _value.business;
-		}    
-		str = "FromItem<br />index = " + e.fromitem.index + "<br />value = " + value;
-		
-		value = "";
-		if (e.toitem.index > -1) {
-			_value = e.toitem.value;
-			value = _value.province +  _value.city +  _value.district +  _value.street +  _value.business;
-		}    
-		str += "<br />ToItem<br />index = " + e.toitem.index + "<br />value = " + value;
-		G("searchResultPanel").innerHTML = str;
-	});
+  ac.addEventListener("onhighlight", function (e) { //鼠标放在下拉列表上的事件
+    var str = "";
+    var _value = e.fromitem.value;
+    var value = "";
+    if (e.fromitem.index > -1) {
+      value = _value.province + _value.city + _value.district + _value.street + _value.business;
+    }
+    str = "FromItem<br />index = " + e.fromitem.index + "<br />value = " + value;
 
-	var myValue;
-	ac.addEventListener("onconfirm", function(e) {    //鼠标点击下拉列表后的事件
-	var _value = e.item.value;
-		myValue = _value.province +  _value.city +  _value.district +  _value.street +  _value.business;
-		G("searchResultPanel").innerHTML ="onconfirm<br />index = " + e.item.index + "<br />myValue = " + myValue;
-		
-		setPlace();
-	});
+    value = "";
+    if (e.toitem.index > -1) {
+      _value = e.toitem.value;
+      value = _value.province + _value.city + _value.district + _value.street + _value.business;
+    }
+    str += "<br />ToItem<br />index = " + e.toitem.index + "<br />value = " + value;
+    G("searchResultPanel").innerHTML = str;
+  });
 
-	function setPlace(){
-		map.clearOverlays();    //清除地图上所有覆盖物
-		function myFun(){
-			var pp = local.getResults().getPoi(0).point;    //获取第一个智能搜索的结果
-			map.centerAndZoom(pp, 18);
-			map.addOverlay(new BMap.Marker(pp));    //添加标注
-		}
-		var local = new BMap.LocalSearch(map, { //智能搜索
-		  onSearchComplete: myFun
-		});
-		local.search(myValue);
-	}
+  var myValue;
+  ac.addEventListener("onconfirm", function (e) { //鼠标点击下拉列表后的事件
+    var _value = e.item.value;
+    myValue = _value.province + _value.city + _value.district + _value.street + _value.business;
+    G("searchResultPanel").innerHTML = "onconfirm<br />index = " + e.item.index + "<br />myValue = " + myValue;
 
-  </script>
-  
-  <script>
+    setPlace();
+  });
 
-  </script>
+  function setPlace() {
+    map.clearOverlays(); //清除地图上所有覆盖物
+    function myFun() {
+      var pp = local.getResults().getPoi(0).point; //获取第一个智能搜索的结果
+      map.centerAndZoom(pp, 18);
+      map.addOverlay(new BMap.Marker(pp)); //添加标注
+    }
+    var local = new BMap.LocalSearch(map, { //智能搜索
+      onSearchComplete: myFun
+    });
+    local.search(myValue);
+  }
+</script>
+
+<script>
+  // function ajaxPost(){  
+  // $('#ajaxsubmit').click(function () {
+  //   var class_name = $('input[name="class_name"]').val();
+  //   var class_peopleNumber = $('input[name="class_peopleNumber"]').val();
+  //   var class_time = $('input[name="class_time"]').val();
+  //   var class_info = $('input[name="class_info"]').val();
+  //   var class_position = $('input[name="class_position"]').val();
+  //   $.post("{:url('register/register')}", {
+  //     class_name,
+  //     class_peopleNumber,
+  //     class_info,
+  //     class_position
+  //   }, function (data) {
+  //     alert('Ajax从服务器端返回来的值是：' + data);
+  //   });
+  // });
+  // }
+</script>
 <!--包含尾部文件-->
 {include file="public/footer" /}
