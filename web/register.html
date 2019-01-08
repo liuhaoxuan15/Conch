@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>贝壳辅导班</title>
+    <link rel="stylesheet" href="layui/css/layui.css">
+    <style>
+
+    </style>
+</head>
+
+<body>
+    <div class="layui-header">
+        <p style="font-size:1.8rem;text-align: center;margin-top: 3rem">贝壳辅导班</p>
+    </div>
+    <br>
+    <div class="layui-row">
+        <div class="layui-form">
+            <div class="upload" id="upload"  style="text-align:center;margin: 0 auto;margin-bottom: 2rem;width: 60%">
+                <a href="#"> 
+                    <img src="images/shangchuantouxiang.png" style="width:40%;border:2px solid #009688;border-radius: 50%;margin-bottom: .4rem" alt="">
+                </a>
+                <p> 
+                    <a href="#">点击上传头像</a> 
+                </p>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label layui-col-xs4 layui-col-xs4 layui-col-xs4">昵称</label>
+                <div class="layui-col-xs8">
+                    <input type="text" name="user_name" required lay-verify="required" placeholder="请输入昵称" autocomplete="off"
+                        class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label layui-col-xs4 layui-col-xs4 layui-col-xs4">账号</label>
+                <div class="layui-col-xs8">
+                    <input type="text" name="user_phone" required lay-verify="required" placeholder="请输入手机号" autocomplete="off"
+                        class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label layui-col-xs4 layui-col-xs4">密码</label>
+                <div class="layui-col-xs8">
+                    <input type="password" name="user_password" required lay-verify="required" placeholder="请输入密码"
+                        autocomplete="off" class="layui-input">
+                </div>
+            </div>
+
+            <div class="layui-form-item layui-col-xs12" style="text-align:center;margin-top: 2rem">
+                <button class="layui-btn" style="width:10rem" lay-submit lay-filter="formDemo">注册</button>
+            </div>
+            <!-- <div class="layui-row" style="margin-top:3rem">
+                <div class="layui-col-xs6" style="text-align:center">
+                    <a href="#">注册</a>
+                </div>
+                <div class="layui-col-xs6" style="text-align:center">
+                    <a href="#">忘记密码</a>
+                </div>
+            </div>     -->
+        </div>
+    </div>
+    <script src="layui/layui.js"></script>
+    <script>
+        //一般直接写在一个js文件中
+        layui.use(['layer', 'form'], function () {
+            var layer = layui.layer,
+                form = layui.form;
+
+        });
+
+        layui.use('upload', function(){
+            var upload = layui.upload;
+            
+            //执行实例
+            var uploadInst = upload.render({
+                elem: '#upload' //绑定元素
+                ,url: '/upload/' //上传接口
+                ,done: function(res){
+                //上传完毕回调
+                console.log(res)
+                }
+                ,error: function(){
+                //请求异常回调
+                console.log('error')
+                }
+                ,accept: 'images'
+                ,acceptMime: 'images/jpg, images/png'
+            });
+        });
+    </script>
+</body>
+
+</html>

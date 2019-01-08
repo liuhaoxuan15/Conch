@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>贝壳辅导班</title>
+    <link rel="stylesheet" href="layui/css/layui.css">
+    <link rel="stylesheet" href="css/iconfont.css">
+    <style>
+        *{
+            margin: 0;
+            padding: 0
+        }
+        .header {
+            background: #eeeeee;
+            /* text-align:center; */
+            height: 2.4rem;
+            line-height: 2.4rem
+        }
+        .search {
+            width: 90%;
+            height: 1.8rem;
+            line-height: 2.4rem;
+            border: 1px solid #eeeeee;
+            border-radius: 5px;
+            padding-left: .8rem
+        }
+        .icon-xiangxia {
+            position: absolute;
+            top: -.2rem
+        }
+        .footer {
+            height: 3rem;
+            line-height: 3rem;
+            background:#eeeeee;
+            position: fixed;
+            width:100%;
+            left:0px;
+            /* z-index:105; */
+            bottom:0px;
+            text-align: center
+        }
+        .content {
+            height: 100%
+        }
+        .footer li {
+            display: inline-block;
+            height: 3rem;
+            width: 24%
+        }
+        .footer .iconfont {
+            font-size: 1.2rem
+        }
+    </style>
+</head>
+
+<body>
+    <div class="layui-fluid header layui-row">
+        <div class="layui-col-xs2" >
+            <a href="#" class="position">北京<span class="iconfont icon-xiangxia"></span></a>
+        </div>
+        <div class="layui-col-xs10">
+            <input id="keyword" class="search" placeholder="输入关键字搜索"  type="search" />
+        </div>  
+    </div>  
+
+    <div class="content layui-fluid">
+        内容
+    </div>
+
+    <div class="footer layui-row">
+        <ul>
+            <li> <span class="iconfont icon-xuexiaoqingkuang"></span> 辅导班 </li>
+            <li> <span class="iconfont icon-luntan"></span></li>
+            <li> <span class="iconfont icon-tongzhi"></span></li>
+            <li> <span class="iconfont icon-wode"></span></li>
+        </ul>
+
+    </div>
+    <script src="jquery-3.3.1.min.js"></script>
+    <script src="layui/layui.js"></script>
+    <script>
+        //一般直接写在一个js文件中
+        layui.use(['layer', 'form'], function () {
+            var layer = layui.layer,
+                form = layui.form;
+
+        });
+        $("#keyword").on('keypress',function(e) {
+                var keycode = e.keyCode;
+                var searchName = $(this).val();
+                if(keycode=='13') {
+                    e.preventDefault();  
+                    //请求搜索接口
+                    
+                }
+         });
+
+    </script>
+</body>
+
+</html>
