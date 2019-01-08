@@ -9,7 +9,7 @@ class Register extends Controller
         return $this->fetch();
 	}
     public function register() {
-        if (request()->isPOST()) {
+        if (request()->isAjax()) {
             $data = [
                 'class_name'=>input('param.class_name'),
                 'class_peopleNumber'=>input('param.class_peopleNumber'),
@@ -24,7 +24,7 @@ class Register extends Controller
             // return alert_success("申请成功，请耐心等待审核通过。","index/index");
             return json($res);
         } else {
-            return alert_error("申请失败");
+            return json('error');
         }
 
     }

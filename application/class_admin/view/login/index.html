@@ -28,7 +28,7 @@
 
     <div class="layui-form-item">
         <div class="layui-input-block" style="margin-top:30px">
-            <input style="width:105px" type="submit" class="layui-btn" onclick="check()"  lay-submit lay-filter="*" value="&nbsp;登&nbsp;&nbsp;&nbsp;&nbsp;录&nbsp;">
+            <input style="width:105px" type="submit" class="layui-btn" id="submit"  lay-submit lay-filter="*" value="&nbsp;登&nbsp;&nbsp;&nbsp;&nbsp;录&nbsp;">
             <a href="{:url('login/register')}"> <input style="width:105px" type="button" class="layui-btn" lay-filter="*" value="注册辅导班"> </a>
             <!-- <input class="layui-btn" lay-filter="*" style="margin-left: 100px;">注册辅导班</i> -->
         </div>
@@ -36,14 +36,15 @@
     <!-- 更多表单结构排版请移步文档左侧【页面元素-表单】一项阅览 -->
   </form>
 </div>
-  <script src="__STATIC__/layui/layui.js"></script>
-  <script src="__STATIC__/jquery-3.3.1.min.js"></script>
+<script src="__STATIC__/layer/layer.js"></script>
+<script src="__STATIC__/layui/layui.js"></script>
+  <!-- <script src="__STATIC__/jquery-3.3.1.min.js"></script> -->
   <script>
-  layui.use('form', function(){
-    var form = layui.form;
+//   layui.use('form', function(){
+//     var form = layui.form;
     
-    //各种基于事件的操作，下面会有进一步介绍
-  });
+//     //各种基于事件的操作，下面会有进一步介绍
+//   });
 
 
   </script>
@@ -76,8 +77,8 @@
         document.getElementById('code').innerHTML=code;//将验证码写入指定区域  
     }         
         
-    //效验验证码(表单被提交时触发)  
-    function check(){  
+    //效验验证码(表单被提交时触发)
+    $('#submit').click(function check(){  
         //获取用户输入的验证码  
         var input_code=document.getElementById('vcode').value;  
         //alert(input_code+"----"+code);  
@@ -86,10 +87,11 @@
             //验证码正确(表单提交)  
             return true;  
         }  
-        alert("请输入正确的验证码!");  
+        layer.msg("请输入正确的验证码!");  
         //验证码不正确,表单不允许提交  
         return false;  
-    }  
+    } )  
+     
 
     }
 

@@ -1,29 +1,9 @@
 <!--包含头部文件-->
 {include file="public/header" /}
-<script>
-  function register() {
-    $.ajax({
-    //几个参数需要注意一下
-        type: "POST",//方法类型
-        dataType: "json",//预期服务器返回的数据类型
-        url: "Register/register" ,//url
-        data: $('#form').serialize(),
-        success: function (result) {
-            console.log(result);//打印服务端返回的数据(调试用)
-            if (result.resultCode == 200) {
-                alert("SUCCESS");
-            }
-            ;
-        },
-        error : function() {
-            alert("异常！");
-        }
-    });
-  }
-</script>
+
 <div class="layui-container">
   <h1 style="text-align:center;margin:20px auto">贝壳辅导班申请</h1>
-  <form class="layui-form" style="width:600px;margin: 0 auto;">
+  <div class="layui-form" id="form" style="width:600px;margin: 0 auto;">
     <!-- 提示：如果你不想用form，你可以换成div等任何一个普通元素 -->
     <div class="layui-form-item">
       <label class="layui-form-label">辅导班班名</label>
@@ -56,7 +36,7 @@
     </div>
 
     <div class="layui-form-item">
-      <label class="layui-form-label">班级定位</label>
+      <label class="layui-form-label">班级位置</label>
       <div class="layui-input-block">
         <input name="class_position" lay-verify="required" type="text" lay-verify="text" id="suggestId" placeholder="请输入"
           autocomplete="off" class="layui-input">
@@ -73,23 +53,18 @@
 
     <div class="layui-form-item">
       <div class="layui-input-block">
-        <button class="layui-btn" id="ajaxsubmit" onclick="register()" lay-filter="*">立即提交</button>
+        <button class="layui-btn" id="ajaxsubmit">立即提交</button>
         <button type="reset" class="layui-btn layui-btn-primary">重置</button>
       </div>
     </div>
     <!-- 更多表单结构排版请移步文档左侧【页面元素-表单】一项阅览 -->
-  </form>
+  </div>
 
 </div>
 <script type="text/javascript" src="http://api.map.baidu.com/api?v=3.0&ak=tXGsWreUyZr7DzWa20TRGC1YUbRKnANH"></script>
-
+<script src="__STATIC__/layer/layer.js"></script>
 <script src="__STATIC__/layui/layui.js"></script>
 <script>
-  layui.use('form', function () {
-    var form = layui.form;
-
-    //各种基于事件的操作，下面会有进一步介绍
-  });
   layui.use('laydate', function () {
     var laydate = layui.laydate;
 
@@ -100,6 +75,22 @@
       range: true //或 range: '~' 来自定义分割字符
     });
   });
+
+  $('#ajaxsubmit').click(function(){
+    $.post("{:url('register')}",
+          { 
+            class_name:$("input[name='class_name']").val(),
+            class_peopleNumber:$("input[name='class_peopleNumber']").val(),
+            class_time:$("input[name='class_time']").val(),
+            class_info:$("textarea[name='class_info']").val(),
+            class_position:$("input[name='class_position']").val()
+          }
+    ,function(data){
+      if(data==1) {
+        layer.msg("注册成功，请耐心等待审核")
+      }
+    })
+  })
 
   // 百度地图API功能
   function G(id) {
@@ -157,23 +148,7 @@
 </script>
 
 <script>
-  // function ajaxPost(){  
-  // $('#ajaxsubmit').click(function () {
-  //   var class_name = $('input[name="class_name"]').val();
-  //   var class_peopleNumber = $('input[name="class_peopleNumber"]').val();
-  //   var class_time = $('input[name="class_time"]').val();
-  //   var class_info = $('input[name="class_info"]').val();
-  //   var class_position = $('input[name="class_position"]').val();
-  //   $.post("{:url('register/register')}", {
-  //     class_name,
-  //     class_peopleNumber,
-  //     class_info,
-  //     class_position
-  //   }, function (data) {
-  //     alert('Ajax从服务器端返回来的值是：' + data);
-  //   });
-  // });
-  // }
+
 </script>
 <!--包含尾部文件-->
 {include file="public/footer" /}
