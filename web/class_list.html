@@ -7,6 +7,8 @@
     <title>贝壳辅导班</title>
     <link rel="stylesheet" href="layui/css/layui.css">
     <link rel="stylesheet" href="css/iconfont.css">
+    <link rel="stylesheet" href="swiper/css/idangerous.swiper.css">
+    <script src="swiper/js/idangerous.swiper.min.js"></script>
     <style>
         *{
             margin: 0;
@@ -14,7 +16,6 @@
         }
         .header {
             background: #eeeeee;
-            /* text-align:center; */
             height: 2.4rem;
             line-height: 2.4rem
         }
@@ -31,26 +32,38 @@
             top: -.2rem
         }
         .footer {
-            height: 3rem;
-            line-height: 3rem;
+            box-sizing: border-box;
             background:#eeeeee;
             position: fixed;
             width:100%;
             left:0px;
-            /* z-index:105; */
+            z-index:105;
             bottom:0px;
-            text-align: center
+            border-top: 1px solid #e7e7e7;
         }
         .content {
             height: 100%
         }
-        .footer li {
-            display: inline-block;
-            height: 3rem;
-            width: 24%
-        }
         .footer .iconfont {
             font-size: 1.2rem
+        }
+        .tab{
+            width: 24%; 
+            text-align: center;
+            display: inline-block;
+            text-decoration:none;
+        }
+        .swiper-slide {
+            text-align: center;
+            line-height: 8rem
+        }
+        .rank li{
+            display: inline-block;
+            width: 24%;
+            text-align: center;
+            background: #e7e7e7;
+            height: 4.5rem;
+            border-radius: 50%
         }
     </style>
 </head>
@@ -65,17 +78,43 @@
         </div>  
     </div>  
 
-    <div class="content layui-fluid">
-        内容
+    <div class="content">
+        <!-- 轮播图 -->
+        <div class="swiper-container" style="border:1px solid red">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide blue-slide">slider1</div>
+                <div class="swiper-slide red-slide">slider2</div>
+                <div class="swiper-slide orange-slide">slider3</div>
+            </div>
+        </div>
+
+        <div class="rank layui-fluid">
+            <ul>
+                <li> <a href="#">最具人气</a> </li>
+                <li> <a href="#">离我最近</a> </li>
+                <li> <a href="#">近期火爆</a> </li>
+                <li> <a href="#">精选小班</a> </li>
+            </ul>
+        </div>
     </div>
 
-    <div class="footer layui-row">
-        <ul>
-            <li> <span class="iconfont icon-xuexiaoqingkuang"></span> 辅导班 </li>
-            <li> <span class="iconfont icon-luntan"></span></li>
-            <li> <span class="iconfont icon-tongzhi"></span></li>
-            <li> <span class="iconfont icon-wode"></span></li>
-        </ul>
+    <div class="footer layui-row layui-fluid">
+        <span class="tab">
+            <span class="iconfont icon-xuexiaoqingkuang"></span>
+            <p class="text">辅导班</p>
+        </span>
+        <span class="tab">
+                <span class="iconfont icon-luntan"></span>
+                <p class="text">论坛</p>
+        </span>
+        <span class="tab">
+            <span class="iconfont icon-tongzhi"></span>
+            <p class="text">通知</p>
+        </span>
+        <span class="tab">
+            <span class="iconfont icon-wode"></span>
+            <p class="text">我的</p>
+        </span>
 
     </div>
     <script src="jquery-3.3.1.min.js"></script>
@@ -96,6 +135,11 @@
                     
                 }
          });
+        
+        var mySwiper = new Swiper('.swiper-container',{
+            loop: true,
+	        autoplay: 3000,
+        });  
 
     </script>
 </body>
