@@ -6,32 +6,28 @@ class Login extends Controller
 {
     public function index()
     {
-        if (request()->isPOST()) {//用于自提交   
-            $captcha=input('verifycode');
-            if(!captcha_check($captcha)){
-            // echo "<script>alert('验证失败!');</script>";
-                $this->error("验证码错误");
-        }        
-            $admin_accout = input('admin_account');
-            $admin_password = input('admin_password');
-            $admin =Db::name("admins")->where('admin_account',$admin_accout)->find();
-                if (!$admin) {
-                    $this->error("账号不存在");
-                    // echo "<script>alert('账号不存在！');</script>";
-    //                      return 1;
-                }
-                else if ($admin_password!=$admin['admin_password']) {
-                    $this->error("密码错误");
-                    // echo "<script>alert('密码错误!');</script>";
-    //                      return 2;
-                }
-                
-                else {
-                        \think\Session::set('login_admin',$admin_accout);
-                        $this->redirect('index/index');
-                }           
+        if (request()->isAjax()) {//用于自提交   
+            $captcha=input('param.verifycode');
+            // return $captcha;
+            $admin_accout = input('param.admin_account');
+            $admin_password = input('param.admin_password');
+            $admin =Db::name("admins")->where('admin_account',$admin_accout)->where('type=1')->find();
+            if (!$admin) {
+                return json("账号不存在");
+            }
+            else if ($admin_password!=$admin['admin_password']) {
+                return json("密码错误");
+            }
+            else if(!captcha_check($captcha)){
+                return json("验证码错误");
+            }
+            else {
+                // return json("登录成功");
+                \think\Session::set('login_admin',$admin_accout);
+                $this->redirect('index/index');
+            }           
         }
-              return $this->fetch();	
+            return $this->fetch();	
     }
     public function register(){
         return $this->redirect('register/index');
