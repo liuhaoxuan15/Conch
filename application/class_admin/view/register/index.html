@@ -8,7 +8,7 @@
     <div class="layui-form-item">
       <label class="layui-form-label">辅导班班名</label>
       <div class="layui-input-block">
-        <input type="text" name="class_name" lay-verType="msg" required lay-verify="required" placeholder="请输入" autocomplete="off"
+        <input type="text" name="class_name" lay-verType="msg" placeholder="请输入" autocomplete="off"
           class="layui-input">
       </div>
     </div>
@@ -16,7 +16,7 @@
     <div class="layui-form-item">
       <label class="layui-form-label">班级人数</label>
       <div class="layui-input-block">
-        <input type="text" name="class_peopleNumber" lay-verify="required|number" placeholder="请输入" autocomplete="off"
+        <input type="text" name="class_peopleNumber"  placeholder="请输入" autocomplete="off"
           class="layui-input">
       </div>
     </div>
@@ -24,21 +24,21 @@
     <div class="layui-form-item">
       <label class="layui-form-label">上课时间</label>
       <div class="layui-input-block">
-        <input type="text" lay-verify="required" name="class_time" class="layui-input" id="class_time">
+        <input type="text" name="class_time" class="layui-input" id="class_time">
       </div>
     </div>
 
     <div class="layui-form-item layui-form-text">
       <label class="layui-form-label">班级简介</label>
       <div class="layui-input-block">
-        <textarea name="class_info" lay-verify="required" placeholder="请输入内容" class="layui-textarea"></textarea>
+        <textarea name="class_info" placeholder="请输入内容" class="layui-textarea"></textarea>
       </div>
     </div>
 
     <div class="layui-form-item">
       <label class="layui-form-label">班级位置</label>
       <div class="layui-input-block">
-        <input name="class_position" lay-verify="required" type="text" lay-verify="text" id="suggestId" placeholder="请输入"
+        <input name="class_position" type="text" lay-verify="text" id="suggestId" placeholder="请输入"
           autocomplete="off" class="layui-input">
       </div>
 
@@ -61,6 +61,7 @@
   </div>
 
 </div>
+<script src="__STATIC__/jquery-3.3.1.min.js"></script>
 <script type="text/javascript" src="http://api.map.baidu.com/api?v=3.0&ak=tXGsWreUyZr7DzWa20TRGC1YUbRKnANH"></script>
 <script src="__STATIC__/layer/layer.js"></script>
 <script src="__STATIC__/layui/layui.js"></script>
