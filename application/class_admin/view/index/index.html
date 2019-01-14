@@ -6,16 +6,73 @@
   <!--包含菜单文件-->
 {include file="public/menu" /}
 
-  <div class="layui-body">
+  <div class="layui-container">
     <!-- 内容主体区域 -->
-    <div style="padding: 15px;">管理班级</div>
+
+    <div class="layui-form" style="width:600px;margin: 40px auto;">
+      <div class="layui-form-item">
+        <label class="layui-form-label">辅导班班名</label>
+        <div class="layui-input-block">
+          <input type="text" name="class_name" placeholder="请输入" value="{$class.class_name}"
+            class="layui-input">
+        </div>
+      </div>
+  
+      <div class="layui-form-item">
+        <label class="layui-form-label">班级人数</label>
+        <div class="layui-input-block">
+          <input type="number" name="class_peopleNumber"  placeholder="请输入" value="{$class.class_peopleNumber}"
+            class="layui-input">
+        </div>
+      </div>
+  
+      <div class="layui-form-item">
+        <label class="layui-form-label">上课时间</label>
+        <div class="layui-input-block">
+          <input type="text" name="class_time" class="layui-input" id="class_time" value="{$class.class_time}">
+        </div>
+      </div>
+  
+      <div class="layui-form-item layui-form-text">
+        <label class="layui-form-label">班级简介</label>
+        <div class="layui-input-block">
+          <textarea name="class_info" placeholder="请输入内容" class="layui-textarea">{$class.class_info}</textarea>
+        </div>
+      </div>
+  
+
+      <div class="layui-form-item">
+        <label class="layui-form-label">班级位置</label>
+        <div class="layui-input-block">
+          <input name="class_position" type="text" lay-verify="text" id="suggestId" placeholder="请输入" value="{$class.class_position}"
+            autocomplete="off" class="layui-input">
+        </div>
+  
+        <br>
+  
+        <div class="layui-input-block">
+          <div id="l-map" style="width:490px;height:300px;border: 1px solid #cccccc;border-radius: 5px;"></div>
+        </div>
+  
+        <div id="searchResultPanel" style="border:1px solid #C0C0C0;width:150px;height:auto; display:none;"></div>
+      </div>
+  
+      <div class="layui-form-item">
+        <div class="layui-input-block">
+          <button class="layui-btn" id="ajaxsubmit">立即提交</button>
+          <button type="button" id="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+      </div>
+    </div>
   </div>
   
   <div class="layui-footer">
     <!-- 底部固定区域 -->
-    © layui.com - 底部固定区域
+
   </div>
 </div>
+<script src="__STATIC__/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=3.0&ak=tXGsWreUyZr7DzWa20TRGC1YUbRKnANH"></script>
 <script src="__STATIC__/layui/layui.js"></script>
 <script>
 //JavaScript代码区域
@@ -28,6 +85,59 @@ layui.use('element', function(){
   });
 });
 </script>
+<script type="text/javascript">
+	// 百度地图API功能
+	function G(id) {
+		return document.getElementById(id);
+	}
+  var positionValue = $("#suggestId").val();
+	var map = new BMap.Map("l-map");
+	map.centerAndZoom(positionValue,18);                   // 初始化地图,设置城市和地图级别。
 
+	var ac = new BMap.Autocomplete(    //建立一个自动完成的对象
+		{"input" : "suggestId"
+		,"location" : map
+	});
+
+	ac.addEventListener("onhighlight", function(e) {  //鼠标放在下拉列表上的事件
+	var str = "";
+		var _value = e.fromitem.value;
+		var value = "";
+		if (e.fromitem.index > -1) {
+			value = _value.province +  _value.city +  _value.district +  _value.street +  _value.business;
+		}    
+		str = "FromItem<br />index = " + e.fromitem.index + "<br />value = " + value;
+		
+		value = "";
+		if (e.toitem.index > -1) {
+			_value = e.toitem.value;
+			value = _value.province +  _value.city +  _value.district +  _value.street +  _value.business;
+		}    
+		str += "<br />ToItem<br />index = " + e.toitem.index + "<br />value = " + value;
+		G("searchResultPanel").innerHTML = str;
+	});
+
+	var myValue;
+	ac.addEventListener("onconfirm", function(e) {    //鼠标点击下拉列表后的事件
+	var _value = e.item.value;
+		myValue = _value.province +  _value.city +  _value.district +  _value.street +  _value.business;
+		G("searchResultPanel").innerHTML ="onconfirm<br />index = " + e.item.index + "<br />myValue = " + myValue;
+		
+		setPlace();
+	});
+
+	function setPlace(){
+		map.clearOverlays();    //清除地图上所有覆盖物
+		function myFun(){
+			var pp = local.getResults().getPoi(0).point;    //获取第一个智能搜索的结果
+			map.centerAndZoom(pp, 18);
+			map.addOverlay(new BMap.Marker(pp));    //添加标注
+		}
+		var local = new BMap.LocalSearch(map, { //智能搜索
+		  onSearchComplete: myFun
+		});
+		local.search(myValue);
+	}
+</script>
 <!--包含尾部文件-->
 {include file="public/footer" /}

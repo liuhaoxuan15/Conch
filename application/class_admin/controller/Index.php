@@ -7,8 +7,10 @@ class index extends Controller
     public function index()
     {
     	// $clubs = Db::query('select * from club_club');
-    	// $this->assign("clubs",$clubs);
+        // $this->assign("clubs",$clubs);
+        $class = \think\Session::get('class_admin');
+        $this->assign("class",$class);  
         return $this->fetch();
 	}
-
+    
 }

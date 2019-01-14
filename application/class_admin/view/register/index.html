@@ -6,6 +6,25 @@
   <div class="layui-form" id="form" style="width:600px;margin: 0 auto;">
     <!-- 提示：如果你不想用form，你可以换成div等任何一个普通元素 -->
     <div class="layui-form-item">
+      <label class="layui-form-label">管理员账号</label>
+      <div class="layui-input-block">
+        <input type="text" name="account" lay-verType="msg" placeholder="请输入" autocomplete="off"
+          class="layui-input">
+      </div>
+    </div>
+
+    <div class="layui-form-item">
+      <label class="layui-form-label">管理员密码</label>
+      <div class="layui-input-block">
+        <input type="text" name="password" lay-verType="msg" placeholder="请输入" autocomplete="off"
+          class="layui-input">
+      </div>
+    </div>
+
+    <!-- 墨绿分割线 -->
+    <hr class="layui-bg-green">
+
+    <div class="layui-form-item">
       <label class="layui-form-label">辅导班班名</label>
       <div class="layui-input-block">
         <input type="text" name="class_name" lay-verType="msg" placeholder="请输入" autocomplete="off"
@@ -16,7 +35,7 @@
     <div class="layui-form-item">
       <label class="layui-form-label">班级人数</label>
       <div class="layui-input-block">
-        <input type="text" name="class_peopleNumber"  placeholder="请输入" autocomplete="off"
+        <input type="number" name="class_peopleNumber"  placeholder="请输入" autocomplete="off"
           class="layui-input">
       </div>
     </div>
@@ -54,7 +73,7 @@
     <div class="layui-form-item">
       <div class="layui-input-block">
         <button class="layui-btn" id="ajaxsubmit">立即提交</button>
-        <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        <button type="button" id="reset" class="layui-btn layui-btn-primary">重置</button>
       </div>
     </div>
     <!-- 更多表单结构排版请移步文档左侧【页面元素-表单】一项阅览 -->
@@ -76,21 +95,59 @@
       range: true //或 range: '~' 来自定义分割字符
     });
   });
-
+  $('#reset').click(function(){
+    var account = $("input[name='account']").val();
+    var password = $("input[name='password']").val();
+    var class_name = $("input[name='class_name']").val();
+    var class_peopleNumber = $("input[name='class_peopleNumber']").val();
+    var class_time = $("input[name='class_time']").val();
+    var class_info = $("textarea[name='class_info']").val();
+    var class_position = $("input[name='class_position']").val();
+    var data = [
+        account,
+        password,
+        class_name,
+        class_peopleNumber,
+        class_time,
+        class_info,class_position
+    ];
+    //  alert(data[0]);
+    for(var i = 0 ; i < data.length; i++) {
+      data[i] = ''
+    }
+    window.location.reload();
+    
+  })
   $('#ajaxsubmit').click(function(){
-    $.post("{:url('register')}",
-          { 
-            class_name:$("input[name='class_name']").val(),
-            class_peopleNumber:$("input[name='class_peopleNumber']").val(),
-            class_time:$("input[name='class_time']").val(),
-            class_info:$("textarea[name='class_info']").val(),
-            class_position:$("input[name='class_position']").val()
-          }
-    ,function(data){
-      if(data==1) {
-        layer.msg("注册成功，请耐心等待审核")
-      }
-    })
+    var account = $("input[name='account']").val();
+    var password = $("input[name='password']").val();
+    var class_name = $("input[name='class_name']").val();
+    var class_peopleNumber = $("input[name='class_peopleNumber']").val();
+    var class_time = $("input[name='class_time']").val();
+    var class_info = $("textarea[name='class_info']").val();
+    var class_position = $("input[name='class_position']").val();
+    // console.log(admin_account)
+    if(account && password && class_name && class_peopleNumber && (typeof(class_peopleNumber)=='number') && class_time && class_info && class_position){
+      $.post("{:url('register')}",
+            { 
+              password:$("input[name='password']").val(),
+              account:$("input[name='account']").val(),
+              class_name:$("input[name='class_name']").val(),
+              class_peopleNumber:$("input[name='class_peopleNumber']").val(),
+              class_time:$("input[name='class_time']").val(),
+              class_info:$("textarea[name='class_info']").val(),
+              class_position:$("input[name='class_position']").val()
+            }
+      ,function(data){
+        if(data==1) {
+          layer.msg("注册成功，请耐心等待审核")
+        } else if(data == '该账户已存在') {
+          layer.msg("该账户已存在")
+        }
+      })
+    } else {
+      layer.msg("请输入完整有效的注册信息")
+    }
   })
 
   // 百度地图API功能

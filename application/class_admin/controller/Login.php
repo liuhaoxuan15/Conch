@@ -9,21 +9,29 @@ class Login extends Controller
         if (request()->isAjax()) {//用于自提交   
             $captcha=input('param.verifycode');
             // return $captcha;
-            $admin_accout = input('param.admin_account');
-            $admin_password = input('param.admin_password');
-            $admin =Db::name("admins")->where('admin_account',$admin_accout)->where('type=1')->find();
+            $account = input('param.account');
+            $password = input('param.password');
+            $admin =Db::name("classes")->where('account',$account)->find();
+            $state = Db::name('classes')->where('account',$account)->value('class_state');
             if (!$admin) {
-                return json("账号不存在");
+                // return json("账号不存在");
+                return json($state);
             }
-            else if ($admin_password!=$admin['admin_password']) {
+            else if ($password!=$admin['password']) {
                 return json("密码错误");
             }
             else if(!captcha_check($captcha)){
                 return json("验证码错误");
+            } 
+            else if($state == 0) {
+                return json("待审核");
+            }
+            else if($state == 2) {
+                return json("未通过");
             }
             else {
                 // return json("登录成功");
-                \think\Session::set('login_admin',$admin_accout);
+                \think\Session::set('class_admin',$admin);
                 $this->redirect('index/index');
             }           
         }
