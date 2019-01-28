@@ -14,8 +14,8 @@ class Login extends Controller
             $admin =Db::name("classes")->where('account',$account)->find();
             $state = Db::name('classes')->where('account',$account)->value('class_state');
             if (!$admin) {
-                // return json("账号不存在");
-                return json($state);
+                return json("账号不存在");
+                // return json($state);
             }
             else if ($password!=$admin['password']) {
                 return json("密码错误");

@@ -8,13 +8,15 @@
 
   <div class="layui-container">
     <!-- 内容主体区域 -->
-
-    <div class="layui-form" style="width:600px;margin: 40px auto;">
+    
+    <form method="post" action="{:url('edit')}" class="layui-form" style="width:600px;margin: 40px auto;">
+      <input type="text" style="margin-left:300px;display: none" value="{$class.class_id}" >
       <div class="layui-form-item">
         <label class="layui-form-label">辅导班班名</label>
         <div class="layui-input-block">
-          <input type="text" name="class_name" placeholder="请输入" value="{$class.class_name}"
-            class="layui-input">
+          <input type="text" name="class_name" placeholder="请输入" 
+                 value="{$class.class_name}"
+                 class="layui-input">
         </div>
       </div>
   
@@ -25,7 +27,6 @@
             class="layui-input">
         </div>
       </div>
-  
       <div class="layui-form-item">
         <label class="layui-form-label">上课时间</label>
         <div class="layui-input-block">
@@ -44,7 +45,7 @@
       <div class="layui-form-item">
         <label class="layui-form-label">班级位置</label>
         <div class="layui-input-block">
-          <input name="class_position" type="text" lay-verify="text" id="suggestId" placeholder="请输入" value="{$class.class_position}"
+          <input name="class_position" type="text" lay-verify="text" id="suggestId" placeholder="{$class.class_position}" value="{$class.class_position}"
             autocomplete="off" class="layui-input">
         </div>
   
@@ -59,12 +60,12 @@
   
       <div class="layui-form-item">
         <div class="layui-input-block">
-          <button class="layui-btn" id="ajaxsubmit">立即提交</button>
+          <button class="layui-btn" id="ajaxsubmit">提交修改</button>
           <button type="button" id="reset" class="layui-btn layui-btn-primary">重置</button>
         </div>
       </div>
-    </div>
-  </div>
+    </form>
+  </form>
   
   <div class="layui-footer">
     <!-- 底部固定区域 -->
@@ -83,6 +84,12 @@ layui.use('element', function(){
   element.on('tab(demo)', function(data){
     console.log(data);
   });
+});
+
+layui.use('form', function(){
+  var form = layui.form;
+  
+  //各种基于事件的操作，下面会有进一步介绍
 });
 </script>
 <script type="text/javascript">

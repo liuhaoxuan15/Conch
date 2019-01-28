@@ -1,5 +1,5 @@
 <div class="layui-header">
-  <div class="layui-logo">{$class.class_name}</div>
+  <div class="layui-logo">贝壳辅导管理后台</div>
   <!-- 头部区域（可配合layui已有的水平导航） -->
   <!-- <ul class="layui-nav layui-layout-left">
           <li class="layui-nav-item"><a href="">控制台</a></li>
@@ -34,24 +34,26 @@
     <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
     <ul class="layui-nav layui-nav-tree" lay-allowClose="true" lay-filter="demo">
       <li class="layui-nav-item layui-nav-itemed">
-        <a href="{:url('index/index')}">管理辅导班</a>
-        <!-- <dl class="layui-nav-child">
-                <dd><a href="javascript:;">列表一</a></dd>
-                <dd><a href="javascript:;">列表二</a></dd>
+        <a href="javascript:;">辅导班管理</a>
+        <dl class="layui-nav-child">
+                <dd><a href="{:url('classList/index')}">辅导班列表</a></dd>
+                <dd><a href="{:url('auditList/index')}">审核辅导班列表</a></dd>
+                <!-- 
                 <dd><a href="javascript:;">列表三</a></dd>
-                <dd><a href="">超链接</a></dd>
-              </dl> -->
+                <dd><a href="">超链接</a></dd> -->
+              </dl>
       </li>
       <li class="layui-nav-item">
-        <a href="{:url('teacher/index')}">管理老师</a>
+        <a href="{:url('teacher/index')}">老师管理</a>
         <!-- <dl class="layui-nav-child">
                 <dd><a href="javascript:;">列表一</a></dd>
                 <dd><a href="javascript:;">列表二</a></dd>
                 <dd><a href="">超链接</a></dd>
               </dl> -->
       </li>
-      <li class="layui-nav-item"><a href="javascript:;">报名情况</a></li>
-      <li class="layui-nav-item"><a href="javascript:;">请假情况</a></li>
+      <li class="layui-nav-item"><a href="javascript:;">用户管理</a></li>
+      <li class="layui-nav-item"><a href="javascript:;">文章管理</a></li>
+      <li class="layui-nav-item"><a href="javascript:;">评论管理</a></li>
     </ul>
   </div>
 </div>
