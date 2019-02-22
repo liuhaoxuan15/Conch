@@ -16,7 +16,7 @@ class Register extends Controller
                 'class_time'=>input('param.class_time'),
                 'class_info'=>input('param.class_info'),
                 'class_position'=>input('param.class_position'),
-                'class_status'=>0,
+                'class_state'=>0,
                 'account'=>input('param.account'),
                 'password'=>input('param.password')
             ];

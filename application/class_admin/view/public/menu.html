@@ -29,10 +29,10 @@
   </ul>
 </div>
 
-<div id="nav" class="layui-side layui-bg-black">
+<div id="nav" class="layui-side layui-bg-black" style="top:0">
   <div class="layui-side-scroll" lay-allowClose="true">
     <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
-    <ul class="layui-nav layui-nav-tree" lay-allowClose="true" lay-filter="demo">
+    <ul id="navUl" class="layui-nav layui-nav-tree" lay-allowClose="true" lay-filter="demo" style="padding-top:60px">
       <li class="layui-nav-item layui-nav-itemed">
         <a href="{:url('index/index')}">管理辅导班</a>
         <!-- <dl class="layui-nav-child">
@@ -57,5 +57,35 @@
 </div>
 
 <script>
+  var nav = document.getElementById('nav');
+  var navUl = document.getElementById('navUl');
+  var iTimer = null;
+
+  // 封装后的函数
+  function startMove() {
+      clearInterval(iTimer);  //运动前清除定时器
+      iTimer = setInterval(function() {
+            if (oDiv.offsetLeft == 500) {
+              clearInterval(iTimer);   //满足条件清除定时器
+              } else {
+                  oDiv.style.left = oDiv.offsetLeft + 10 + 'px'; //每次向前移动
+          }
+              
+          }, 30);
+  }  
+
+  window.onscroll = function() {
+    //为了保证兼容性，这里取两个值，哪个有值取哪一个　
+    var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+    //scrollTop就是触发滚轮事件时滚轮的高度
+      clearInterval(iTimer);  //运动前清除定时器
+      iTimer = setInterval(function() {
+        if(scrollTop>60) {
+          navUl.style.paddingTop="0";
+        } else {
+          navUl.style.paddingTop="60px";
+        }
+      })
+}
 
 </script>

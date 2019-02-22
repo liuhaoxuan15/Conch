@@ -6,41 +6,10 @@
   <!--包含菜单文件-->
 {include file="public/menu" /}
 
-  <div class="layui-container" style="margin-left:300px">
+    <div class="layui-container" style="margin-left:200px;">
     <!-- 内容主体区域 -->
-    <table class="layui-table">
-      <colgroup>
-        <col width="150">
-        <col width="200">
-        <col>
-      </colgroup>
-      <thead>
-        <tr>
-          <th>id</th>
-          <th>辅导班名</th>
-          <th>人数</th>
-          <th>上课时间</th>
-          <th>位置</th>
-          <th>简介</th>
-          <th>状态</th>
-          <td>操作</td>
-        </tr> 
-      </thead>
-      <tbody>
-        {volist name="auditlist" id="vo"}
-        <tr>
-          <td>$i</td>
-          <td>{vo.class_name}}</td>
-          <td>{vo.class_peopleNumber}</td>
-          <td>{vo.class_time}</td>
-          <td>{vo.class_position}</td>
-          <td>{vo.class_info}</td>
-          <td>{vo.class_state}</td>
-          <td>操作</td>
-        </tr>
-        {/volist}
-      </tbody>
-    </table>
+      <table class="layui-hide" id="test" lay-filter="test"></table>
+    </div>
   </div>
   
   <div class="layui-footer">
@@ -50,7 +19,81 @@
 </div>
 <script src="__STATIC__/jquery-3.3.1.min.js"></script>
 <script src="__STATIC__/layui/layui.js"></script>
+<script type="text/html" id="barDemo">
+  <!-- <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a> -->
+  <a id="pass" class="layui-btn layui-btn-xs" lay-event="pass">通过</a>
+</script>
 
+<script>
+  layui.use('table', function(){
+    var table = layui.table;
+    
+    //第一个实例
+    table.render({
+      elem: '#test'
+      ,height: 312
+      ,url: '{:url("getAuditList")}' //数据接口
+      ,page: true //开启分页
+      ,cols: [[ //表头
+       {type: 'checkbox', fixed: 'left'}
+      ,{field: 'class_id', title: 'ID', width:80, sort: true, fixed: 'left'}
+      ,{field: 'class_name', title: '辅导班名'}
+      ,{field: 'class_peopleNumber', width:80, title: '人数',  sort: true}
+      ,{field: 'class_time', title: '上课时间',width:180}
+      ,{field: 'class_position', title: '位置', width:350} 
+      ,{field: 'class_info',  title: '简介'}
+      ,{field: 'class_state',  title: '状态', sort: true ,
+        templet:function(d){
+          // return d.class_state;
+          if(d.class_state == 0) {
+            // return "待审核"
+            return '<span style="color:#FFB800;">待审核<span>'
+          }
+          else {
+            return '<span style="color:blue;">冻结中<span>'
+          }
+        }
+      }
+      ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:150
+      }
+    ]]
+      ,page: { //支持传入 laypage 组件的所有参数（某些参数除外，如：jump/elem） - 详见文档
+          layout: ['limit', 'count', 'prev', 'page', 'next', 'skip'] //自定义分页布局
+          //,curr: 5 //设定初始在第 5 页
+          ,groups: 1 //只显示 1 个连续页码
+          ,first: false //不显示首页
+          ,last: false //不显示尾页
+        }
+        ,width:1300
+    });
+
+        //监听行工具事件
+      table.on('tool(test)', function(obj){
+      var data = obj.data;
+      console.log(obj);
+      if(obj.event === 'pass'){
+        layer.confirm('确定要让该俱乐部通过审核吗？', function(index){
+          obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
+          layer.close(index);
+          //向服务端发送删除指令
+          $.post(
+            "{:url('pass')}",
+            { class_id : data.class_id },
+            function(data) {
+              console.log(data);
+              console.log('----------');
+            }
+          )
+          
+        });
+      }
+    });
+
+  });
+
+
+  
+  </script>
 
 <!--包含尾部文件-->
 {include file="public/footer" /}

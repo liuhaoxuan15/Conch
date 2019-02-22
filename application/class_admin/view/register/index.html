@@ -1,7 +1,7 @@
 <!--包含头部文件-->
 {include file="public/header" /}
 
-<div class="layui-container">
+<div class="layui-container" style="border:1px solid red">
   <h1 style="text-align:center;margin:20px auto">贝壳辅导班申请</h1>
   <div class="layui-form" id="form" style="width:600px;margin: 0 auto;">
     <!-- 提示：如果你不想用form，你可以换成div等任何一个普通元素 -->
@@ -16,7 +16,7 @@
     <div class="layui-form-item">
       <label class="layui-form-label">管理员密码</label>
       <div class="layui-input-block">
-        <input type="text" name="password" lay-verType="msg" placeholder="请输入" autocomplete="off"
+        <input type="password" name="password" lay-verType="msg" placeholder="请输入" autocomplete="off"
           class="layui-input">
       </div>
     </div>
@@ -74,6 +74,7 @@
       <div class="layui-input-block">
         <button class="layui-btn" id="ajaxsubmit">立即提交</button>
         <button type="button" id="reset" class="layui-btn layui-btn-primary">重置</button>
+        <a href="{:url('login/index')}"> <input type="button" class="layui-btn layui-btn-primary" style="margin-left:10px" value="登录"> </a>
       </div>
     </div>
     <!-- 更多表单结构排版请移步文档左侧【页面元素-表单】一项阅览 -->
@@ -127,7 +128,7 @@
     var class_info = $("textarea[name='class_info']").val();
     var class_position = $("input[name='class_position']").val();
     // console.log(admin_account)
-    if(account && password && class_name && class_peopleNumber && (typeof(class_peopleNumber)=='number') && class_time && class_info && class_position){
+    if(account && password && class_name && class_peopleNumber && class_time && class_info && class_position){
       $.post("{:url('register')}",
             { 
               password:$("input[name='password']").val(),
@@ -139,6 +140,7 @@
               class_position:$("input[name='class_position']").val()
             }
       ,function(data){
+        console.log(data);
         if(data==1) {
           layer.msg("注册成功，请耐心等待审核")
         } else if(data == '该账户已存在') {

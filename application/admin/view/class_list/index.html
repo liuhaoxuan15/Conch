@@ -6,7 +6,7 @@
   <!--包含菜单文件-->
 {include file="public/menu" /}
 
-  <div class="layui-container" style="margin-left:300px">
+  <div class="layui-container" style="margin-left:200px;">
     <!-- 内容主体区域 -->
       <table class="layui-hide" id="test" lay-filter="test"></table>
   </div>
@@ -48,18 +48,19 @@
       ,{field: 'class_time', title: '上课时间',width:180}
       ,{field: 'class_position', title: '位置', width:350} 
       ,{field: 'class_info',  title: '简介'}
-      ,{field: 'class_state',  title: '状态', sort: true ,
-        templet:function(d){
-          // return d.class_state;
-          if(d.class_state == 0) {
-            return "待审核"
-          } else if(d.class_state == 1) {
-            return "正常"
-          } else if(d.class_state == 2) {
-            return "冻结"
-          }
-        }
-      }
+      // ,{field: 'class_state',  title: '状态', sort: true ,
+      //   templet:function(d){
+      //     // return d.class_state;
+      //     if(d.class_state == 0) {
+      //       // return "待审核"
+      //       return '<a href="#"><span style="color:red;background:#eee">待审核<span></a>'
+      //     } else if(d.class_state == 1) {
+      //       return "正常"
+      //     } else if(d.class_state == 2) {
+      //       return "冻结"
+      //     }
+      //   }
+      // }
       ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:150}
     ]]
       ,page: { //支持传入 laypage 组件的所有参数（某些参数除外，如：jump/elem） - 详见文档
@@ -69,7 +70,7 @@
         ,first: false //不显示首页
         ,last: false //不显示尾页
       }
-      ,width:1500
+      ,width:1300
     });
     
     //头工具栏事件
