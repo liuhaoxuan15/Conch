@@ -6,29 +6,127 @@
   <!--包含菜单文件-->
 {include file="public/menu" /}
 
-  <div class="layui-body">
+  <div class="layui-container" style="margin-left:200px;">
     <!-- 内容主体区域 -->
-    <div style="padding: 15px;">管理老师</div>
+      <table class="layui-hide" id="test" lay-filter="test"></table>
   </div>
   
   <div class="layui-footer">
     <!-- 底部固定区域 -->
-    © layui.com - 底部固定区域
+
   </div>
 </div>
+<script src="__STATIC__/jquery-3.3.1.min.js"></script>
 <script src="__STATIC__/layui/layui.js"></script>
-<script>
-  
-//JavaScript代码区域
-layui.use('element', function(){
-  var element = layui.element;
-  
-  //一些事件监听
-  element.on('tab(demo)', function(data){
-    console.log(data);
-  });
-});
+
+<script type="text/html" id="toolbarDemo">
+  <div class="layui-btn-container">
+    <button class="layui-btn layui-btn-sm" lay-event="getCheckData">获取选中行数据</button>
+    <button class="layui-btn layui-btn-sm" lay-event="getCheckLength">获取选中数目</button>
+    <button class="layui-btn layui-btn-sm" lay-event="isAll">验证是否全选</button>
+  </div>
+</script>
+<script type="text/html" id="barDemo">
+  <!-- <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a> -->
+  <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">冻结</a>
 </script>
 
+<script>
+  layui.use('table', function(){
+    var table = layui.table;
+    
+    table.render({
+      elem: '#test'
+      ,url:'{:url("getTeachersList")}'
+      ,toolbar: '#toolbarDemo'
+      ,title: '用户数据表'
+      ,cols: [[ //表头
+       {type: 'checkbox', fixed: 'left'}
+      ,{field: 'user_id', title: 'ID', width:80, sort: true, fixed: 'left'}
+      ,{field: 'user_name', widht:80, title: '教师'}
+      ,{field: 'user_phone', width:80, title: '手机号'}
+      ,{field: 'user_img', title: '教师照片',width:180
+          ,templet:function (d) {
+            return `<div class="layer-photos-demo" onclick="img_click()" style="cursor:pointer;">
+                    <img layer-src="/images/bug-success-bg.jpg" src="/images/bug-success-bg.jpg" alt="图片名">
+                    </div>`;
+          }}
+      ,{field: 'teach_time', title: '任教时间', width:350} 
+      // ,{field: 'class_info',  title: '简介'}
+      // ,{field: 'class_state',  title: '状态', sort: true ,
+      //   templet:function(d){
+      //     // return d.class_state;
+      //     if(d.class_state == 0) {
+      //       // return "待审核"
+      //       return '<a href="#"><span style="color:red;background:#eee">待审核<span></a>'
+      //     } else if(d.class_state == 1) {
+      //       return "正常"
+      //     } else if(d.class_state == 2) {
+      //       return "冻结"
+      //     }
+      //   }
+      // }
+      ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:150}
+    ]]
+      ,page: { //支持传入 laypage 组件的所有参数（某些参数除外，如：jump/elem） - 详见文档
+        layout: ['limit', 'count', 'prev', 'page', 'next', 'skip'] //自定义分页布局
+        //,curr: 5 //设定初始在第 5 页
+        ,groups: 1 //只显示 1 个连续页码
+        ,first: false //不显示首页
+        ,last: false //不显示尾页
+      }
+      ,width:1300
+    });
+    
+    //头工具栏事件
+    table.on('toolbar(test)', function(obj){
+      var checkStatus = table.checkStatus(obj.config.id);
+      switch(obj.event){
+        case 'getCheckData':
+          var data = checkStatus.data;
+          layer.alert(JSON.stringify(data));
+        break;
+        case 'getCheckLength':
+          var data = checkStatus.data;
+          layer.msg('选中了：'+ data.length + ' 个');
+        break;
+        case 'isAll':
+          layer.msg(checkStatus.isAll ? '全选': '未全选');
+        break;
+      };
+    });
+    
+    //监听行工具事件
+    table.on('tool(test)', function(obj){
+      var data = obj.data;
+      //console.log(obj)
+      if(obj.event === 'del'){
+        layer.confirm('确定要冻结该俱乐部？', function(index){
+          obj.del();
+          layer.close(index);
+          $.post(
+            "{:url('ice')}",
+            { class_id : data.class_id },
+            function(data) {
+              console.log(data);
+              console.log('----------');
+            }
+          )
+          
+        });
+      } else if(obj.event === 'edit'){
+        layer.prompt({
+          formType: 2
+          ,value: data.email
+        }, function(value, index){
+          obj.update({
+            email: value
+          });
+          layer.close(index);
+        });
+      }
+    });
+  });
+  </script>
 <!--包含尾部文件-->
 {include file="public/footer" /}
