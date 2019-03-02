@@ -14,7 +14,7 @@ class Classlist extends Controller
     public function getClassList() {
         // $res = Db::query('select * from classes');
         $res = Db::name('classes')->where('class_state',1)->select();
-        $count = Db::name('classes')->count();
+        $count = Db::name('classes')->where('class_state',1)->count();
         $this->assign("class",$res); 
         // $listres = $list->append('[$res]')->toJson();
         // dump($res);

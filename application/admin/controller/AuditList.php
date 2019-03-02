@@ -11,7 +11,7 @@ class Auditlist extends Controller
     }
     public function getAuditList() {
         $res = Db::name("classes")->where("class_state","<>","1")->select();
-        $count = Db::name('classes')->count();
+        $count = Db::name('classes')->where("class_state","<>","1")->count();
         $this->assign("class",$res); 
         // $listres = $list->append('[$res]')->toJson();
         // dump($res);

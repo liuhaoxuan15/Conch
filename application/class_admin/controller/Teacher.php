@@ -11,7 +11,11 @@ class Teacher extends Controller
         $classInfo = Db::name('classes')->where('class_id',$class_id)->find();
         $this->assign("class",$classInfo);  
         return $this->fetch();
-	}
+    }
+    
+    public function GoAddTeacher(){
+        return $this->fetch();
+    }
 
     public function getTeachersList() {
         // $res = Db::query('select * from classes');
