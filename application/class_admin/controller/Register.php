@@ -7,6 +7,10 @@ class Register extends Controller
     public function index()
     {
         return $this->fetch();
+    }
+    public function index1()
+    {
+        return $this->fetch();
 	}
     public function register() {
         if (request()->isAjax()) {
