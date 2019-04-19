@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="x-ua-compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>详情页</title>
+    <link rel="shortcut icon" href="">
+
+    <link rel="stylesheet" href="__STATIC__/layui/css/layui.css" />
+    <link rel="stylesheet" href="__STATIC__/web_view/css/base.css" />
+    <link rel="stylesheet" href="__STATIC__/web_view/css/common.css" />
+    <link rel="stylesheet" href="__STATIC__/web_view/css/detail.css" />
+    <script type="text/javascript" src="__STATIC__/web_view/js/html5shiv.js"></script>
+    <script type="text/javascript" src="__STATIC__/web_view/js/respond.min.js"></script>
+    <script src="__STATIC__/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=3.0&ak=tXGsWreUyZr7DzWa20TRGC1YUbRKnANH"></script>
+
+</head>
+<style>
+    .rank span:first-child {
+        font-size: 36px;
+        color: rgb(240, 131, 0);
+    }
+
+    .ii-intro {
+        color: #666
+    }
+
+    .ii-intro span {
+        color: rgb(0, 0, 0);
+    }
+
+    .ii-intro div {
+        margin: 10px 0;
+    }
+
+    .mod {
+        border: 1px solid #eaeaea;
+        position: relative;
+        margin-bottom: 30px;
+    }
+
+    .class-info {
+        margin-top: 30px;
+        border: 2px solid #e5e5e5;
+        width: 880px;
+        margin-left: 268px;
+    }
+
+    .hd {
+        margin: 0 20px;
+        border-bottom: 1px dashed #eaeaea;
+        height: 50px;
+        line-height: 50px;
+        font-size: 23px;
+        font-weight: 700;
+        color: rgb(240, 131, 0);
+        font-family: PingFangSC-Semibold;
+    }
+
+    .con {
+        padding: 0 20px;
+    }
+
+    .con li {
+        border-top: dashed 1px #eaeaea;
+        padding: 13px 0 13px 84px;
+        position: relative;
+        line-height: 23px;
+        font-size: 14px;
+        color: #333;
+        word-break: break-all;
+        width: 769px;
+    }
+
+    .title {
+        position: absolute;
+        left: 0;
+        top: 13px;
+        color: #999;
+    }
+
+    .name {
+        font-size: 20px;
+        margin-top: 15px;
+        color: #333
+    }
+
+    .detail {
+        font-weight: 100;
+        line-height: 20px;
+        font-size: 12px;
+        text-overflow: -o-ellipsis-lastline;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        line-clamp: 2;
+        -webkit-box-orient: vertical;
+    }
+
+    .intro {
+        margin: 10px 0;
+        color: rgb(240, 131, 0);
+        font-weight: 500;
+    }
+
+    .pager li {
+        float: left;
+        margin: 0 10px;
+        font-size: 28px;
+    }
+
+    .teacher-page {
+        position: absolute;
+        top: 8px;
+        right: 14px;
+    }
+
+    .score {
+        margin-left: 24px;
+
+    }
+
+    .commentList {
+        margin-top: 20px;
+        padding: 5px 20px;
+        border: 1px solid #e5e5e5;
+        overflow: hidden;
+        font-size: 14px;
+    }
+
+    .com_left {
+        float: left;
+    }
+
+    .com_right {
+        float: left;
+        margin-left: 20px;
+        margin-top: 15px;
+    }
+
+    .user_info {
+        margin-top: 10px;
+    }
+
+    .star {
+        margin-top: 10px;
+        font-size: 12px;
+        color: #666;
+    }
+
+    .star span {
+
+        margin-left: 5px;
+        margin-right: 12px;
+    }
+
+    .comment {
+        clear: both;
+        padding-left: 118px;
+    }
+</style>
+
+<body>
+    <div class="header-bar">
+        <div class="header-inner">
+            <ul class="father">
+                <li style="visibility:hidden"><a>北京</a></li>
+                <li style="visibility:hidden">|</li>
+                <li style="visibility:hidden" class="city">
+                    <a>切换城市<span class="arrow-down-logo"></span></a>
+                    <div class="city-drop-down">
+                        <h3>热门城市</h3>
+                        <ul class="son">
+                            <li><a href="">北京</a></li>
+                            <li><a href="">上海</a></li>
+                            <li><a href="">广州</a></li>
+                            <li><a href="">深圳</a></li>
+                            <li><a href="">天津</a></li>
+                            <li><a href="">杭州</a></li>
+                            <li><a href="">西安</a></li>
+                            <li><a href="">成都</a></li>
+                            <li><a href="">郑州</a></li>
+                            <li><a href="">厦门</a></li>
+                            <li><a href="">青岛</a></li>
+                            <li><a href="">太原</a></li>
+                            <li><a href="">重庆</a></li>
+                            <li><a href="">武汉</a></li>
+                            <li><a href="">南京</a></li>
+                            <li><a href="">沈阳</a></li>
+                            <li><a href="">济南</a></li>
+                            <li><a href="">哈尔滨</a></li>
+                        </ul>
+
+                    </div>
+                </li>
+                {present name="login_user"}
+
+                <li>
+                    <a href="{:url('logout')}">退出</a>
+                </li>
+                <li>|</li>
+                <li><a href="{:url('user/index')}">欢迎您：{$login_user.user_name}</a></li>
+                {else /}
+                <li><a href="{:url('login/index')}">登录</a></li>
+                <li>|</li>
+                <li>
+                    <a href="{:url('register/index')}">注册</a>
+                </li>
+                {/present}
+
+            </ul>
+        </div>
+    </div>
+
+    <div class="search" style="margin:15px auto;height:84px">
+        <img src="__STATIC__/web_view/image/conch_logo.png" style="width:261px;height:91.5px" />
+
+    </div>
+
+    <div class="nav-bar-header">
+        <div class="nav-inner">
+            <ul class="nav-list">
+                <li class="nav-item">
+                    <span class="item">全部分类</span>
+                    <span class="arrow-down"></span>
+                    <div class="left-menu">
+                        {volist name="classify_type" id="tp"}
+                        <div class="level-item">
+                            <div class="first-level">
+                                <dl>
+                                    <dt class="title"><a
+                                            href="{:url('ClassList/index',['classify_id'=>$tp.classify_id,'type_id'=>'0'])}"
+                                            target="_top">{$tp.classify_name}</a></dt>
+                                    {volist name="$tp.type" id="vo" length="2"}
+                                    <dd><a href="{:url('classList/index',['classify_id'=>$vo.classify_id,'type_id'=>$vo.type_id])}"
+                                            target="_top" class="">{$vo.type_name}</a></dd>
+                                    {/volist}
+                                </dl>
+                            </div>
+                            <div class="second-level">
+                                <div class="section">
+                                    <div class="section-item clearfix no-top-border">
+                                        <h3>其他分类</h3>
+                                        <ul>
+                                            {volist name="$tp.type" id="vo"}
+                                            <li><a href="{:url('classList/index',['classify_id'=>$vo.classify_id,'type_id'=>$vo.type_id])}"
+                                                    class="hot">{$vo.type_name}</a></li>
+                                            {/volist}
+
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {/volist}
+                    </div>
+                </li>
+                <li class="nav-item"><a href="{:url('home/index')}" class="item first">首页</a></li>
+                <!-- <li class="nav-item"><a class="item">团购</a></li>
+                <li class="nav-item"><a class="item">商户</a></li> -->
+            </ul>
+        </div>
+    </div>
+
+    <div class="p-detail">
+        <div class="p-bread-crumb">
+            <div class="w-bread-crumb">
+                <ul class="crumb-list">
+                    <li class="crumb"><a>{$class_classify.classify_name}</a><span class="ico-gt">&gt;</span></li>
+                    <li class="crumb"><a>{$class_type.type_name}</a><span class="ico-gt">&gt;</span></li>
+                    <li class="crumb crumb-last"><a>{$class.class_name}</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="static-hook-real static-hook-id-5"></div>
+        <div class="p-item-info">
+            <div class="w-item-info">
+                <h2>{$class.class_name}</h2>
+                <!-- <div class="item-title">
+                    <span class="text-main">仅售55元，价值59元精选自助餐1位！免费WiFi！</span>
+                </div> -->
+                <div class="ii-images static-hook-real static-hook-id-6">
+                    <div class="w-item-images">
+                        <div class="images-board" style="width:97%">
+                            <div class="">
+                                <span class="ico-status ico-jingxuan"></span>
+                            </div>
+                            <img src="__STATIC__/images/classes/img/{$class.class_img}" class="item-img-large" />
+                        </div>
+                        <!-- <ul class="images-list clearfix">
+                            {present name="class_photos"}
+                            {volist name="class_photos" id="ph" length="4"}
+                            <li class="images images-last">
+                                <img src="__STATIC__/images/classes/photos/{$ph.photo_img}" />
+                            </li>
+                            {/volist}
+                            {/present}
+                        </ul> -->
+                        <div class="erweima-share-collect">
+                            <ul class="item-option clearfix">
+                                <li class=" ">
+
+                                    <div class="collect-success">
+                                        <p>收藏成功！</p>
+                                        <a href="//www.nuomi.com/uc/collection/online">去看看我的收藏</a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="ii-intro">
+
+                    <div class="rank">
+                        {if condition="$score_num!=0"}
+                        效果：<span style="font-size:14px">{$score_xg}</span>
+                        师资：<span style="font-size:14px;color: rgb(240, 131, 0)">{$score_sz}</span>
+                        环境：<span style="font-size:14px;color: rgb(240, 131, 0);margin-right: 15px">{$score_hj}</span>
+                        {$score_num}人评分
+                        {else/ }
+                        评分人数不足
+                        {/if}
+
+                    </div>
+
+                    <div class="address">
+                        地址：
+                        <span>{$class.class_position}</span>
+                    </div>
+                    <div class="enter">
+                        <a class="layui-btn layui-btn-lg" href="{:url('enter',['class_id'=>$class.class_id])}"
+                            style="background:rgb(240,131, 0);margin-right:10px">立即预约</a>
+                        {$enterNum}人已报名
+                    </div>
+                    <div class="phone">
+                        咨询电话：<span> {$class.class_phone}</span>
+                    </div>
+                    <div>
+                        {present name="hasCollection"}
+                        <!-- 收藏 -->
+                        <a href="{:url('collection',['class_id'=>$class.class_id,'flag'=>0])}"><i
+                                class="layui-icon layui-icon-star-fill"
+                                style="font-size: 30px; color:rgb(240,131, 0)"></i></a>
+                        {else/}
+                        <!-- 未收藏 -->
+                        <a href="{:url('collection',['class_id'=>$class.class_id,'flag'=>1])}"><i
+                                class="layui-icon layui-icon-star"
+                                style="font-size: 30px; color:rgb(240,131, 0);margin-right:15px"></i></a>
+                        {/present}
+
+                        <a href="#pinglun"><i class="layui-icon layui-icon-reply-fill"
+                                style="font-size: 30px; color:rgb(240,131, 0);margin-right:15px"></i></a>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 班级信息 -->
+        <div class="mod class-info">
+            <div class="hd">
+                班级简介
+            </div>
+            <ul class="con">
+                <li>
+                    <span class="title">创立时间</span>
+                    {$class.apply_time}
+                </li>
+                <li>
+                    <span class="title">商户简介</span>
+                    {$class.class_info}
+                </li>
+                <li>
+                    <span class="title">营业时间</span>
+                    {$class.class_time}
+                </li>
+            </ul>
+        </div>
+        <!-- 班级信息 END -->
+
+        <!-- 老师信息 -->
+        {present name="class_teacher"}
+        <div class="mod class-info">
+            <div class="hd">
+                名师风采
+            </div>
+            <div class="teacher-info">
+                <ul style="text-align:center">
+                    {volist name="class_teacher" id="t" }
+                    <li
+                        style="list-style: none;display:inline-block;vertical-align: top;width: 260px;height: 300px;padding: 10px">
+                        <div class="teacher">
+                            <div>
+                                <img style="width:258px" src="__STATIC__/images/teachers/{$t.teacher_img}" alt="">
+                            </div>
+                            <div>
+                                <div class="name">
+                                    {$t.teacher_name}
+                                </div>
+                                <div class="intro">
+                                    <span class="year" style="margin-right:5px">2</span>
+                                    |
+                                    <span class="type" style="margin-left:5px">{$t.teacher_professional}</span>
+                                </div>
+                                <div class="detail" title="{$t.teacher_info}">
+                                    {$t.teacher_info}
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    {/volist}
+                    <div class="teacher-page">
+                        {$page2}
+                    </div>
+                </ul>
+
+            </div>
+        </div>
+        {/present}
+        <!-- 老师信息 END -->
+
+        <!-- 班级相片 -->
+        {present name="class_photos"}
+        <div class="mod class-info">
+            <div class="hd">
+                班级相册
+            </div>
+            <div class="teacher-info" style="height: 205px; overflow: hidden;overflow-x: auto;">
+                <ul id="ul-photos">
+                    {volist name="class_photos" id="p"}
+                    <li style="list-style: none;display:inline-block;vertical-align: top;width: 260px;padding: 5px">
+                        <div class="teacher">
+                            <img style="width:258px" src="__STATIC__/images/classes/photos/{$p.photo_img}" alt="">
+                        </div>
+                    </li>
+                    {/volist}
+
+                </ul>
+            </div>
+        </div>
+        {/present}
+        <!-- 班级相片 END -->
+
+        <!-- 评价 -->
+        <div class="mod class-info" id="pinglun">
+            <div class="hd">
+                评价
+            </div>
+            {present name="login_user"}
+            {present name="hasEnrollform"}
+            <form action="{:url('Detail/comment',['class_id'=>$class.class_id])}" method="POST" class="layui-form">
+                <div class="score">
+                    效果：<div id="test1" style="margin-left:20px;padding-bottom:0"></div>
+                </div>
+                <div class="score">
+                    师资：<div id="test2" style="margin-left:20px;padding-bottom:0"></div>
+                </div>
+                <div class="score">
+                    环境：<div id="test3" style="margin-left:20px;padding-bottom:0"></div>
+                </div>
+
+                <input type="text" id="score_xg" name="score_xg" value="5" style="display:none">
+                <input type="text" id="score_sz" name="score_sz" value="5" style="display:none">
+                <input type="text" id="score_hj" name="score_hj" value="5" style="display:none">
+
+                <div class="layui-form-item layui-form-text">
+                    <div class="layui-input-block" style="margin:10px 20px">
+                        <textarea name="content" placeholder="请输入内容" class="layui-textarea"></textarea>
+                    </div>
+                </div>
+                <div style="text-align:right;padding-right:20px">
+                    <button type="submit" class="layui-btn layui-btn-normal">评价</button>
+                </div>
+            </form>
+            {else/}
+            <div class="layui-form-item layui-form-text" style="padding:0 20px;margin: 10px 0;">
+                您还未报名，无法进行评价。
+            </div>
+            {/present}
+            {else/ }
+
+            <div class="layui-form-item layui-form-text" style="padding:0 20px;margin: 10px 0;">
+                请<a href="{:url('login/index')}">登录</a>后再评价
+            </div>
+
+            {/present}
+            {present name="evaluationList"}
+            <div class="teacher-info">
+
+                <ul>
+                    {volist name="evaluationList" id="ev"}
+                    <li>
+                        <div class="commentList">
+                            <div class="com_left">
+                                <img style="width:100px" src="__STATIC__/images/users/{$ev.user_img}" alt="">
+                            </div>
+                            <div class="com_right">
+                                <div class="user_info">
+                                    <span style="margin-right:20px">{$ev.user_name}</span>
+                                    <span style="color:#666">{$ev.evaluation_time}</span>
+                                </div>
+                                <div class="star">
+                                    效果:<span>{$ev.score_xg}</span>
+                                    师资:<span>{$ev.score_sz}</span>
+                                    环境:<span>{$ev.score_hj}</span>
+                                </div>
+                            </div>
+                            <div class="comment" style="line-height:21px">
+                                {$ev.evaluation_content}
+                            </div>
+                        </div>
+                    </li>
+                    {/volist}
+                </ul>
+            </div>
+            <div class="teacher_page" style="text-align:center">
+                {$evpage}
+            </div>
+            {else/}
+            <p style="padding:0 20px">暂无评价</p>
+            {/present}
+        </div>
+        <!-- 评价 END -->
+        <div class="mod class-info">
+                <div class="hd">
+                        位置
+                    </div>
+                <div style="margin:10px">
+                    <span id="position" style="margin-left:80px;font-size: 14px"></span>
+                    <input style="display:none" name="class_position" type="text" lay-verify="text" id="suggestId" placeholder="{$class.class_position}" value="{$class.class_position}"
+                    autocomplete="off" class="layui-input">
+                </div>
+          
+                <br>
+          
+                <div>
+                  <div id="l-map" style="width:80%;height:300px;border: 1px solid #cccccc;border-radius: 5px;margin:0 auto"></div>
+                </div>
+          
+                <div id="searchResultPanel" style="border:1px solid #C0C0C0;width:150px;height:auto; display:none;"></div>
+        </div>
+    </div>
+
+    <div class="footer-content">
+        <div class="copyright-info">
+            <div class="site-info">
+
+            </div>
+            <div class="icons">
+
+            </div>
+            <div style="width:200px;margin:0 auto; padding:20px 0;">
+
+            </div>
+        </div>
+    </div>
+
+    <script src="__STATIC__/layui/layui.js"></script>
+    <script>
+
+
+        layui.use('form', function () {
+            var form = layui.form;
+
+            //监听提交
+            form.on('submit(formDemo)', function (data) {
+                layer.msg(JSON.stringify(data.field));
+                return false;
+            });
+        });
+        layui.use('rate', function () {
+            var rate = layui.rate;
+
+            //渲染
+            var ins1 = rate.render({
+                elem: '#test1'  //绑定元素
+                , half: true
+                , value: 5
+                , choose: function (value) {
+                    $('#score_xg').val(value);
+                }
+            });
+            var ins1 = rate.render({
+                elem: '#test2'  //绑定元素
+                , half: true
+                , value: 5
+                , choose: function (value) {
+                    $('#score_sz').val(value);
+                }
+            });
+            var ins1 = rate.render({
+                elem: '#test3'  //绑定元素
+                , half: true
+                , value: 5
+                , choose: function (value) {
+                    $('#score_hj').val(value);
+                }
+            });
+        });
+
+
+        $li_count = $('#ul-photos img').length;
+        $li_width = $('#ul-photos li').outerWidth(true);
+        console.log($li_count);
+
+        console.log($li_width);
+        $ul_width = $li_width * $li_count + 50 + 'px';
+        $('#ul-photos').css("width", $ul_width);
+
+    </script>
+
+    <script type="text/javascript">
+        // 百度地图API功能
+        function G(id) {
+            return document.getElementById(id);
+        }
+        var positionValue = $("#suggestId").val();
+        var map = new BMap.Map("l-map");
+        map.centerAndZoom(positionValue, 18);                   // 初始化地图,设置城市和地图级别。
+
+        var ac = new BMap.Autocomplete(    //建立一个自动完成的对象
+            {
+                "input": "suggestId"
+                , "location": map
+            });
+
+        ac.addEventListener("onhighlight", function (e) {  //鼠标放在下拉列表上的事件
+            var str = "";
+            var _value = e.fromitem.value;
+            var value = "{$class.class_position}";
+            if (e.fromitem.index > -1) {
+                value = _value.province + _value.city + _value.district + _value.street + _value.business;
+            }
+            str = "FromItem<br />index = " + e.fromitem.index + "<br />value = " + value;
+
+            value = "";
+            if (e.toitem.index > -1) {
+                _value = e.toitem.value;
+                value = _value.province + _value.city + _value.district + _value.street + _value.business;
+            }
+            str += "<br />ToItem<br />index = " + e.toitem.index + "<br />value = " + value;
+            G("searchResultPanel").innerHTML = str;
+        });
+
+        var myValue;
+        ac.addEventListener("onconfirm", function (e) {    //鼠标点击下拉列表后的事件
+            var _value = e.item.value;
+            myValue = _value.province + _value.city + _value.district + _value.street + _value.business;
+            G("searchResultPanel").innerHTML = "onconfirm<br />index = " + e.item.index + "<br />myValue = " + myValue;
+
+            setPlace();
+        });
+
+        function setPlace() {
+            map.clearOverlays();    //清除地图上所有覆盖物
+            function myFun() {
+                var pp = local.getResults().getPoi(0).point;    //获取第一个智能搜索的结果
+                map.centerAndZoom(pp, 18);
+                map.addOverlay(new BMap.Marker(pp));    //添加标注
+            }
+            var local = new BMap.LocalSearch(map, { //智能搜索
+                onSearchComplete: myFun,
+                // renderOptions:{map:map}
+            });
+            local.search(myValue);
+            // local.search("景点");
+        }
+        // console.log('--------' + $(''))
+        $('#position').text(
+            $('#suggestId').val()
+        );
+    </script>
+</body>
+
+</html>

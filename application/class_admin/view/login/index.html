@@ -1,103 +1,161 @@
 <!--包含头部文件-->
 {include file="public/header" /}
-<div class="layui-container">
-<h1 style="text-align:center;margin:20px auto">贝壳辅导班-班级管理员登录</h1>
-  <div class="layui-form" style="width:600px;margin: 0 auto;margin-top: 50px"> <!-- 提示：如果你不想用form，你可以换成div等任何一个普通元素 -->
+<style>
     
-    <div class="layui-form-item">
-        <label class="layui-form-label">管理员账号</label>
-        <div class="layui-input-block">
-            <input type="text" name="account" id="account" placeholder="手机号" autocomplete="off" class="layui-input">
+</style>
+<div class="layui-container" style="margin-top:100px">
+    <h1 style="text-align:center;margin:20px auto">贝壳辅导班-班级管理员登录</h1>
+    <div class="layui-form" style="width:600px;margin: 0 auto;margin-top: 50px">
+        <!-- 提示：如果你不想用form，你可以换成div等任何一个普通元素 -->
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">管理员账号</label>
+            <div class="layui-input-block">
+                <input type="text" name="account" id="account" placeholder="手机号" autocomplete="off" class="layui-input">
+            </div>
         </div>
+
+        <div class="layui-form-item" style="margin-top:30px">
+            <label class="layui-form-label">管理员密码</label>
+            <div class="layui-input-block">
+                <input type="text" name="password" id="password" placeholder="密码" autocomplete="off"
+                    class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item" style="margin-top:30px">
+            <label class="layui-form-label">验证码</label>
+            <div class="layui-input-block">
+                <input class="layui-input" lay-verify="required" type="text" id="verifycode" placeholder="请输入验证码"
+                    name="verifycode">
+                <div><img src="{:url('show_captcha')}" alt="captcha" onclick="this.src=this.src" +'?' /></div>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <div class="layui-input-block" style="margin-top:30px">
+                <input style="width:105px" type="button" class="layui-btn" id="submit" lay-filter="*"
+                    value="&nbsp;登&nbsp;&nbsp;&nbsp;&nbsp;录&nbsp;">
+                <a href="{:url('register/index')}">
+                    <input class="layui-btn" lay-filter="*" style="width:108px;" value="&nbsp;注&nbsp;&nbsp;&nbsp;&nbsp;册&nbsp;"></i>
+                </a>
+            </div>
+        </div>
+        <!-- 更多表单结构排版请移步文档左侧【页面元素-表单】一项阅览 -->
     </div>
 
-    <div class="layui-form-item" style="margin-top:30px">
-        <label class="layui-form-label">管理员密码</label>
-        <div class="layui-input-block">
-            <input type="text" name="password" id="password" placeholder="密码" autocomplete="off" class="layui-input">
-        </div>
-    </div>      
+    <!-- 切换班级模态框 -->
+    <div id="change" style="display:none">
+        <form action="{:url('index/change')}" class="layui-form">
+            <div class="layui-form-item" style="text-align:center">
+                    <label class="layui-form-label">选择框</label>
+                    <div class="layui-input-block" style="padding-right:64px">
+                      <select name="class_id" id="selectId" lay-verify="required">
+                            <option value="">请选择班级</option>
+                      </select>
+                    </div>
+                <button class="layui-btn" type="submit" style="margin-top: 30px">确定</button>
+                <a href="{:url('apply/index1')}"> <input style="width:105px;margin-top: 30px" id="applybtn" type="button" class="layui-btn"
+                    lay-filter="*" value="申请辅导班"> </a>
+                  </div>
 
-    <div class="layui-form-item" style="margin-top:30px">
-        <label class="layui-form-label">验证码</label>
-        <div class="layui-input-block">
-          <input  class="layui-input" lay-verify="required"  type="text" id="verifycode" placeholder="请输入验证码" name="verifycode"> 
-        <div><img src="{:url('show_captcha')}" alt="captcha"  onclick="this.src=this.src"+'?'/></div>
-        </div>
-    </div>      
-
-    <div class="layui-form-item">
-        <div class="layui-input-block" style="margin-top:30px">
-            <input style="width:105px" type="button" class="layui-btn" id="submit"  lay-filter="*" value="&nbsp;登&nbsp;&nbsp;&nbsp;&nbsp;录&nbsp;">
-            <a href="{:url('login/register')}"> <input style="width:105px" type="button" class="layui-btn" lay-filter="*" value="注册辅导班"> </a>
-            <!-- <input class="layui-btn" lay-filter="*" style="margin-left: 100px;">注册辅导班</i> -->
-        </div>
+        </form>
     </div>
-    <!-- 更多表单结构排版请移步文档左侧【页面元素-表单】一项阅览 -->
-  </div>
 </div>
 <script src="__STATIC__/jquery-3.3.1.min.js"></script>
 <script src="__STATIC__/layer/layer.js"></script>
 <script src="__STATIC__/layui/layui.js"></script>
 
-    <script type="text/javascript">  
-        var code;//声明一个变量用于存储生成的验证码  
-        document.getElementById("code").onclick=changeImg;  
-        function changeImg(){  
+<script type="text/javascript">
+    var code;//声明一个变量用于存储生成的验证码  
+    document.getElementById("code").onclick = changeImg;
+    function changeImg() {
         //alert("换图片");  
-        var arrays=new Array(  
-            '1','2','3','4','5','6','7','8','9','0',  
-            'a','b','c','d','e','f','g','h','i','j',  
-            'k','l','m','n','o','p','q','r','s','t',  
-            'u','v','w','x','y','z',  
-            'A','B','C','D','E','F','G','H','I','J',  
-            'K','L','M','N','O','P','Q','R','S','T',  
-            'U','V','W','X','Y','Z'               
-        );  
-        code='';//重新初始化验证码  
+        var arrays = new Array(
+            '1', '2', '3', '4', '5', '6', '7', '8', '9', '0',
+            'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j',
+            'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't',
+            'u', 'v', 'w', 'x', 'y', 'z',
+            'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J',
+            'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T',
+            'U', 'V', 'W', 'X', 'Y', 'Z'
+        );
+        code = '';//重新初始化验证码  
         //alert(arrays.length);  
         //随机从数组中获取四个元素组成验证码  
-        for(var i=0;i<4;i++){  
-        //随机获取一个数组的下标  
-            var r=parseInt(Math.random()*arrays.length);  
-            code+=arrays[r];  
+        for (var i = 0; i < 4; i++) {
+            //随机获取一个数组的下标  
+            var r = parseInt(Math.random() * arrays.length);
+            code += arrays[r];
             //alert(arrays[r]);  
-        }  
+        }
         //alert(code);  
-        document.getElementById('code').innerHTML=code;//将验证码写入指定区域  
-    }         
+        document.getElementById('code').innerHTML = code;//将验证码写入指定区域  
+    }
 
-    </script>
-    <script>
-        $('#submit').click(function(){
-            console.log($("#account").val())
-            if($("#account").val() == '' || $("#password").val() == '' || $("#verifycode").val() == ''){
-                layer.msg('请输入完整的登录信息');
-            } else {
-                $.post("{:url('login/index')}",
-                { 
-                    verifycode:$("#verifycode").val(),
-                    account:$("#account").val(),
-                    password:$("#password").val(),
+</script>
+<script>
+    // $('#submit').click(function(){
+    //     layer.open({
+    //         type: 1,
+    //         skin: 'layui-layer-rim', //加上边框
+    //         area: ['420px', '240px'], //宽高
+    //         content: `<h1>adsfas</h1>`,
+    //     });
+    // })
+
+    $('#submit').click(function () {
+        // console.log($("#account").val())
+        if ($("#account").val() == '' || $("#password").val() == '' || $("#verifycode").val() == '') {
+            layer.msg('请输入完整的登录信息');
+        } else {
+            $.post("{:url('login/login')}",
+                {
+                    verifycode: $("#verifycode").val(),
+                    account: $("#account").val(),
+                    password: $("#password").val(),
                 }
-                ,function(data){
-                    if(data == "账号不存在") {
+                , function (data) {
+                    if (data == "账号不存在") {
                         layer.msg("账号不存在")
-                    } else if(data == "密码错误") {
+                    } else if (data == "密码错误") {
                         layer.msg("密码错误")
                     } else if (data == "验证码错误") {
                         layer.msg("验证码错误")
-                    } else if (data == "待审核") {
-                        layer.msg("您申请的辅导班正在审核中，请耐心等待")
-                    } else if (data == "未通过") {
-                        layer.msg("很遗憾，您申请的辅导班未能通过审核")
-                    }
-                    else {
-                        window.location.href="{:url('index/index')}"
+                    } else if (data == "未注册辅导班") {
+                        layer.msg(data,{end:function(){
+                            window.location.href="{:url('apply/index1')}";
+                        }});
+                    } else {
+                        // console.log(data);
+                        var content = "<option value=''>请选择班级</option>"
+                        for (var i = 0; i < data.length; i++) {
+                           content += "<option value='"+data[i].class_id+"'>"+data[i].class_name+"</option>";
+                        }
+                        $('#selectId').html(content);
+                        layui.use(['layer','form'], function () {
+                            var form = layui.form;
+                            form.render("select");
+                            var layer = layui.layer, $ = layui.$;
+                            layer.open({
+                                type: 1,//类型
+                                area: ['400px', '300px'],
+                                fixed: false, //不固定
+                                maxmin: false,//显示最大最小化按钮
+                                zIndex: 1500,//层
+                                scrollbar: false,
+                                shadeClose: true,//点击外部关闭
+                                shade: 0.4,//阴影
+                                title: '切换辅导班',//题目
+                                content: $('#change')//打开的内容
+                                
+                            });
+                            // $('name')
+                        });
                     }
                 })
         }
-  })
-    </script>   
+    })
+</script>
 <!--包含尾部文件-->
 {include file="public/footer" /}

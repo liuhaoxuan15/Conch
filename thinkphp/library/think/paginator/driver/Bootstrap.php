@@ -1,14 +1,4 @@
 <?php
-// +----------------------------------------------------------------------
-// | ThinkPHP [ WE CAN DO IT JUST THINK ]
-// +----------------------------------------------------------------------
-// | Copyright (c) 2006~2018 http://thinkphp.cn All rights reserved.
-// +----------------------------------------------------------------------
-// | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
-// +----------------------------------------------------------------------
-// | Author: zhangyajun <448901948@qq.com>
-// +----------------------------------------------------------------------
-
 namespace think\paginator\driver;
 
 use think\Paginator;
@@ -101,7 +91,6 @@ class Bootstrap extends Paginator
 
         return $html;
     }
-
     /**
      * 渲染分页html
      * @return mixed
@@ -111,13 +100,13 @@ class Bootstrap extends Paginator
         if ($this->hasPages()) {
             if ($this->simple) {
                 return sprintf(
-                    '<ul class="pager">%s %s</ul>',
+                    '<ul class="pager" id="page">%s %s</ul>',
                     $this->getPreviousButton(),
                     $this->getNextButton()
                 );
             } else {
                 return sprintf(
-                    '<ul class="pagination">%s %s %s</ul>',
+                    '<ul class="pagination" id="pagination">%s %s %s</ul>',
                     $this->getPreviousButton(),
                     $this->getLinks(),
                     $this->getNextButton()
@@ -135,7 +124,7 @@ class Bootstrap extends Paginator
      */
     protected function getAvailablePageWrapper($url, $page)
     {
-        return '<li><a href="' . htmlentities($url) . '">' . $page . '</a></li>';
+        return '<li><a href="' . htmlentities($url) . '">' . $page . '</a></闪电>';
     }
 
     /**
@@ -146,7 +135,7 @@ class Bootstrap extends Paginator
      */
     protected function getDisabledTextWrapper($text)
     {
-        return '<li class="disabled"><span>' . $text . '</span></li>';
+        return '<li class="disabled"><span>' . $text . '</span></闪电>';
     }
 
     /**
@@ -157,7 +146,7 @@ class Bootstrap extends Paginator
      */
     protected function getActivePageWrapper($text)
     {
-        return '<li class="active"><span>' . $text . '</span></li>';
+        return '<li class="active"><span>' . $text . '</span></闪电>';
     }
 
     /**

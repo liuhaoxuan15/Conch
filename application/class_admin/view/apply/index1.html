@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html class="G_N">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet" type="text/css" href="__STATIC__/class_register/style1536672475627.css">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+    <title>创建门店</title>
+    <title></title>
+
+
+
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+
+    <link rel="stylesheet" href="__STATIC__/class_register/libs.min.99f8548df9c60ba9388acc45c2d27c2c.css"
+        type="text/css">
+    <link rel="stylesheet" href="__STATIC__/class_register/dpshop-add.min.e83aecd8c4f1cf0c363f00a8088f7106.css"
+        type="text/css">
+    <link rel="stylesheet" href="__STATIC__/class_register/index.min.79735a895530df5fcd1d637bf6bb42b4.css"
+        type="text/css">
+    <link rel="stylesheet" href="__STATIC__/layui/css/layui.css">
+    <style type="text/css">
+        .amap-container {
+            cursor: url(http://webapi.amap.com/theme/v1.3/openhand.cur), default;
+        }
+
+        .amap-drag {
+            cursor: url(http://webapi.amap.com/theme/v1.3/closedhand.cur), default;
+        }
+    </style>
+
+</head>
+
+<body>
+    <!-- 头部菜单容器 -->
+    <div style="min-height:32px" class="mer-header" id="merHeader">
+        <div class="mer-top-bar">
+            <div class="top-bar-wrapper">
+                <div class="opt-list">
+                    <span class="user opt-sec">
+                        <span id="merUserName">欢迎您，{$class_admin.admin_account}</span>
+                        <span id="merAdditionWrapper" class="mer-addition-wrapper"></span>
+                        <a class="logout" href="{:url('logout')}">退出</a>
+                    </span>
+
+                    <!--<span class="opt-sec help-center" href="/shopportal/showmessages">-->
+                    <!--帮助中心-->
+                    <!--<div id="helpCenter">-->
+                    <!--</div>-->
+                    <!--</span>-->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div style="margin-top:80px" class="mer-main">
+
+        <!-- 左侧菜单容器 -->
+
+
+
+        <!--没有侧边栏的时候需要添加full-width class-->
+        <div class="mer-col-main full-width">
+
+            <!-- 主内容区 -->
+
+            <div id="app">
+                <section data-reactroot="" class="dpshop-add-page">
+                    <header class="dpshop-add-header">辅导班申请
+                    </header>
+                    <form action="{:url('apply')}" enctype="multipart/form-data" method="post"
+                        class="layui-form ant-form ant-form-horizontal dpshop-add-form">
+                        <div class="ant-row ant-form-item dpshop-add-item">
+                            <div class="ant-form-item-label"><label for="shopName" class="ant-form-item-required"
+                                    title="添加辅导班">添加辅导班</label></div>
+                            <div class="ant-form-item-control-wrapper">
+                                <div class="ant-form-item-control "><input required name="class_name" style="width:330px"
+                                        type="text" class="ant-input ant-input-lg dpshop-add-input" maxlength="50"
+                                        placeholder="请输入辅导班名称">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="ant-row ant-form-item dpshop-add-item" style="margin-bottom:3px">
+                            <div class="ant-form-item-label"><label for="type" class="ant-form-item-required"
+                                    title="辅导班类型">辅导班类型</label></div>
+                            <div class="ant-form-item-control-wrapper">
+                                <div class="ant-form-item-control has-success">
+                                    <div>
+                                        <div class="layui-form-item" style="">
+                                            <div class="layui-input-block"
+                                                style="margin-left:0;width:160px;display:inline-block">
+                                                <select required class="ant-input ant-input-lg" name="classify" id="classify"
+                                                    lay-filter="classify" lay-verify="required">
+                                                    <option value="">请选择</option>
+                                                    {volist name="classify" id="vo"}<option style="margin-top:3px" value="{$vo.classify_id}">{$vo.classify_name}</option>{/volist}
+                                                </select>
+                                            </div>
+                                            <div class="layui-input-block"
+                                                style="margin-left:0;width:160px;display:inline-block;margin-left:8px">
+                                                <select class="ant-input ant-input-lg" name="types" id="types"
+                                                    lay-verify="required">
+                                                    <option value="">请选择</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="ant-row ant-form-item dpshop-add-item">
+                            <div class="ant-form-item-label"><label for="address" class="ant-form-item-required"
+                                    title="辅导班地址">辅导班地址</label></div>
+                            <div class="ant-form-item-control-wrapper">
+                                <div class="ant-form-item-control ">
+                                    <input required name="class_position" type="text" maxlength="128" placeholder="请输入辅导班地址"
+                                        id="suggestId" class="ant-input ant-input-lg" style="width: 330px;">
+
+                                </div>
+                                <br>
+                                <div class="layui-input-block" style="margin-left:0">
+                                    <div id="l-map"
+                                        style="width:490px;height:300px;border: 1px solid #cccccc;border-radius: 5px;">
+                                    </div>
+                                </div>
+                                <div id="searchResultPanel"
+                                    style="border:1px solid #C0C0C0;width:150px;height:auto; display:none;"></div>
+                            </div>
+                        </div>
+
+                        <div class="ant-row ant-form-item dpshop-add-item">
+                            <div class="ant-form-item-label"><label for="phone" class="ant-form-item-required"
+                                    title="辅导班电话">辅导班电话</label></div>
+                            <div class="ant-form-item-control-wrapper">
+                                <div class="ant-form-item-control ">
+                                    <input id="class_phone" required name="class_phone" type="text" class="ant-input ant-input-lg"
+                                        placeholder="请输入电话号码" style="width: 192px;">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ant-row ant-form-item dpshop-add-item">
+                            <div class="ant-form-item-label"><label for="phone" class="ant-form-item-required"
+                                    title="上课时间">上课时间</label></div>
+                            <div class="ant-form-item-control-wrapper">
+                                <div class="ant-form-item-control ">
+                                    <div>
+                                        <div><input requireds name="class_time" type="text" class="ant-input ant-input-lg"
+                                                placeholder="请输入上课时间" maxlength="20" style="width: 500px;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="ant-row ant-form-item dpshop-add-item" style="margin-bottom:0px">
+                            <div class="ant-form-item-label"><label for="shopName" class="ant-form-item-required"
+                                    title="营业执照">营业执照</label></div>
+                            <div class="ant-form-item-control-wrapper">
+                                <div class="ant-form-item-control ">
+                                    <button id="btn-upload" type="button"
+                                        class="ant-input ant-input-lg dpshop-add-input">
+                                        上传文件
+                                    </button>
+                                    <br>
+                                    <img class="layui-upload-img" id="imgshow" style="width:500px;margin: 20px 0;">
+                                    <input type="file" name="class_license" id="class_license" style="display:none">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="ant-row ant-form-item dpshop-add-item" style="margin-bottom:0px">
+                            <div class="ant-form-item-label"><label for="shopName" class="ant-form-item-required"
+                                    title="营业执照">封面图</label></div>
+                            <div class="ant-form-item-control-wrapper">
+                                <div class="ant-form-item-control ">
+                                    <button id="btn-img" type="button" class="ant-input ant-input-lg dpshop-add-input">
+                                        上传文件
+                                    </button>
+                                    <br>
+                                    <img class="layui-upload-img" id="classImg_show"
+                                        style="width:500px;margin: 20px 0;">
+                                    <input type="file" name="class_img" id="class_img" style="display:none">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="ant-row ant-form-item dpshop-add-item">
+                            <div class="ant-form-item-label"><label class="" title="班级简介">班级简介</label></div>
+                            <div class="ant-form-item-control-wrapper">
+                                <div class="ant-form-item-control ">
+                                    <textarea required class="ant-input ant-input-lg" name="class_info"
+                                        style="width:500px;height:330px"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="dpshop-add-divider"></div>
+                        <footer class="dpshop-add-footer" style="text-align:center">
+                            <button type="submit" style="cursor:pointer;border: none" id="submit"
+                                class="dpshop-add-button">提交申请</button>
+                        </footer>
+                    </form>
+
+                    <!-- react-empty: 121 -->
+                    <!-- react-empty: 122 -->
+                    <!-- react-empty: 123 -->
+                </section>
+            </div>
+
+
+        </div>
+    </div>
+
+    <!-- 页脚 -->
+    <!-- <div class="footer">
+        <p class="link">
+            <a href="http://www.dianping.com/aboutus" target="_blank">关于我们</a>|<a
+                href="http://www.dianping.com/aboutus/media" target="_blank">媒体报道</a>|<a
+                href="http://www.dianping.com/business/promotion.html" target="_blank">推广方式</a>|<a
+                href="http://www.dianping.com/business/showcase.html" target="_blank">成功案例</a>|<a
+                href="http://www.dianping.com/contactus?tab=biz" target="_blank">联系我们</a>
+        </p>
+    </div> -->
+    <script src="__STATIC__/jquery-3.3.1.min.js"></script>
+    <script src="__STATIC__/layui/layui.js"></script>
+    <script type="text/javascript"
+        src="http://api.map.baidu.com/api?v=3.0&ak=tXGsWreUyZr7DzWa20TRGC1YUbRKnANH"></script>
+    <script>
+        // 验证手机号
+        function isPhoneNo(phone) {
+            var pattern = /^1[34578]\d{9}$/;
+            return pattern.test(phone);
+        }
+
+        layui.use('form', function () {
+            var form = layui.form;
+
+            //监听提交
+            form.on('select(classify)', function (data) {
+                $.post("{:url('apply/getTypes')}",
+                    {
+                        classify: $('#classify').val()
+                    },
+                    function (data) {
+                        // console.log(data);
+                        $('#types').html(data);
+                        form.render('select');
+                    }
+                )
+            }
+            )
+        });
+
+        //JavaScript代码区域
+
+        $('#btn-upload').click(function () {
+            $('#class_license').click();
+            //在input file内容改变的时候触发事件
+            $('#class_license').change(function () {
+                //获取input file的files文件数组;
+                //$('#filed')获取的是jQuery对象，.get(0)转为原生对象;
+                //这边默认只能选一个，但是存放形式仍然是数组，所以取第一个元素使用[0];
+                var file = $('#class_license').get(0).files[0];
+                if (file) {
+                    //创建用来读取此文件的对象
+                    var reader = new FileReader();
+                    //使用该对象读取file文件
+                    reader.readAsDataURL(file);
+                    //读取文件成功后执行的方法函数
+                    reader.onload = function (e) {
+                        //读取成功后返回的一个参数e，整个的一个进度事件
+                        console.log(e);
+                        //选择所要显示图片的img，要赋值给img的src就是e中target下result里面
+                        //的base64编码格式的地址
+                        $('#imgshow').get(0).src = e.target.result;
+                    }
+                } else {
+                    return false;
+                }
+
+            })
+        })
+        $('#btn-img').click(function () {
+            $('#class_img').click();
+            //在input file内容改变的时候触发事件
+            $('#class_img').change(function () {
+                //获取input file的files文件数组;
+                //$('#filed')获取的是jQuery对象，.get(0)转为原生对象;
+                //这边默认只能选一个，但是存放形式仍然是数组，所以取第一个元素使用[0];
+                var file = $('#class_img').get(0).files[0];
+                if (file) {
+                    //创建用来读取此文件的对象
+                    var reader = new FileReader();
+                    //使用该对象读取file文件
+                    reader.readAsDataURL(file);
+                    //读取文件成功后执行的方法函数
+                    reader.onload = function (e) {
+                        //读取成功后返回的一个参数e，整个的一个进度事件
+                        console.log(e);
+                        //选择所要显示图片的img，要赋值给img的src就是e中target下result里面
+                        //的base64编码格式的地址
+                        $('#classImg_show').get(0).src = e.target.result;
+                    }
+                }
+
+            })
+        })
+
+
+        // 百度地图API功能
+        function G(id) {
+            return document.getElementById(id);
+        }
+
+        var map = new BMap.Map("l-map");
+        map.centerAndZoom("北京", 12); // 初始化地图,设置城市和地图级别。
+
+        var ac = new BMap.Autocomplete( //建立一个自动完成的对象
+            {
+                "input": "suggestId",
+                "location": map
+            });
+
+        ac.addEventListener("onhighlight", function (e) { //鼠标放在下拉列表上的事件
+            var str = "";
+            var _value = e.fromitem.value;
+            var value = "";
+            if (e.fromitem.index > -1) {
+                value = _value.province + _value.city + _value.district + _value.street + _value.business;
+            }
+            str = "FromItem<br />index = " + e.fromitem.index + "<br />value = " + value;
+
+            value = "";
+            if (e.toitem.index > -1) {
+                _value = e.toitem.value;
+                value = _value.province + _value.city + _value.district + _value.street + _value.business;
+            }
+            str += "<br />ToItem<br />index = " + e.toitem.index + "<br />value = " + value;
+            G("searchResultPanel").innerHTML = str;
+        });
+
+        var myValue;
+        ac.addEventListener("onconfirm", function (e) { //鼠标点击下拉列表后的事件
+            var _value = e.item.value;
+            myValue = _value.province + _value.city + _value.district + _value.street + _value.business;
+            G("searchResultPanel").innerHTML = "onconfirm<br />index = " + e.item.index + "<br />myValue = " + myValue;
+
+            setPlace();
+        });
+
+        function setPlace() {
+            map.clearOverlays(); //清除地图上所有覆盖物
+            function myFun() {
+                var pp = local.getResults().getPoi(0).point; //获取第一个智能搜索的结果
+                map.centerAndZoom(pp, 18);
+                map.addOverlay(new BMap.Marker(pp)); //添加标注
+            }
+            var local = new BMap.LocalSearch(map, { //智能搜索
+                onSearchComplete: myFun
+            });
+            local.search(myValue);
+        }
+    </script>
+</body>
+
+</html>

@@ -28,6 +28,13 @@ return [
         'model'      => ['Classes', 'Info','Teachers','Users'],
         'view'       => ['index/index'],
     ],
+    'web_view'     => [
+        '__file__'   => ['common.php'],
+        '__dir__'    => ['behavior', 'controller', 'model', 'view'],
+        'controller' => ['Index'],
+        'model'      => [],
+        'view'       => ['index/index'],
+    ],
     // 其他更多的模块定义
     // 'jsonAPI'     => [
     //     '__file__'   => ['common.php'],

@@ -1,0 +1,82 @@
+<!--包含头部文件-->
+{include file="public/header" /}
+
+<div class="layui-layout layui-layout-admin">
+
+    <!--包含菜单文件-->
+    {include file="public/menu" /}
+
+    <div class="layui-container">
+        <!-- 内容主体区域 -->
+        <form action="" class="layui-form" style="margin-left:135px">
+            <center>
+                <fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
+                    <legend>上传轮播图</legend>
+                </fieldset>
+                <div class="layui-upload">
+                    <button type="button" class="layui-btn" id="test2">多图片上传</button>
+                    <blockquote class="layui-elem-quote layui-quote-nm" style="margin-top: 10px;">
+                        预览图：
+                        <div class="layui-upload-list" id="demo2"></div>
+                    </blockquote>
+                </div>
+            </center>
+        </form>
+
+
+        <div class="layui-footer">
+            <!-- 底部固定区域 -->
+
+        </div>
+    </div>
+    <script src="__STATIC__/jquery-3.3.1.min.js"></script>
+    <script>
+        var type = {$ad_type};
+        console.log(type);
+        layui.use('upload', function () {
+            var upload = layui.upload;
+
+            //多图片上传
+            upload.render({
+                elem: '#test2',
+                // '{:url('main/editschool')}?id='+data.id
+                url: '{:url("addBanner")}?ad_type=' + type,
+                multiple: true,
+                before: function (obj) {
+                    //预读本地文件示例，不支持ie8
+                    obj.preview(function (index, file, result) {
+                        $('#demo2').append('<img style="width:300px;margin:10px 10px" src="' + result + '" alt="' + file.name +
+                            '" class="layui-upload-img">')
+                    });
+                    // var index = layer.load(); //开始上传之后打开load层
+                    // $("#hidden_tmp_index").val(i ndex);//将load层的index隐藏到页面中
+                },
+                done: function (res) {
+                    // console.log(res);
+                    //如果上传失败
+                    if (res.code == 404) {
+                        layer.msg(res.msg);
+                    }
+                    //上传成功
+                    if (res.code == 1) {
+                        layer.msg("上传成功");
+                    }
+                }
+                , error: function (res) {
+                    // console.log(res);
+                    console.log("上传失败" + res);
+                    // var ddd=res.responseText;
+                    // var dd = ddd.replace(/<\/?.+?>/g,"");
+                    // var text=dd.replace(/ /g,"");//去掉所有空格
+                    // o.msg("请求上传接口出现异常"+text),
+                    // console.log(text);
+                    // m(e)
+                }
+            });
+
+
+
+        });
+    </script>
+    <!--包含尾部文件-->
+    {include file="public/footer" /}

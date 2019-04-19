@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="x-ua-compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>注册</title>
+    <link rel="stylesheet" href="__STATIC__/web_view/css/base.css" />
+    <link rel="stylesheet" href="__STATIC__/web_view/css/register.css" />
+    <script type="text/javascript" src="__STATIC__/web_view/js/html5shiv.js"></script>
+    <script type="text/javascript" src="__STATIC__/web_view/js/respond.min.js"></script>
+    <script src="__STATIC__/jquery-3.3.1.min.js"></script>
+    <!-- <script type="text/javascript" src="__STATIC__/web_view/js/jquery-1.11.3.min.js"></script> -->
+    <style>
+        .yzm-btn, .yzm-btn-disabled{
+            font-size: 14px;
+            color: white;
+            width: 117px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 3px;
+            font-weight: 900;
+            background: rgb(130, 166, 254);
+            line-height: 36px;
+        }
+        .yzm-btn-disabled {
+            background: #FBFBFB;
+            color: #C9C9C9;
+            cursor: not-allowed;
+            border: 1px solid #e6e6e6;
+            opacity: 1;
+        }
+        
+    </style>
+</head>
+
+<body>
+    <div class="wrapper">
+        <div class="head">
+            <ul>
+                <li><a href="index.html"><img src="__STATIC__/web_view/image/conch_logo.png" alt="logo"></a></li>
+                <li class="divider"></li>
+                <li><a href="index.html"></a></li>
+            </ul>
+            <div class="login-link">
+                <span>我已注册，现在就</span>
+                <a href="{:url('login/index')}">登录</a>
+            </div>
+        </div>
+
+        <div class="content">
+            <form method="POST" class="layui-form" action="{:url('register')}">
+                <p class="pass-form-item">
+                    <label class="pass-label">用户名</label>
+                    <input type="text" required name="user_name" class="pass-text-input" placeholder="请设置用户名">
+                </p>
+
+                <p class="pass-form-item">
+                    <label class="pass-label">密码</label>
+                    <input type="password" required name="user_password" id="user_password" class="pass-text-input"
+                        placeholder="请设置登录密码">
+                </p>
+                <p class="pass-form-item">
+                    <label class="pass-label">确认密码</label>
+                    <input type="password" required name="password" id="password" class="pass-text-input" placeholder="请设置登录密码">
+                </p>
+
+                <p class="pass-form-item">
+                    <label class="pass-label">手机号</label>
+                    <input type="text" required id="user_phone" name="user_phone" class="pass-text-input"
+                        placeholder="请输入手机号，一个手机号只可以注册一次">
+                    <!-- <span style="clear:both"></span> -->
+                </p>
+                <button class="yzm-btn" class="" type="button" id="send">获取验证码</button>
+
+                <p class="pass-form-item">
+                    <label class="pass-label">验证码</label>
+                    <input type="text" required name="verifycode" class="pass-text-input " placeholder="请输入验证码">
+                </p>
+
+
+                <!-- <p class="pass-form-item">
+                    <label class="pass-label">验证码</label>
+                    <input type="text" name="verifycode" class="pass-text-input " placeholder="请输入验证码">
+                    <div ><img style="margin-top:10px" src="{:url('show_captcha')}" alt="captcha"  onclick="this.src=this.src"+'?'/></div>
+                </p> -->
+
+
+                <p class="pass-form-item">
+                    <input type="submit" value="注册" class="pass-button">
+                </p>
+            </form>
+
+        </div>
+
+        <div class="foot">
+            <div>
+                <div>2016&nbsp;©Baidu</div>
+            </div>
+        </div>
+    </div>
+
+    <script src="__STATIC__/layer/layer.js"></script>
+    <!-- <script src="__STATIC__/layui/layui.js"></script> -->
+
+
+    <script>
+
+        $("#password").blur(function () {
+            var user_password = $("#user_password").val();
+            var password = $("#password").val();
+            if (password != user_password) {
+                layer.msg("两次输入的密码不一致，请重新输入", {
+                    icon: 2,
+                    time: 1000 //2秒关闭（如果不配置，默认是3秒）
+                });
+                $('.pass-button').attr("style", "cursor:not-allowed");
+            }
+
+        });
+
+        $('#send').click(function () {
+            var obj = $(this);
+            console.log(obj);
+
+            $.ajax({
+                url: "{:url('sendMessage')}",
+                data: {
+                    m: $('#user_phone').val(),
+                    c: '【贝壳辅导】您的验证码为',
+                },
+                success: function (data) {
+                    console.log(data);
+                    if (data == 0) {
+                        // console.log("成功");
+                        layer.msg("验证短信已发送");
+                        obj.attr("class", "yzm-btn-disabled");
+                        var time = 59;
+                        var timer = setInterval(function () {
+                            var temp = time--;
+                            obj.attr("value", "(" + temp + ")后获取验证码");
+                            if (temp <= 0) {
+                                // obj.removeAttr("disabled");
+                                obj.attr("class","yzm-btn");
+                                obj.attr("value", "获取验证码");
+                                clearInterval(timer);
+                                return;
+                            }
+                        }, 1000);
+                    }
+                    else {
+                        layer.msg(data);
+                    }
+                },
+                function(data) {
+                    console.log("失败");
+                    console.log(data);
+                }
+            })
+
+        })
+
+
+        var code;//声明一个变量用于存储生成的验证码  
+        document.getElementById("code").onclick = changeImg;
+        function changeImg() {
+            //alert("换图片");  
+            var arrays = new Array(
+                '1', '2', '3', '4', '5', '6', '7', '8', '9', '0',
+                'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j',
+                'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't',
+                'u', 'v', 'w', 'x', 'y', 'z',
+                'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J',
+                'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T',
+                'U', 'V', 'W', 'X', 'Y', 'Z'
+            );
+            code = '';//重新初始化验证码  
+            //alert(arrays.length);  
+            //随机从数组中获取四个元素组成验证码  
+            for (var i = 0; i < 4; i++) {
+                //随机获取一个数组的下标  
+                var r = parseInt(Math.random() * arrays.length);
+                code += arrays[r];
+                //alert(arrays[r]);  
+            }
+            //alert(code);  
+            document.getElementById('code').innerHTML = code;//将验证码写入指定区域  
+        }
+
+
+
+
+    </script>
+</body>
+
+</html>

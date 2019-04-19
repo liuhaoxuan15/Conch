@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="x-ua-compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>列表页</title>
+    <link rel="shortcut icon" href="">
+    <link rel="stylesheet" href="__STATIC__/layui/css/layui.css">
+    <link rel="stylesheet" href="__STATIC__/web_view/css/base.css" />
+    <link rel="stylesheet" href="__STATIC__/web_view/css/common.css" />
+    <link rel="stylesheet" href="__STATIC__/web_view/css/list.css" />
+    <script type="text/javascript" src="__STATIC__/web_view/js/html5shiv.js"></script>
+    <script type="text/javascript" src="__STATIC__/web_view/js/respond.min.js"></script>
+    <script type="text/javascript" src="__STATIC__/web_view/js/jquery-1.11.3.min.js"></script>
+</head> 
+<body>
+    <div class="header-bar">
+        <div class="header-inner">
+            <ul class="father">
+                <li style="visibility:hidden"><a>北京</a></li>
+                <li style="visibility:hidden">|</li>
+                <li style="visibility:hidden" class="city">
+                    <a>切换城市<span class="arrow-down-logo"></span></a>
+                    <div class="city-drop-down">
+                        <h3>热门城市</h3>
+                        <ul class="son">
+                            <li><a href="">北京</a></li>
+                            <li><a href="">上海</a></li>
+                            <li><a href="">广州</a></li>
+                            <li><a href="">深圳</a></li>
+                            <li><a href="">天津</a></li>
+                            <li><a href="">杭州</a></li>
+                            <li><a href="">西安</a></li>
+                            <li><a href="">成都</a></li>
+                            <li><a href="">郑州</a></li>
+                            <li><a href="">厦门</a></li>
+                            <li><a href="">青岛</a></li>
+                            <li><a href="">太原</a></li>
+                            <li><a href="">重庆</a></li>
+                            <li><a href="">武汉</a></li>
+                            <li><a href="">南京</a></li>
+                            <li><a href="">沈阳</a></li>
+                            <li><a href="">济南</a></li>
+                            <li><a href="">哈尔滨</a></li>
+                        </ul>
+                        <a href="" class="morelink ">更多城市 &gt;</a>
+                    </div>
+                </li>
+                {present name="login_user"}
+
+                <li>
+                    <a href="{:url('logout')}">退出</a>
+                </li>
+                <li>|</li>
+                <li><a href="{:url('user/index')}">欢迎您：{$login_user.user_name}</a></li>
+                {else /}
+                <li><a href="{:url('login/index')}">登录</a></li>
+                <li>|</li>
+                <li>
+                    <a href="{:url('register/index')}">注册</a>
+                </li>
+                {/present}
+
+            </ul>
+        </div>
+    </div>
+
+    <div class="search" style="margin:15px auto;height:84px">
+        <img src="__STATIC__/web_view/image/conch_logo.png" style="width:261px;height:91.5px" />
+    </div>
+
+    <div class="nav-bar-header">
+        <div class="nav-inner">
+            <ul class="nav-list">
+                <li class="nav-item">
+                    <span class="item">全部分类</span>
+                    <div style="position:absolute" class="left-menu">
+                        {volist name="classify_type" id="tp"}
+                        <div class="level-item" >
+                            <div class="first-level" >
+                                <dl >
+                                        <dt class="title"><a href="{:url('ClassList/index',['classify_id'=>$tp.classify_id,'type_id'=>'0'])}" target="_top">{$tp.classify_name}</a></dt>
+                                        {volist name="$tp.type" id="vo" length="2"}
+                                        <dd><a href="{:url('classList/index',['classify_id'=>$vo.classify_id,'type_id'=>$vo.type_id])}" target="_top" class="">{$vo.type_name}</a></dd>
+                                        {/volist}
+                                </dl>
+                            </div>
+                            <div class="second-level">
+                                <div class="section">
+                                    <div class="section-item clearfix no-top-border">
+                                        <h3>热门分类</h3>
+                                        <ul>
+                                            {volist name="$tp.type" id="vo"}
+                                            <li><a href="{:url('classList/index',['classify_id'=>$vo.classify_id,'type_id'=>$vo.type_id])}" class="hot">{$vo.type_name}</a></li>
+                                            {/volist}
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {/volist}
+                    </div>
+                </li>
+                <li class="nav-item"><a href="{:url('home/index')}" class="item first active">首页</a></li>
+
+            </ul>
+        </div>
+    </div>
+
+    <div class="page-body">
+        <div class="filter-bg">
+            <div class="filter-wrap">
+                <div class="w-filter-ab-test">
+
+                    <div class="filter-wrapper">
+                        <div class="normal-filter ">
+                            <div class="w-filter-normal-ab  filter-list-ab">
+                                <h5 class="filter-label-ab">分类</h5>
+                                <span class="filter-all-ab">
+                                    <a class="w-filter-item-ab  item-all-auto-ab"><span class="item-content filter-active-all-ab ">全部</span></a>
+                                </span>
+                                <div class="j-filter-items-wrap-ab filter-items-wrap-ab">
+                                    <div class="j-filter-items-ab filter-items-ab filter-content-ab">
+                                        {volist name="classifyx_type" id="xt"}
+                                        <a href="{:url('index',['classify_id'=>$xt.classify_id,'type_id'=>$xt.type_id])}" class="w-filter-item-ab"><span class="item-content">{$xt.type_name}</span></a>
+                                       {/volist}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+                <!-- <div class="w-sort-bar">
+                    <div class="bar-area" style="position: relative; left: 0px; margin-left: 0px; margin-right: 0px; margin-top: 0px; top: 0px;">
+                        <span class="sort-area">
+                            <a class="sort-default sort-default-active">默认</a>
+                            <a class="sort-item sort-down" title="点击按销量降序排序">销量↓</a>
+                            <a class="sort-item price-default price" title="点击按价格降序排序">价格↓</a>
+                            
+                            <a class="sort-item sort-up" title="发布时间由近到远">最新发布↑</a>
+                        </span>
+                        
+                    </div>
+                </div> -->
+                <ul class="itemlist eight-row-height">
+                    <!-- XX类型下的班级 -->
+                        {present name="type_classes"}
+                            {volist name="type_classes" id="tc"}
+                                <li style="z-index:2" class="j-card">
+                                    <a href="{:url('detail/index',['class_id'=>$tc.class_id])}">
+                                        <div class="imgbox">
+                                            <ul class="marketing-label-container">
+                                                <!-- <li class="marketing-label marketing-free-appoint"></li> -->
+                                            </ul>
+                                            <!-- <div class="range-area">
+                                                <div class="range-bg"></div>
+                                                <div class="range-inner">
+                                                    <span class="white-locate"></span>
+                                                    安贞 六里桥 丽泽桥 安定门 劲松 昌平镇 航天桥 通州区 通州北苑
+                                                </div>
+                                            </div> -->
+                                            <div class="borderbox">
+                                                <img src="__STATIC__/images/classes/img/{$tc.class_img}" />
+                                            </div>
+                                        </div>
+                                    </a>
+                                    <div class="contentbox">
+                                        <a href="{:url('detail/index',['class_id'=>$tc.class_id])}" target="_blank">
+                                            <div class="header">
+                                                <h4 class="title ">{$tc.class_name}</h4>
+                                                <div class="collected">精选</div>
+                                            </div>
+                                            <p>{$tc.class_info}</p>
+                                        </a>
+                                        <div class="add-info"></div>
+                                        <div class="pinfo">
+                                                {if condition="$tc.score_xg != -1"}
+                                                <span class="comment">效果：{$tc.score_xg}</span>
+                                                <span class="comment">师资：{$tc.score_sz}</span>
+                                                <span class="comment">环境：{$tc.score_hj}</span>
+                                            {else/}
+                                            <span class="comment">暂无人评分</span>
+                                            {/if}
+                                            <div class="bottom-border"></div>
+                                        </div>
+                                        <!-- <div class="footer">
+                                            <span class="price">4.6分</span><span class="sold">已售337334</span>
+                                            <div class="bottom-border"></div>
+                                        </div> -->
+                                    </div>
+                                </li>
+                            {/volist}
+                        {else/ }
+                        <!-- XX培训下的班级 -->
+                            {present name="classify_classes"}
+                                {volist name="classify_classes" id="xc"}
+                                    <li style="z-index:2"  class="j-card">
+                                        <a href="{:url('detail/index',['class_id'=>$xc.class_id])}">
+                                            <div class="imgbox">
+                                                <ul class="marketing-label-container">
+                                                    <!-- <li class="marketing-label marketing-free-appoint"></li> -->
+                                                </ul>
+                                                <!-- <div class="range-area">
+                                                    <div class="range-bg"></div>
+                                                    <div class="range-inner">
+                                                        <span class="white-locate"></span>
+                                                        安贞 六里桥 丽泽桥 安定门 劲松 昌平镇 航天桥 通州区 通州北苑
+                                                    </div>
+                                                </div> -->
+                                                <div class="borderbox">
+                                                    <img src="__STATIC__/images/classes/img/{$xc.class_img}" />
+                                                </div>
+                                            </div>
+                                        </a>
+                                        <div class="contentbox">
+                                            <a href="{:url('detail/index',['class_id'=>$xc.class_id])}" target="_blank">
+                                                <div class="header">
+                                                    <h4 class="title ">{$xc.class_name}</h4>
+                                                    <div class="collected">精选</div>
+                                                </div>
+                                                <p>{$xc.class_info}</p>
+                                            </a>
+                                            <div class="add-info"></div>
+                                            <div class="pinfo">
+                                                {if condition="$xc.score_xg != -1"}
+                                                    <span class="comment">效果：{$xc.score_xg}</span>
+                                                    <span class="comment">师资：{$xc.score_sz}</span>
+                                                    <span class="comment">环境：{$xc.score_hj}</span>
+                                                {else/}
+                                                <span class="comment">暂无人评分</span>
+                                                {/if}
+                                                <div class="bottom-border"></div>
+                                            </div>
+                                            <!-- <div class="footer">
+                                                <span class="price">4.6分</span><span class="sold">已售337334</span>
+                                                <div class="bottom-border"></div>
+                                            </div> -->
+                                        </div>
+                                    </li>
+                                {/volist}
+                            {/present}
+                        {/present}
+                </ul>
+            </div>
+        </div>
+        {present name="type_classes"}
+            <div class="page" style="text-align:center">
+                {$tp_page}
+            </div>
+        {else/}
+
+            {present name="classify_classes"}
+                <div class="page" style="text-align:center">
+                        {$ify_page}
+                </div>
+            {/present}
+
+        {/present}
+       
+        
+    </div>
+
+    <div class="footer-content">
+        <div class="copyright-info">
+            
+        </div>
+    </div>
+    <script>
+       
+    </script>
+</body>
+</html>

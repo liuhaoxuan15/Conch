@@ -1,0 +1,155 @@
+.settings_con_hd,
+.datas {
+  height: auto;
+}
+.datas_input {
+  background: #FFFFFF;
+  border: 1px solid #DBDBDB;
+  border-radius: 4px;
+  width: 300px;
+  height: 35px;
+  line-height: 35px;
+  padding-left: 10px;
+  box-sizing: border-box;
+}
+.input_hd {
+  width: 300px;
+  vertical-align: middle;
+  position: relative;
+  box-sizing: border-box;
+  height: 36px;
+  line-height: 36px;
+  border: 1px solid #f2f2f2;
+  border-radius: 4px;
+  display: inline-block;
+  background: #fff;
+}
+.error_hint {
+  font-size: 14px;
+  color: #F43E2C;
+  margin-left: 15px;
+  display: none;
+}
+.success_icon {
+  width: 14px;
+  height: 14px;
+  margin-left: 15px;
+  display: none;
+}
+.exam_purpose {
+  width: 320px;
+  box-sizing: border-box;
+  display: inline-block;
+  vertical-align: top;
+}
+.exam_purpose .purpose_item {
+  width: 90px;
+  height: 32px;
+  line-height: 32px;
+  text-align: center;
+  box-sizing: border-box;
+  border: 1px solid #DBDBDB;
+  border-radius: 100px;
+  margin-right: 15.5px;
+  display: inline-block;
+  float: left;
+  margin-bottom: 15px;
+}
+.exam_purpose .cur {
+  background: rgba(245, 210, 32, 0.2);
+  border: 1px solid #F5D220;
+  color: #f5d220;
+}
+.grade_select {
+  background: #FFFFFF;
+  border: 1px solid #DBDBDB;
+  border-radius: 4px;
+  width: 300px;
+  height: 35px;
+  line-height: 35px;
+  padding-left: 10px;
+  box-sizing: border-box;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-image: url(/static/imgs/ic_info_dropdown_b8f87c6.png);
+  background-position: 275px center;
+  background-repeat: no-repeat;
+  outline: none;
+}
+.grade_select option {
+  width: 300px;
+  height: 50px;
+  line-height: 50px;
+  color: red;
+}
+.info_input {
+  width: 270px;
+  height: 29px;
+  line-height: 29px;
+  padding-left: 10px;
+  box-sizing: border-box;
+  border: none;
+}
+.del_btn {
+  width: 10px;
+  height: 10px;
+  position: absolute;
+  right: 10px;
+  top: 12px;
+  display: none;
+  cursor: pointer;
+}
+.choose_list {
+  width: 100%;
+  background: #fff;
+  box-shadow: 0 4px 15px 0 rgba(211, 211, 211, 0.5);
+  border-radius: 4px;
+  display: none;
+  max-height: 240px;
+  overflow-y: scroll;
+}
+.choose_list .choose_item {
+  width: 100%;
+  height: 30px;
+  line-height: 30px;
+  box-sizing: border-box;
+  padding: 0 15px;
+  font-size: 14px;
+  position: relative;
+  z-index: 2;
+  cursor: pointer;
+  background: #fff;
+}
+.choose_list .choose_item .hint {
+  position: absolute;
+  right: 15px;
+  color: #ccc;
+}
+.choose_list .choose_item:hover {
+  background: #f1f1f1;
+}
+.save_hd {
+  padding-top: 16px;
+  padding-left: 80px;
+}
+.save_hd .save_btn {
+  width: 300px;
+  height: 40px;
+  line-height: 40px;
+  text-align: center;
+  background: #F4D120;
+  border-radius: 20px;
+  margin-top: 70px;
+  cursor: pointer;
+}
+.save_hd .noclick {
+  background: #e3e3e3;
+}
+input::-webkit-input-placeholder,
+input::-moz-input-placeholder,
+input:-moz-input-placeholder,
+input:-ms-input-placeholder,
+input:input-placeholder {
+  color: #949494 !important;
+}

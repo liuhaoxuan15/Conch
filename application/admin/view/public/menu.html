@@ -1,5 +1,5 @@
 <div class="layui-header">
-  <div class="layui-logo">贝壳辅导管理后台</div>
+  <div class="layui-logo">欢迎您，超级管理员:{$super_admin.admin_account}</div>
   <!-- 头部区域（可配合layui已有的水平导航） -->
   <!-- <ul class="layui-nav layui-layout-left">
           <li class="layui-nav-item"><a href="">控制台</a></li>
@@ -18,7 +18,7 @@
     <li class="layui-nav-item">
       <a href="javascript:;">
         <!-- <img src="http://t.cn/RCzsdCq" class="layui-nav-img"> -->
-        
+        {$super_admin.admin_account}
       </a>
       <dl class="layui-nav-child">
         <dd><a href="">基本资料</a></dd>
@@ -38,26 +38,43 @@
         <dl class="layui-nav-child">
                 <dd><a href="{:url('classList/index')}">辅导班列表</a></dd>
                 <dd><a href="{:url('auditList/index')}">审核辅导班列表</a></dd>
+                
                 <!-- 
                 <dd><a href="javascript:;">列表三</a></dd>
                 <dd><a href="">超链接</a></dd> -->
-              </dl>
+        </dl>
       </li>
-      <li class="layui-nav-item">
-        <a href="{:url('teacher/index')}">老师管理</a>
-        <!-- <dl class="layui-nav-child">
-                <dd><a href="javascript:;">列表一</a></dd>
-                <dd><a href="javascript:;">列表二</a></dd>
-                <dd><a href="">超链接</a></dd>
-              </dl> -->
+      <li class="layui-nav-item layui-nav-itemed">
+        <a href="javascript:;">老师管理</a>
+        <dl class="layui-nav-child">
+            <dd><a href="{:url('teacherList/index')}">老师列表</a></dd>
+        </dl>
       </li>
-      <li class="layui-nav-item"><a href="javascript:;">用户管理</a></li>
-      <li class="layui-nav-item"><a href="javascript:;">文章管理</a></li>
-      <li class="layui-nav-item"><a href="javascript:;">评论管理</a></li>
+      <li class="layui-nav-item layui-nav-itemed">
+          <a href="javascript:;">广告位管理</a>
+          <dl class="layui-nav-child">
+            
+              <dd><a href="{:url('ad/bannerAd')}">轮播图管理</a></dd>
+              <dd><a href="{:url('ad/rightAd')}">侧边广告</a></dd>
+          </dl>
+        </li>
+      <li class="layui-nav-item layui-nav-itemed">
+        <a href="javascript:;">用户管理</a>
+        <dl class="layui-nav-child">
+          <dd><a href="{:url('userList/index')}">用户列表</a></dd>
+        </dl>
+      </li>
+      <li class="layui-nav-item layui-nav-itemed">
+        <a href="javascript:;">评价管理</a>
+        <dl class="layui-nav-child">
+            <dd><a href="{:url('evaluationList/index')}">评价列表</a></dd>
+        </dl>
+      </li>
     </ul>
   </div>
 </div>
 
+<script src="__STATIC__/layui/layui.js"></script>
 <script>
 
-</script>
+    </script>

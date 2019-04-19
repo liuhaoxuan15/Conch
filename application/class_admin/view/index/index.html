@@ -9,35 +9,62 @@
   <div class="layui-container">
     <!-- 内容主体区域 -->
     
-    <form method="post" action="{:url('edit')}" class="layui-form" style="width:600px;margin: 40px auto;">
+    <form method="post" action="{:url('edit')}" class="layui-form" enctype="multipart/form-data" style="width:600px;margin: 40px auto;" >
       <input type="text" style="margin-left:300px;display: none" value="{$class.class_id}" >
+      <div class="layui-form-item">
+          <label class="layui-form-label">辅导班状态</label>
+          <div class="layui-input-block">
+            {if condition="$classInfo.class_state==0"}
+            <input  class="layui-input" readonly type="text" value="此辅导班正在审核，请您耐心等待" style="border:none;color: rgb(221,81,69)">    
+            {elseif condition="$classInfo.class_state==1" /}
+            <input class="layui-input" readonly type="text" value="正常" style="border:none;color: rgb(26,161,95)">
+            {elseif condition="$classInfo.class_state==2"/}
+            <input class="layui-input" readonly type="text" value="此辅导班已被冻结" style="border:none;color: rgb(0,122,204)">
+            {/if}
+          </div>
+        </div>
+
       <div class="layui-form-item">
         <label class="layui-form-label">辅导班班名</label>
         <div class="layui-input-block">
           <input type="text" name="class_name" placeholder="请输入" 
-                 value="{$class.class_name}"
+                 value="{$classInfo.class_name}"
                  class="layui-input">
         </div>
       </div>
-  
-      <div class="layui-form-item">
-        <label class="layui-form-label">班级人数</label>
-        <div class="layui-input-block">
-          <input type="number" name="class_peopleNumber"  placeholder="请输入" value="{$class.class_peopleNumber}"
-            class="layui-input">
+
+      <div class="layui-form-item" >   
+          <label class="layui-form-label">辅导班类型</label>                                                     
+        <div class="layui-input-block" style="margin-left:0;width:160px;display:inline-block">
+            <select class="ant-input ant-input-lg"  name="classify" id="classify" lay-filter="classify" lay-verify="required"> 
+            <option value="{$classify.classify_id}">{$classify.classify_name}</option>
+            {volist name = "classifyList" id="ify"}
+            <option value="{$ify.classify_id}">{$ify.classify_name}</option>
+            {/volist}
+            </select> 
         </div>
-      </div>
+        
+        <div class="layui-input-block" style="margin-left:0;width:160px;display:inline-block;margin-left:8px">
+        <select class="ant-input ant-input-lg"  name="types" id="types" lay-verify="required">
+                <option value="{$type.type_id}">{$type.type_name}</option>
+                {volist name = "typesList" id="ty"}
+                <option value="{$ty.type_id}">{$ty.type_name}</option>
+                {/volist}
+            </select>
+            </div>
+        </div>
+
       <div class="layui-form-item">
         <label class="layui-form-label">上课时间</label>
         <div class="layui-input-block">
-          <input type="text" name="class_time" class="layui-input" id="class_time" value="{$class.class_time}">
+          <input type="text" name="class_time" class="layui-input" id="class_time" value="{$classInfo.class_time}">
         </div>
       </div>
   
       <div class="layui-form-item layui-form-text">
         <label class="layui-form-label">班级简介</label>
         <div class="layui-input-block">
-          <textarea name="class_info" placeholder="请输入内容" class="layui-textarea">{$class.class_info}</textarea>
+          <textarea name="class_info" placeholder="请输入内容" class="layui-textarea">{$classInfo.class_info}</textarea>
         </div>
       </div>
   
@@ -45,7 +72,7 @@
       <div class="layui-form-item">
         <label class="layui-form-label">班级位置</label>
         <div class="layui-input-block">
-          <input name="class_position" type="text" lay-verify="text" id="suggestId" placeholder="{$class.class_position}" value="{$class.class_position}"
+          <input name="class_position" type="text" lay-verify="text" id="suggestId" placeholder="{$classInfo.class_position}" value="{$classInfo.class_position}"
             autocomplete="off" class="layui-input">
         </div>
   
@@ -58,10 +85,25 @@
         <div id="searchResultPanel" style="border:1px solid #C0C0C0;width:150px;height:auto; display:none;"></div>
       </div>
   
+      <div class="layui-form-item layui-form-text">
+          <label class="layui-form-label">班级封面</label>
+          <div class="layui-input-block">
+            <button type="button" class="layui-btn" id="btn-upload">
+              <i class="layui-icon">&#xe67c;</i>上传图片
+            </button>
+            <!-- <img src="" alt=""> -->
+            <br>
+            <img class="layui-upload-img" src="__STATIC__/images/classes/img/{$classInfo.class_img}" id="imgshow" style="width:500px;margin-top: 20px">
+            <input type="file" name="class_img" id="class_img" style="display:none">
+          <!--提示上传信息-->
+          <p id="demoText"></p>
+          </div>
+        </div>
+      
       <div class="layui-form-item">
         <div class="layui-input-block">
           <button class="layui-btn" id="ajaxsubmit">提交修改</button>
-          <button type="button" id="reset" class="layui-btn layui-btn-primary">重置</button>
+          <button type="reset" id="reset" class="layui-btn layui-btn-primary">重置</button>
         </div>
       </div>
     </form>
@@ -74,22 +116,56 @@
 </div>
 <script src="__STATIC__/jquery-3.3.1.min.js"></script>
 <script type="text/javascript" src="http://api.map.baidu.com/api?v=3.0&ak=tXGsWreUyZr7DzWa20TRGC1YUbRKnANH"></script>
-<script src="__STATIC__/layui/layui.js"></script>
 <script>
-//JavaScript代码区域
-layui.use('element', function(){
-  var element = layui.element;
   
-  //一些事件监听
-  element.on('tab(demo)', function(data){
-    console.log(data);
-  });
+$('#btn-upload').click(function(){
+  $('#class_img').click();
+    //在input file内容改变的时候触发事件
+    $('#class_img').change(function(){
+    //获取input file的files文件数组;
+    //$('#filed')获取的是jQuery对象，.get(0)转为原生对象;
+    //这边默认只能选一个，但是存放形式仍然是数组，所以取第一个元素使用[0];
+      var file = $('#class_img').get(0).files[0];
+      if(file){
+          //创建用来读取此文件的对象
+          var reader = new FileReader();
+          //使用该对象读取file文件
+            reader.readAsDataURL(file);
+          //读取文件成功后执行的方法函数
+            reader.onload=function(e){
+          //读取成功后返回的一个参数e，整个的一个进度事件
+              console.log(e);
+          //选择所要显示图片的img，要赋值给img的src就是e中target下result里面
+          //的base64编码格式的地址
+              $('#imgshow').get(0).src = e.target.result;
+            }
+      } else {
+        return false;
+      }
+    
+    })
 });
 
+
+//JavaScript代码区域
 layui.use('form', function(){
   var form = layui.form;
   
   //各种基于事件的操作，下面会有进一步介绍
+    //监听提交
+    form.on('select(classify)', function(data){
+    $.post("{:url('apply/getTypes')}",
+    {
+        classify:$('#classify').val()
+    },
+    function(data){
+        // console.log(data);
+        $('#types').html(data); 
+        form.render('select');
+    }
+    )
+    }
+    )
 });
 </script>
 <script type="text/javascript">
@@ -109,7 +185,7 @@ layui.use('form', function(){
 	ac.addEventListener("onhighlight", function(e) {  //鼠标放在下拉列表上的事件
 	var str = "";
 		var _value = e.fromitem.value;
-		var value = "";
+		var value = "{$classInfo.class_position}";
 		if (e.fromitem.index > -1) {
 			value = _value.province +  _value.city +  _value.district +  _value.street +  _value.business;
 		}    
@@ -141,9 +217,11 @@ layui.use('form', function(){
 			map.addOverlay(new BMap.Marker(pp));    //添加标注
 		}
 		var local = new BMap.LocalSearch(map, { //智能搜索
-		  onSearchComplete: myFun
+		  onSearchComplete: myFun,
+      // renderOptions:{map:map}
 		});
 		local.search(myValue);
+    // local.search("景点");
 	}
 </script>
 <!--包含尾部文件-->

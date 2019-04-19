@@ -1,0 +1,1 @@
+var Constant={};Constant.BBS_HOST="https://bbs.kaochong.com/api/uc.php";var PayWay={};PayWay.ALIPAY=1,PayWay.PC_WEIXIN=4,PayWay.WEIXIN=5,PayWay.JDPAY=9;

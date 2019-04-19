@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="x-ua-compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>个人中心</title>
+    <link rel="shortcut icon" href="">
+    <link rel="stylesheet" href="__STATIC__/layui/css/layui.css">
+    <link rel="stylesheet" href="__STATIC__/web_view/css/base.css" />
+    <link rel="stylesheet" href="__STATIC__/web_view/css/common.css" />
+    <link rel="stylesheet" href="__STATIC__/web_view/css/index.css" />
+    <script type="text/javascript" src="__STATIC__/web_view/js/html5shiv.js"></script>
+    <script type="text/javascript" src="__STATIC__/web_view/js/respond.min.js"></script>
+    <script type="text/javascript" src="__STATIC__/web_view/js/jquery-1.11.3.min.js"></script>
+</head>
+<style>
+    /* body{
+        background-color: #2d2d2d
+    } */
+    .layui-nav {
+        position: relative;
+        top: 100px;
+        display: inline-block;
+    }
+
+    .info {
+        margin-top: 30px;
+        width: 880px;
+        float: right;
+    }
+    #goback {
+        position: absolute;
+        width: 100px;
+        left: 74px;
+        border-top: none;
+        border-right: none;
+    }
+</style>
+
+<body>
+    <div id="mydiv">
+    <div class="header-bar">
+        <div class="header-inner">
+            <ul class="father">
+                <li style="visibility:hidden"><a>北京</a></li>
+                <li style="visibility:hidden">|</li>
+                <li style="visibility:hidden" class="city">
+                    <a>切换城市<span class="arrow-down-logo"></span></a>
+                    <div class="city-drop-down">
+                        <h3>热门城市</h3>
+                        <ul class="son">
+                            <li><a href="">北京</a></li>
+                            <li><a href="">上海</a></li>
+                            <li><a href="">广州</a></li>
+                            <li><a href="">深圳</a></li>
+                            <li><a href="">天津</a></li>
+                            <li><a href="">杭州</a></li>
+                            <li><a href="">西安</a></li>
+                            <li><a href="">成都</a></li>
+                            <li><a href="">郑州</a></li>
+                            <li><a href="">厦门</a></li>
+                            <li><a href="">青岛</a></li>
+                            <li><a href="">太原</a></li>
+                            <li><a href="">重庆</a></li>
+                            <li><a href="">武汉</a></li>
+                            <li><a href="">南京</a></li>
+                            <li><a href="">沈阳</a></li>
+                            <li><a href="">济南</a></li>
+                            <li><a href="">哈尔滨</a></li>
+                        </ul>
+
+                    </div>
+                </li>
+                {present name="login_user"}
+
+                <li>
+                    <a href="{:url('logout')}">退出</a>
+                </li>
+                <li>|</li>
+                <li><a href="{:url('user/index')}">欢迎您：{$login_user.user_name}</a></li>
+                {else /}
+                <li><a href="{:url('login/index')}">登录</a></li>
+                <li>|</li>
+                <li>
+                    <a href="{:url('register/index')}">注册</a>
+                </li>
+                {/present}
+
+            </ul>
+        </div>
+    </div>
+    <div class="search" style="margin:15px auto;height:84px">
+            <img src="__STATIC__/web_view/image/conch_logo.png" style="width:261px;height:91.5px" />
+        </div>
+    <div class="layui-container" style="margin-top:20px">
+        <a href="{:url('home/index')}" class="layui-btn" id="goback">返回首页</a>
+        <ul class="layui-nav layui-nav-tree" lay-filter="test"
+            style="text-align:center;width:220px;display:inline-block">
+            <!-- 侧边导航: <ul class="layui-nav layui-nav-tree layui-nav-side"> -->
+            <li class="layui-nav-item layui-nav-itemed">
+                <a href="{:url('index')}">我的资料</a>
+                <!-- <dl class="layui-nav-child">
+              <dd><a href="javascript:;">选项1</a></dd>
+              <dd><a href="javascript:;">选项2</a></dd>
+              <dd><a href="">跳转</a></dd>
+            </dl> -->
+            </li>
+            <li class="layui-nav-item">
+                <a href="{:url('mycollect/index')}">我的收藏</a>
+                <!-- <dl class="layui-nav-child">
+              <dd><a href="">移动模块</a></dd>
+              <dd><a href="">后台模版</a></dd>
+              <dd><a href="">电商平台</a></dd>
+            </dl> -->
+            </li>
+            <li class="layui-nav-item"><a href="{:url('myclass/index')}">我的班级</a></li>
+        </ul>
+
+        <div class="info">
+            <form class="layui-form" method="POST" action="{:url('editInfo')}"  enctype="multipart/form-data">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">头像</label>
+                    <div class="layui-input-block">
+                        <img id="imgshow" style="width:100px;margin:0 auto"
+                            src="__STATIC__/images/users/{$login_user.user_img}" alt="">
+                        <input id="user_img" name="user_img" type="file" style="display:none">
+                        <!-- <input style="width:25%" type="text" name="title" required lay-verify="required" autocomplete="off" class="layui-input" value="{$login_user.user_name}"> -->
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">昵称</label>
+                    <div class="layui-input-block">
+                        <input style="width:25%" type="text" name="user_name" required lay-verify="required"
+                            autocomplete="off" class="layui-input" value="{$login_user.user_name}">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">手机号</label>
+                    <div class="layui-input-block">
+                        <input style="width:25%" readonly type="text" name="title" required lay-verify="required"
+                            autocomplete="off" class="layui-input" value="{$login_user.user_phone}">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">密码</label>
+                    <div class="layui-input-block">
+                        <input id="user_password" disabled style="width:25%" type="password" name="title" required
+                            lay-verify="required" autocomplete="off" class="layui-input"
+                            value="{$login_user.user_password}">
+                        <span><img id="see" style="width:24px;position:absolute;top:7px;left:203px" src="__STATIC__/images/see.png" alt=""></span>
+                        <button style="margin-top:10px" id="btn-editpassword" type="button"
+                            class="layui-btn layui-btn-normal layui-btn-xs">修改密码</button>
+                        <!-- <a style="display:inline-block;margin-top:10px" class="layui-text" href="">修改密码</a> -->
+
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                        <button class="layui-btn">
+                            提交
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!--模仿bootstrap的模态框-->
+    <div id="motaikunag" style="display: none;">
+        <form class="layui-form" style="margin:10px auto" method="POST" action="{:url('editPassword')}">
+            <div class="layui-form-item">
+                <label class="layui-form-label">手机号</label>
+                <div class="layui-input-block">
+                    <input id="user_phone" name="phone" readonly style="width:60%" type="text"
+                        value="{$login_user.user_phone}" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn layui-btn-normal" type="button" id="send">获取验证码</button>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">验证码</label>
+                <div class="layui-input-block">
+                    <input style="width:60%" type="text" required name="verifycode" class="layui-input"
+                        placeholder="请输入验证码">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">新密码</label>
+                <div class="layui-input-block">
+                    <input style="width:60%" type="password" required name="user_password" class="layui-input"
+                        placeholder="请输入新密码">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn">
+                        提交
+                    </button>
+                </div>
+            </div>
+        </form>
+        <!-- <input type="button" onclick="javascript:alert('点击按钮')" title="点我" value="点我"> -->
+    </div>
+
+
+    <div class="footer-content">
+        <div class="copyright-info">
+
+        </div>
+    </div>
+</div>
+    <script type="text/javascript" src="__STATIC__/canvas/canvas-particle.js"></script>
+    <script src="__STATIC__/layui/layui.js"></script>
+    <script>
+        $('#see').mouseenter(function () {
+            $('#user_password').attr('type', 'text');
+        })
+        $('#see').mouseout(function(){
+            // console.log('remove');
+            $('#user_password').attr('type', 'password');
+        })
+        $('#btn-editpassword').click(function () {
+            layui.use(['layer'], function () {
+                var layer = layui.layer, $ = layui.$;
+                layer.open({
+                    type: 1,//类型
+                    area: ['400px', '350px'],//定义宽和高
+                    fixed: false, //不固定
+                    maxmin: false,//显示最大最小化按钮
+                    zIndex: 1500,//层
+                    // offset: ['-10px', '360px'],//定义坐标
+
+                    shadeClose: true,//点击外部关闭
+                    shade: 0.4,//阴影
+                    title: '修改密码',//题目
+                    content: $('#motaikunag')//打开的内容
+                });
+            })
+        })
+        window.onload = function() {
+		    //配置
+		    var config = {
+		        vx: 4,	//小球x轴速度,正为右，负为左
+		        vy: 4,	//小球y轴速度
+		        height: 2,	//小球高宽，其实为正方形，所以不宜太大
+		        width: 2,
+		        count: 120,		//点个数
+		        color: "121, 162, 185", 	//点颜色
+		        stroke: "130,255,255", 		//线条颜色
+		        dist: 6000, 	//点吸附距离
+		        e_dist: 20000, 	//鼠标吸附加速距离
+		        max_conn: 10 	//点到点最大连接数
+		    }
+
+		    //调用
+		    CanvasParticle(config);
+		}
+        $('#imgshow').click(function () {
+            $('#user_img').click();
+            //在input file内容改变的时候触发事件
+            $('#user_img').change(function () {
+                //获取input file的files文件数组;
+                //$('#filed')获取的是jQuery对象，.get(0)转为原生对象;
+                //这边默认只能选一个，但是存放形式仍然是数组，所以取第一个元素使用[0];
+                var file = $('#user_img').get(0).files[0];
+                if (file) {
+                    //创建用来读取此文件的对象
+                    var reader = new FileReader();
+                    //使用该对象读取file文件
+                    reader.readAsDataURL(file);
+                    //读取文件成功后执行的方法函数
+                    reader.onload = function (e) {
+                        //读取成功后返回的一个参数e，整个的一个进度事件
+                        console.log(e);
+                        //选择所要显示图片的img，要赋值给img的src就是e中target下result里面
+                        //的base64编码格式的地址
+                        $('#imgshow').get(0).src = e.target.result;
+                    }
+                } else {
+                    return false;
+                }
+
+            })
+        })
+
+        $('#send').click(function () {
+            $.ajax({
+                url: "{:url('sendMessage')}",
+                data: {
+                    m: $('#user_phone').val(),
+                    c: '【贝壳辅导】您的验证码为',
+                },
+                success: function (data) {
+                    console.log(data);
+                    if (data == 0) {
+                        // console.log("成功");
+                        layer.msg("验证短信已发送");
+                    }
+                    else {
+                        layer.msg(data);
+                    }
+                },
+                function(data) {
+                    console.log("失败");
+                    console.log(data);
+                }
+            })
+
+        })    
+    </script>
+</body>
+
+</html>

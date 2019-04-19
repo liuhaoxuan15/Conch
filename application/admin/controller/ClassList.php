@@ -7,15 +7,26 @@ class Classlist extends Controller
 {
     public function index()
     {
-        // $res = Db::name('classes')->where('class_state',"0")->select();
-        // dump($res);
+        $admin = \think\Session::get('super_admin');
+        // return json($res);
+        $this->assign('super_admin',$admin);
         return $this->fetch();
     }
     public function getClassList() {
-        // $res = Db::query('select * from classes');
-        $res = Db::name('classes')->where('class_state',1)->select();
+        $limit = $_GET['limit'];
+        $page = $_GET['page'];
+        // $res = Db::query("select * from admins a, classes c, types t, classify y where c.class_state = 1 and c.type_id = t.type_id and t.classify_id = y.classify_id and c.admin_id = a.admin_id");
+        $res = Db::name('admins')
+                    ->alias('a')
+                    ->join('classes c','c.admin_id = a.admin_id')
+                    ->join('types t','c.type_id = t.type_id')
+                    ->join('classify y','t.classify_id = y.classify_id')
+                    ->where('c.class_state = 1')
+                    ->page($page,$limit)
+                    ->select();
         $count = Db::name('classes')->where('class_state',1)->count();
-        $this->assign("class",$res); 
+        // $admin = Db::name('classes')->alias('c')->join('admins a','')
+        // $this->assign("class",$res); 
         // $listres = $list->append('[$res]')->toJson();
         // dump($res);
         return json(['code'=>0,'count'=>$count,'data'=>$res]);

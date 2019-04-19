@@ -7,13 +7,16 @@ class index extends Controller
 {
     public function index()
     {
-    	// // $clubs = Db::query('select * from club_club');
-        // // $this->assign("clubs",$clubs);
-        // $class = \think\Session::get('class_admin');
-        // $class_id = $class[class_id];
-        // $classInfo = Db::name('classes')->where('class_id',$class_id)->find();
-        // $this->assign("class",$classInfo);  
-        // echo 123;
+        $admin = \think\Session::get('super_admin');
+        $this->assign('super_admin',$admin);
+
+        // 饼图-培训下的班级数量
+        $classify_num = Db::name('classify')
+                        ->alias('i')
+                        ->join('types t','t.classify_id = i.classify_id')
+                        ->join('classes c','c.type_id = t.type_id')
+                        ->select();
+        // return json($classify_num);
         return $this->fetch();
 	}
 }

@@ -1,0 +1,192 @@
+<!--包含头部文件-->
+{include file="public/header" /}
+<style>
+.layui-table-cell{
+    height:42px;
+    line-height: 42px;
+}
+</style>
+<div class="layui-layout layui-layout-admin">
+
+  <!--包含菜单文件-->
+{include file="public/menu" /}
+
+  <div class="layui-container" style="margin-left:200px;">
+    <!-- 内容主体区域 -->
+    
+      <table class="layui-hide" id="test" lay-filter="test"></table>
+      <div id="pages"></div>
+  </div>
+  
+  <div >
+    <!-- 底部固定区域 -->
+
+  </div>
+</div>
+
+<script type="text/html" id="toolbarDemo">
+    <div class="layui-btn-container">
+      <a href="{:url("GoAddPhoto")}" class="layui-btn layui-btn-sm" lay-event="addTeacher">添加照片</a>
+    </div>
+  </script>
+
+  <script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+    {{#  if(d.photo_state == 1){ }}
+    <a style="background: #a8a8a8" class="layui-btn layui-btn layui-btn-xs" lay-event="hide">隐藏</a>
+    {{#  } else { }}
+    <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="show">显示</a>
+    {{#  } }} 
+  </script>
+  <script type="text/html" id="indexTpl">
+    {{d.LAY_TABLE_INDEX+1}}
+  </script>
+<script>
+  layui.use('table', function(){
+    var table = layui.table;
+    
+    table.render({
+        elem: '#test'
+        ,url:'{:url("getPhotosList")}'
+        ,method: 'GET'
+        ,toolbar: '#toolbarDemo'
+        ,title: '用户数据表'
+        ,page: true
+        ,cols: [[ //表头
+        {type: 'checkbox'}
+        ,{field: 'photo_id', title: 'ID',templet:'#indexTpl' , sort: true}
+        ,{field: 'uploadTime',  title: '上传时间'}
+        ,{field: 'photo_img', title: '照片'
+            ,templet:
+                        `<div class="layer-photos-demo" style="cursor:pointer;">
+                        <img layer-src="__STATIC__/images/classes/photos/{{d.photo_img}}" src="__STATIC__/images/classes/photos/{{d.photo_img}}" alt="图片名">
+                        </div>`
+            }
+        ,{title:'状态', templet:function(d){
+            if(d.photo_state == 0) {
+            return '<span style="color:red">不显示<span>';
+            } else if (d.photo_state == 1) {
+            return '<span style="color:#1E9FFF">显示<span>';
+            }
+        }}
+        ,{title:'操作', toolbar: '#barDemo', width:150}
+        ]]
+      ,page: { //支持传入 laypage 组件的所有参数（某些参数除外，如：jump/elem） - 详见文档
+        layout: ['limit', 'count', 'prev', 'page', 'next', 'skip'] //自定义分页布局
+        //,curr: 5 //设定初始在第 5 页
+        // ,count: '{$count}'
+        // ,limit: 5
+        ,limit: 5
+        ,limits: [5,10,20]
+        ,groups: 1 //只显示 1 个连续页码
+        ,first: false //不显示首页
+        ,last: false //不显示尾页
+      }
+
+      ,width:1100
+      ,done:function(res,curr,count){
+          
+                hoverOpenImg();//显示大图
+                $('table tr').on('click',function(){
+                     $('table tr').css('background','');
+                     $(this).css('background','<%=PropKit.use("config.properties").get("table_color")%>');
+                 });
+            }
+    });
+    function hoverOpenImg(){
+        var img_show = null; // tips提示
+        $('td img').hover(function(){
+            //alert($(this).attr('src'));
+            var img = "<img class='img_msg' src='"+$(this).attr('src')+"' style='width:530px;' />";
+            img_show = layer.tips(img, this,{
+                tips:[1, 'rgba(41,41,41,.5)']
+                ,area: ['560px']
+            });
+        },function(){
+            layer.close(img_show);
+        });
+        $('td img').attr('style','max-width:70px');
+    }
+    //头工具栏事件
+    table.on('toolbar(test)', function(obj){
+      
+      // var checkStatus = table.checkStatus(obj.config.id);
+      // switch(obj.event){
+      //   case 'getCheckData':
+      //     var data = checkStatus.data;
+      //     layer.alert(JSON.stringify(data));
+      //   break;
+      //   case 'getCheckLength':
+      //     var data = checkStatus.data;
+      //     layer.msg('选中了：'+ data.length + ' 个');
+      //   break;
+      //   case 'isAll':
+      //     layer.msg(checkStatus.isAll ? '全选': '未全选');
+      //   break;
+      //   case 'addTeacher':
+          
+      // };
+    });
+    
+    //监听行工具事件
+    table.on('tool(test)', function(obj){
+      var data = obj.data;
+      //console.log(obj)
+      if(obj.event === 'del'){
+        layer.confirm('确定要删除该照片？', function(index){
+          // obj.del();
+          layer.close(index);
+          $.post(
+            "{:url('del')}",
+            { photo_id : data.photo_id },
+            function(data) {
+              console.log(data);
+              console.log('----------');
+              layer.msg(data,{end:function(){
+                window.location.reload();
+              }});
+            }
+          )
+          
+        });
+      } if(obj.event === 'hide'){
+        layer.confirm('确定要隐藏该照片？', function(index){
+          // obj.del();
+          layer.close(index);
+          $.post(
+            "{:url('hide')}",
+            { photo_id : data.photo_id },
+            function(data) {
+              console.log(data);
+              console.log('----------');
+              layer.msg(data,{end:function(){
+                window.location.reload();
+              }});
+            }
+          )
+          
+        });
+      }
+      if(obj.event === 'show') {
+        layer.confirm('确定要显示该照片？', function(index){
+          layer.close(index);
+          $.post(
+            "{:url('show')}",
+            { teacher_id : data.teacher_id },
+            function(data) {
+              console.log(data);
+              console.log('----------');
+              layer.msg(data,{end:function(){
+                window.location.reload();
+              }});
+            }
+          )
+          
+        });
+      }
+    });
+  });
+
+  </script>
+<!--包含尾部文件-->
+{include file="public/footer" /}

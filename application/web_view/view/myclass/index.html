@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="x-ua-compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>个人中心-我的班级</title>
+    <link rel="shortcut icon" href="">
+    <link rel="stylesheet" href="__STATIC__/layui/css/layui.css">
+    <link rel="stylesheet" href="__STATIC__/web_view/css/base.css" />
+    <link rel="stylesheet" href="__STATIC__/web_view/css/common.css" />
+    <link rel="stylesheet" href="__STATIC__/web_view/css/index.css" />
+    <script type="text/javascript" src="__STATIC__/web_view/js/html5shiv.js"></script>
+    <script type="text/javascript" src="__STATIC__/web_view/js/respond.min.js"></script>
+    <script type="text/javascript" src="__STATIC__/web_view/js/jquery-1.11.3.min.js"></script>
+</head>
+<style>
+    /* body{
+        background-color: #2d2d2d
+    } */
+    .layui-nav {
+        position: relative;
+        top: 100px;
+        display: inline-block;
+    }
+
+    #goback {
+        position: absolute;
+        width: 100px;
+        left: 74px;
+        border-top: none;
+        border-right: none;
+    }
+    .item {
+        overflow: hidden;
+        margin-left: 300px;
+        margin-bottom:20px;
+    }
+    .left-img{
+        float: left;
+        margin-right: 15px;
+    }
+    .right-info{
+        margin-left: 100px;
+    }
+</style>
+
+<body>
+    <div id="mydiv">
+    <div class="header-bar">
+        <div class="header-inner">
+            <ul class="father">
+                <li style="visibility:hidden"><a>北京</a></li>
+                <li style="visibility:hidden">|</li>
+                <li style="visibility:hidden" class="city">
+                    <a>切换城市<span class="arrow-down-logo"></span></a>
+                    <div class="city-drop-down">
+                        <h3>热门城市</h3>
+                        <ul class="son">
+                            <li><a href="">北京</a></li>
+                            <li><a href="">上海</a></li>
+                            <li><a href="">广州</a></li>
+                            <li><a href="">深圳</a></li>
+                            <li><a href="">天津</a></li>
+                            <li><a href="">杭州</a></li>
+                            <li><a href="">西安</a></li>
+                            <li><a href="">成都</a></li>
+                            <li><a href="">郑州</a></li>
+                            <li><a href="">厦门</a></li>
+                            <li><a href="">青岛</a></li>
+                            <li><a href="">太原</a></li>
+                            <li><a href="">重庆</a></li>
+                            <li><a href="">武汉</a></li>
+                            <li><a href="">南京</a></li>
+                            <li><a href="">沈阳</a></li>
+                            <li><a href="">济南</a></li>
+                            <li><a href="">哈尔滨</a></li>
+                        </ul>
+
+                    </div>
+                </li>
+                {present name="login_user"}
+
+                <li>
+                    <a href="{:url('logout')}">退出</a>
+                </li>
+                <li>|</li>
+                <li><a href="{:url('user/index')}">欢迎您：{$login_user.user_name}</a></li>
+                {else /}
+                <li><a href="{:url('login/index')}">登录</a></li>
+                <li>|</li>
+                <li>
+                    <a href="{:url('register/index')}">注册</a>
+                </li>
+                {/present}
+
+            </ul>
+        </div>
+    </div>
+    <div class="search" style="margin:15px auto;height:84px">
+        <img src="__STATIC__/web_view/image/conch_logo.png" style="width:261px;height:91.5px" />
+    </div>
+    <div class="layui-container" style="margin-top:20px">
+        <a href="{:url('home/index')}" class="layui-btn" id="goback">返回首页</a>
+        <ul class="layui-nav layui-nav-tree" lay-filter="test"
+            style="text-align:center;width:220px;display:inline-block">
+            <!-- 侧边导航: <ul class="layui-nav layui-nav-tree layui-nav-side"> -->
+            <li class="layui-nav-item ">
+                <a href="{:url('user/index')}">我的资料</a>
+                <!-- <dl class="layui-nav-child">
+              <dd><a href="javascript:;">选项1</a></dd>
+              <dd><a href="javascript:;">选项2</a></dd>
+              <dd><a href="">跳转</a></dd>
+            </dl> -->
+            </li>
+            <li class="layui-nav-item">
+                <a href="{:url('mycollect/index')}">我的收藏</a>
+                <!-- <dl class="layui-nav-child">
+              <dd><a href="">移动模块</a></dd>
+              <dd><a href="">后台模版</a></dd>
+              <dd><a href="">电商平台</a></dd>
+            </dl> -->
+            </li>
+            <li class="layui-nav-item  layui-nav-itemed"><a href="{:url('myclass/index')}">我的班级</a></li>
+        </ul>
+        {present name="collectClass"}
+            {volist name="collectClass" id="co"}
+                <div class="item">
+                <a href="{:url('detail/index',['class_id'=>$co.class_id])}">
+
+                    <div class="left-img">
+                        <img src="__STATIC__/images/classes/img/{$co.class_img}" alt="">
+                    </div>
+                    <div class="right-info">
+                        <h1 style="font-size:24px;font-weight: 600;color: #595959">{$co.class_name}</h1>
+                        {if condition="$co.score_xg != -1"}
+                        <div class="score" style="margin:10px 0;color: #666666">
+                            效果：<span style="margin-right:8px">{$co.score_xg}</span>
+                            师资：<span style="margin-right:8px">{$co.score_sz}</span>
+                            环境：<span style="margin-right:8px">{$co.score_hj}</span>
+                        </div>
+                        {else/}
+                        <div class="score" style="margin:10px 0;color: #666666"">
+                            暂无人评价
+                        </div>
+                        {/if}
+                        <div class="class-info" style="margin:10px 0;font-size: 14px;line-height: 21px;color: #595959">
+                            {$co.class_info}
+                        </div>
+                    </div>
+            </a>
+
+                </div>
+            {/volist}
+            <div class="page" style="padding-left:400px">
+                    {$page}
+            </div>
+        {else/}
+            <div class="info">
+                暂无收藏
+            </div>
+        {/present}
+    </div>
+
+
+
+    <div class="footer-content">
+        <div class="copyright-info">
+
+        </div>
+    </div>
+</div>
+    <script type="text/javascript" src="__STATIC__/canvas/canvas-particle.js"></script>
+    <script src="__STATIC__/layui/layui.js"></script>
+    <script>
+        window.onload = function() {
+		    //配置
+		    var config = {
+		        vx: 4,	//小球x轴速度,正为右，负为左
+		        vy: 4,	//小球y轴速度
+		        height: 2,	//小球高宽，其实为正方形，所以不宜太大
+		        width: 2,
+		        count: 120,		//点个数
+		        color: "121, 162, 185", 	//点颜色
+		        stroke: "130,255,255", 		//线条颜色
+		        dist: 6000, 	//点吸附距离
+		        e_dist: 20000, 	//鼠标吸附加速距离
+		        max_conn: 10 	//点到点最大连接数
+		    }
+
+		    //调用
+		    CanvasParticle(config);
+		}
+  
+    </script>
+</body>
+
+</html>

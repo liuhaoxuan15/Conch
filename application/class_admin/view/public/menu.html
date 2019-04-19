@@ -1,93 +1,114 @@
 <div class="layui-header">
-  <div class="layui-logo">{$class.class_name}</div>
+  <div class="layui-logo" style="padding-left:18px;text-align:left;width:100%">班级：{$classInfo.class_name}</div>
   <!-- 头部区域（可配合layui已有的水平导航） -->
   <!-- <ul class="layui-nav layui-layout-left">
-          <li class="layui-nav-item"><a href="">控制台</a></li>
-          <li class="layui-nav-item"><a href="">商品管理</a></li>
-          <li class="layui-nav-item"><a href="">用户</a></li>
-          <li class="layui-nav-item">
-            <a href="javascript:;">其它系统</a>
-            <dl class="layui-nav-child">
-              <dd><a href="">邮件管理</a></dd>
-              <dd><a href="">消息管理</a></dd>
-              <dd><a href="">授权管理</a></dd>
-            </dl>
-          </li>
-        </ul> -->
+            <li class="layui-nav-item"><a href="">控制台</a></li>
+            <li class="layui-nav-item"><a href="">商品管理</a></li>
+            <li class="layui-nav-item"><a href="">用户</a></li>
+            <li class="layui-nav-item">
+              <a href="javascript:;">其它系统</a>
+              <dl class="layui-nav-child">
+                <dd><a href="">邮件管理</a></dd>
+                <dd><a href="">消息管理</a></dd>
+                <dd><a href="">授权管理</a></dd>
+              </dl>
+            </li>
+          </ul> -->
   <ul class="layui-nav layui-layout-right">
     <li class="layui-nav-item">
       <a href="javascript:;">
         <!-- <img src="http://t.cn/RCzsdCq" class="layui-nav-img"> -->
-        欢迎您:
-        <b>
-        {$class.account}</b>
+        管理员：{$class_admin.admin_account}
       </a>
       <dl class="layui-nav-child">
-        <dd><a href="">基本资料</a></dd>
-        <dd><a href="">安全设置</a></dd>
+        <dd><a href="#" id="changeBtn">切换辅导班</a></dd>
+        <!-- <dd><a href="">安全设置</a></dd> -->
       </dl>
     </li>
-    <li class="layui-nav-item"><a href="">退了</a></li>
+
+    <li class="layui-nav-item"><a href="{:url('index/logout')}">退了</a></li>
   </ul>
 </div>
 
-<div id="nav" class="layui-side layui-bg-black" style="top:0">
+<div id="nav" class="layui-side layui-bg-black" style="top:0;padding-top:60px">
   <div class="layui-side-scroll" lay-allowClose="true">
     <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
-    <ul id="navUl" class="layui-nav layui-nav-tree" lay-allowClose="true" lay-filter="demo" style="padding-top:60px">
+    <ul class="layui-nav layui-nav-tree" lay-allowClose="true" lay-filter="demo">
       <li class="layui-nav-item layui-nav-itemed">
-        <a href="{:url('index/index')}">管理辅导班</a>
-        <!-- <dl class="layui-nav-child">
-                <dd><a href="javascript:;">列表一</a></dd>
-                <dd><a href="javascript:;">列表二</a></dd>
-                <dd><a href="javascript:;">列表三</a></dd>
-                <dd><a href="">超链接</a></dd>
-              </dl> -->
+        <a href="javascript:;">辅导班管理</a>
+        <dl class="layui-nav-child">
+          <dd><a href="{:url('index/index')}">辅导班信息</a></dd>
+          <!-- <dd><a href="{:url('auditList/index')}">审核辅导班列表</a></dd> -->
+
+          <!-- 
+                  <dd><a href="javascript:;">列表三</a></dd>
+                  <dd><a href="">超链接</a></dd> -->
+        </dl>
       </li>
-      <li class="layui-nav-item">
-        <a href="{:url('teacher/index')}">管理老师</a>
-        <!-- <dl class="layui-nav-child">
-                <dd><a href="javascript:;">列表一</a></dd>
-                <dd><a href="javascript:;">列表二</a></dd>
-                <dd><a href="">超链接</a></dd>
-              </dl> -->
+      <li class="layui-nav-item layui-nav-itemed">
+        <a href="javascript:;">老师管理</a>
+        <dl class="layui-nav-child">
+          <dd><a href="{:url('teacher/index')}">老师列表</a></dd>
+          <dd><a href="{:url('teacher/GoAddTeacher')}">添加老师</a></dd>
+        </dl>
       </li>
-      <li class="layui-nav-item"><a href="javascript:;">报名情况</a></li>
-      <li class="layui-nav-item"><a href="javascript:;">请假情况</a></li>
+      <li class="layui-nav-item layui-nav-itemed">
+        <a href="javascript:;">班级照片管理</a>
+        <dl class="layui-nav-child">
+          <dd><a href="{:url('photos/index')}">照片列表</a></dd>
+          <dd><a href="{:url('photos/GoAddPhoto')}">添加照片</a></dd>
+        </dl>
+      </li>
+      <li class="layui-nav-item"><a href="javascript:;">文章管理</a></li>
+      <li class="layui-nav-item"><a href="javascript:;">评价管理</a></li>
     </ul>
   </div>
 </div>
 
+<!-- 切换班级模态框 -->
+<div id="change" style="display:none">
+  <form action="{:url('index/change')}" class="layui-form">
+    <div class="layui-form-item" style="margin-top:25px;text-align:center">
+        <!-- <input type="text" name="class_name" value=""> -->
+
+      <label class="layui-form-label">选择班级</label>
+      <div  style="width:200px"class="layui-input-block">
+
+        <select name="class_id" lay-verify="required">
+            {volist name="classlist" id="cl"}
+              <option value="{$cl.class_id}">{$cl.class_name}</option>
+            {/volist}
+        </select>
+      </div>
+      <button class="layui-btn" type="submit" style="margin-top: 30px">确定</button>
+    </div>
+  </form>
+</div>
+<script src="__STATIC__/layui/layui.js"></script>
+
+<script src="__STATIC__/jquery-3.3.1.min.js"></script>
 <script>
-  var nav = document.getElementById('nav');
-  var navUl = document.getElementById('navUl');
-  var iTimer = null;
+  //JavaScript代码区域
+  layui.use('element', function () {
+    var element = layui.element;
 
-  // 封装后的函数
-  function startMove() {
-      clearInterval(iTimer);  //运动前清除定时器
-      iTimer = setInterval(function() {
-            if (oDiv.offsetLeft == 500) {
-              clearInterval(iTimer);   //满足条件清除定时器
-              } else {
-                  oDiv.style.left = oDiv.offsetLeft + 10 + 'px'; //每次向前移动
-          }
-              
-          }, 30);
-  }  
-
-  window.onscroll = function() {
-    //为了保证兼容性，这里取两个值，哪个有值取哪一个　
-    var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
-    //scrollTop就是触发滚轮事件时滚轮的高度
-      clearInterval(iTimer);  //运动前清除定时器
-      iTimer = setInterval(function() {
-        if(scrollTop>60) {
-          navUl.style.paddingTop="0";
-        } else {
-          navUl.style.paddingTop="60px";
-        }
-      })
-}
+  });
+  $('#changeBtn').click(function () { 
+    layui.use(['layer'], function () {
+      var layer = layui.layer, $ = layui.$;
+      layer.open({
+        type: 1,//类型
+        area:['400px','300px'],
+        fixed: false, //不固定
+        maxmin: false,//显示最大最小化按钮
+        zIndex: 1500,//层
+        scrollbar: false,
+        shadeClose: true,//点击外部关闭
+        shade: 0.4,//阴影
+        title: '切换辅导班',//题目
+        content: $('#change')//打开的内容
+      });
+    })
+  })
 
 </script>

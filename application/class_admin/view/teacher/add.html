@@ -1,0 +1,120 @@
+<!--包含头部文件-->
+{include file="public/header" /}
+
+<div class="layui-layout layui-layout-admin">
+
+  <!--包含菜单文件-->
+{include file="public/menu" /}
+
+  <div class="layui-container">
+    <!-- 内容主体区域 -->
+    
+    <form method="post" action="{:url('add')}" enctype="multipart/form-data" class="layui-form" style="width:600px;margin: 40px auto;">
+      <!-- <input type="text" style="margin-left:300px;display: none" value="{$class.class_id}" > -->
+      <div class="layui-form-item">
+        <label class="layui-form-label">教师名</label>
+        <div class="layui-input-block">
+          <input type="text" name="teacher_name" placeholder="请输入"   lay-verify="required"
+                 class="layui-input">
+        </div>
+      </div>
+
+      <div class="layui-form-item">
+        <label class="layui-form-label">开始教学日期</label>
+        <div class="layui-input-block">
+
+        <input type="text" name="teacher_start" class="layui-input" id="teacher_start">
+
+        </div>
+      </div>
+
+
+      <div class="layui-form-item">
+        <label class="layui-form-label">专业</label>
+        <div class="layui-input-block">
+          <input type="text" name="teacher_professional" class="layui-input">
+        </div>
+      </div>
+  
+      <div class="layui-form-item layui-form-text">
+        <label class="layui-form-label">教师简介</label>
+        <div class="layui-input-block">
+          <textarea name="teacher_info" placeholder="请输入内容" class="layui-textarea"></textarea>
+        </div>
+      </div>
+  
+      <div class="layui-form-item layui-form-text">
+        <label class="layui-form-label">教师照片</label>
+        <div class="layui-input-block">
+          <button type="button" class="layui-btn" id="btn-upload">
+            <i class="layui-icon">&#xe67c;</i>上传图片
+          </button>
+          <!-- <img src="" alt=""> -->
+          <br>
+          <img class="layui-upload-img" id="imgshow" style="width:500px;margin-top: 20px">
+          <input type="file" name="teacher_img" id="teacher_img" style="display:none">
+		    <!--提示上传信息-->
+		    <p id="demoText"></p>
+        </div>
+      </div>
+      
+  
+      <div class="layui-form-item">
+        <div class="layui-input-block">
+          <button type="submit" class="layui-btn" id="submit">提交信息</button>
+          <button type="reset" id="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+      </div>
+    </form>
+  </form>
+  
+  <div class="layui-footer">
+    <!-- 底部固定区域 -->
+
+  </div>
+</div>
+<script src="__STATIC__/jquery-3.3.1.min.js"></script>
+<script>
+//JavaScript代码区域
+
+$('#btn-upload').click(function(){
+  $('#teacher_img').click();
+    //在input file内容改变的时候触发事件
+    $('#teacher_img').change(function(){
+    //获取input file的files文件数组;
+    //$('#filed')获取的是jQuery对象，.get(0)转为原生对象;
+    //这边默认只能选一个，但是存放形式仍然是数组，所以取第一个元素使用[0];
+      var file = $('#teacher_img').get(0).files[0];
+      if(file){
+        //创建用来读取此文件的对象
+        var reader = new FileReader();
+        //使用该对象读取file文件
+          reader.readAsDataURL(file);
+        //读取文件成功后执行的方法函数
+          reader.onload=function(e){
+        //读取成功后返回的一个参数e，整个的一个进度事件
+            console.log(e);
+        //选择所要显示图片的img，要赋值给img的src就是e中target下result里面
+        //的base64编码格式的地址
+            $('#imgshow').get(0).src = e.target.result;
+          }
+      } else {
+        return false;
+      }
+
+    })
+})
+layui.use('laydate', function(){
+  var laydate = layui.laydate;
+  
+  //执行一个laydate实例
+  laydate.render({
+    elem: '#teacher_start' //指定元素
+  });
+});
+
+
+
+</script>
+<!--包含尾部文件-->
+{include file="public/footer" /}
