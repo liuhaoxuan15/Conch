@@ -12,8 +12,6 @@ class Register extends Controller
     }
     public function register()
     {
-        // verifycode
-
         if (request()->isPost()) {
             $code = input('param.verifycode');
             $data = [
@@ -22,6 +20,10 @@ class Register extends Controller
                 'user_phone' => input('param.user_phone'),
                 'user_img' => 'default.jpg',
             ];
+            $password = input('param.password');
+            if($password!=$data['user_password']){
+                return $this->error("两次密码不一致，请重新输入");
+            }
             $smscode = Db::name("smscode")->where('mobile',$data['user_phone'])->value('code');
             if($smscode == $code) {
                 $res = Db::name("users")->insert($data);

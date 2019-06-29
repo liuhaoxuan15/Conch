@@ -23,7 +23,7 @@
     <div class="header-bar">
         <div class="header-inner">
             <ul class="father">
-                <li style="visibility:hidden"><a>北京</a></li>
+                <li><a href="{:url('home/goClassAdminLogin')}">辅导班入口</a></li>
                 <li style="visibility:hidden">|</li>
                 <li style="visibility:hidden" class="city">
                     <a>切换城市<span class="arrow-down-logo"></span></a>
@@ -52,10 +52,13 @@
 
                     </div>
                 </li>
+                <!-- <li>
+                    <a href="{:url('class_admin/login')}">辅导班入口</a>
+                </li> -->
                 {present name="login_user"}
 
                 <li>
-                    <a href="{:url('logout')}">退出</a>
+                    <a href="{:url('home/logout')}">退出</a>
                 </li>
                 <li>|</li>
                 <li>

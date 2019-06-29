@@ -29,26 +29,22 @@ class TeacherList extends Controller
         // dump($res);
         return json(['code' => 0, 'count' => $count, 'data' => $res]);
     }
-    public function ice($teacher_id) {
-        $res = Db::name('teachers')->where('teacher_id',$teacher_id)->update(['teacher_state' => '0']);
-        // 
-        if($res) {
+    public function ice($teacher_id)
+    {
+        $res = Db::name("teachers")->where('teacher_id', $teacher_id)->update(['teacher_state' => 0]);
+        if ($res) {
             return json("冻结成功");
         }
-        else {
-            // return json("冻结失败");
-            return json($res);
+    }
+    public function pass($teacher_id)
+    {
+        $res = Db::name("teachers")->where('teacher_id', $teacher_id)->update(['teacher_state' => 1]);
+        if ($res) {
+            return json("已通过");
         }
     }
-    public function pass($teacher_id) {
-        $res = Db::name('teachers')->where('teacher_id',$teacher_id)->update(['user_state' => '0']);
-        // 
-        if($res) {
-            return json("操作成功");
-        }
-        else {
-            // return json("冻结失败");
-            return json($res);
-        }
+    public function logout() {
+        \think\Session::delete('super_admin');
+        return $this->redirect('login/index');
     }
 }

@@ -177,6 +177,7 @@
             "{:url('ice')}",
             { class_id : data.class_id },
             function(data) {
+              layer.msg(data,{time:800,area:['260px','50.2px']});
               console.log(data);
               console.log('----------');
             }
@@ -184,10 +185,7 @@
           
         });
       } else if(obj.event === 'see'){
-        console.log(data);
         var class_id = data.class_id;
-        // var class_license = data.class_license;
-        // function openModak(){
             $("[name='class_name']").val(data.class_name);//向模态框中赋值
             $("[name='class_phone']").val(data.class_phone);
             $("[name='class_time']").val(data.class_time);
@@ -224,7 +222,7 @@
                     fixed: false, //不固定
                     maxmin: false,//显示最大最小化按钮
                     zIndex:1500,//层
-                    offset: ['-10px', '360px'],//定义坐标
+                    offset: 'auto',//定义坐标
 
                     shadeClose: true,//点击外部关闭
                     shade:0.4,//阴影

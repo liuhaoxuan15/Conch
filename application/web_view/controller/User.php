@@ -78,7 +78,6 @@ class User extends Controller
             $user = Db::name('users')->where('user_id',$a['user_id'])->find();
             $this->assign("login_user", $user);
         }
-
         $info = '';
         $file = request()->file('user_img');
         $res = Db::name('users')->where('user_id',$a['user_id'])->find();
@@ -97,18 +96,17 @@ class User extends Controller
                 'user_name' => input('param.user_name')                
             ];
         }
-        // return json(22);
         $res1 = Db::name('users')->where('user_id',$a['user_id'])->update($data);
-
         if($res1) {
             return $this->success('修改成功');
         } else {
             return $this->error('修改失败');
         }
     }
+    
     public function logout()
     {
         \think\Session::delete('user');
-        $this->redirect('home/index');
+        $this->success('已退出','home/index');
     }
 }

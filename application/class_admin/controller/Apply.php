@@ -42,7 +42,6 @@ class Apply extends Controller
         if(request()->isPost()){//检查传参方式是否为POST
         $data=[
             'class_name'=>input('class_name'),
-            // 'match_pic'=>$info->getFilename(),
             'class_position'=>input('class_position'),
             'class_phone'=>input('class_phone'),
             'class_time'=>input('class_time'),
@@ -52,7 +51,6 @@ class Apply extends Controller
             'class_license' => $info1->getFilename(),
             'class_img' => $info2->getFilename(),
             'apply_time' => date("Y-m-d"),
-            // 'class_creatTime'=>creat_time(),
             'admin_id'=>$admin_id,
         ];
 
@@ -69,7 +67,7 @@ class Apply extends Controller
     }
     public function logout(){
         // 清除session（当前作用域）
-        \think\Session::clear();
+        \think\Session::delete('class_admin');
         $this->redirect('login/index');
     }
     public function getTypes($classify){

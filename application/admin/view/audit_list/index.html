@@ -87,8 +87,9 @@
   <a id="see" class="layui-btn layui-btn-xs" lay-event="see">查看</a> 
 
   <a id="pass" class="layui-btn layui-btn-xs" lay-event="pass">通过</a>
-
+  {{#  if(d.class_state == 0){ }}
   <a id="reject" class="layui-btn layui-btn-xs" lay-event="reject">拒绝</a>
+  {{#  } }} 
 </script>
 
 <script>
@@ -103,7 +104,7 @@
       ,page: true //开启分页
       ,cols: [[ //表头
        {type: 'checkbox', fixed: 'left'}
-      ,{field: 'class_id', title: 'ID', sort: true, fixed: 'left', width:80}
+      ,{type: 'numbers',field: 'class_id', title: 'ID', sort: true, fixed: 'left', width:80}
       ,{field: 'class_name', title: '辅导班名'}
       // ,{field: 'class_time', title: '上课时间'}
       // ,{field: 'class_position', title: '位置'} 
@@ -160,7 +161,7 @@
             function(data) {
               console.log(data);
               console.log('----------');
-              layer.msg(data);
+              layer.msg(data,{time:800,area:['260px','50.2px']});
               // table.reload('test');
             }
           )
@@ -170,35 +171,30 @@
       if(obj.event === 'see'){
         var class_id = data.class_id;
         var img = new Image();  
-
-            $("[name='class_name']").val(data.class_name);//向模态框中赋值
-            $("[name='class_phone']").val(data.class_phone);
-            $("[name='class_time']").val(data.class_time);
-            $("[name='class_position']").val(data.class_position);
-            $("#apply_license").attr("src",'__STATIC__/images/classes/license/' + data.class_license);
-
-            $("[name='admin_account']").val(data.admin_account);
-            
-            $("[name='class_info']").val(data.class_info);
-            $("#apply_license").click(function(){
-              console.log('open img');
-              img.src = '__STATIC__/images/classes/license/' + data.class_license;
-              // alert(img.src);
-              var imgHtml = "<img src='" + img.src + "' />";  
-              //捕获页  
-              layer.open({   
-                  shade: false,  
-                  title: false, //不显示标题  
-                  shadeClose: true,//点击外部关闭
-                  shade:0.4,//阴影
-                  //area:['600px','500px'],  
-                  area: ['auto'],  
-                  content: imgHtml, //捕获的元素，注意：最好该指定的元素要存放在body最外层，否则可能被其它的相对元素所影响  
-                  cancel: function () {  
-                      //layer.msg('捕获就是从页面已经存在的元素上，包裹layer的结构', { time: 5000, icon: 6 });  
-                  },
-              }); 
-            })
+        $("[name='class_name']").val(data.class_name);//向模态框中赋值
+        $("[name='class_phone']").val(data.class_phone);
+        $("[name='class_time']").val(data.class_time);
+        $("[name='class_position']").val(data.class_position);
+        $("#apply_license").attr("src",'__STATIC__/images/classes/license/' + data.class_license);
+        $("[name='admin_account']").val(data.admin_account);
+        $("[name='class_info']").val(data.class_info);
+        $("#apply_license").click(function(){
+          img.src = '__STATIC__/images/classes/license/' + data.class_license;
+          var imgHtml = "<img src='" + img.src + "' />";  
+          //捕获页  
+          layer.open({   
+              shade: false,  
+              title: false, //不显示标题  
+              shadeClose: true,//点击外部关闭
+              shade:0.4,//阴影
+              //area:['600px','500px'],  
+              area: ['auto'],  
+              content: imgHtml, //捕获的元素，注意：最好该指定的元素要存放在body最外层，否则可能被其它的相对元素所影响  
+              cancel: function () {  
+                  //layer.msg('捕获就是从页面已经存在的元素上，包裹layer的结构', { time: 5000, icon: 6 });  
+              },
+          }); 
+        })
             
             layui.use(['layer'],function () {
                 var layer = layui.layer,$=layui.$;
@@ -208,7 +204,7 @@
                     fixed: false, //不固定
                     maxmin: false,//显示最大最小化按钮
                     zIndex:1500,//层
-                    offset: ['-10px', '360px'],//定义坐标
+                    offset: 'auto',//定义坐标
 
                     shadeClose: true,//点击外部关闭
                     shade:0.4,//阴影
@@ -225,7 +221,7 @@
             "{:url('reject')}",
             { class_id : data.class_id },
             function(data) {
-              layer.msg(data,{area:['260px','50px']});
+              layer.msg(data,{time:800,area:['260px','50px']});
               console.log(data);
               console.log('----------');
               table.reload('test');

@@ -12,9 +12,9 @@
     <form method="post" action="{:url('edit',['teacher_id' => $teacherInfo.teacher_id])}" enctype="multipart/form-data" class="layui-form" style="width:600px;margin: 40px auto;">
       <!-- <input type="text" style="margin-left:300px;display: none" value="{$class.class_id}" > -->
       <div class="layui-form-item">
-        <label class="layui-form-label">教师名</label>
+        <label class="layui-form-label">老师名</label>
         <div class="layui-input-block">
-          <input type="text" name="teacher_name" value="{$teacherInfo.teacher_name}"  lay-verify="required"
+          <input type="text" name="teacher_name" value="{$teacherInfo.teacher_name}"  lay-verify="required|username"
                  class="layui-input">
         </div>
       </div>
@@ -23,7 +23,7 @@
         <label class="layui-form-label">开始教学日期</label>
         <div class="layui-input-block">
 
-        <input type="text" name="teacher_start" value="{$teacherInfo.teacher_start}" class="layui-input" id="teacher_start">
+        <input lay-verify="required" type="text" name="teacher_start" value="{$teacherInfo.teacher_start}" class="layui-input" id="teacher_start">
 
         </div>
       </div>
@@ -31,19 +31,19 @@
       <div class="layui-form-item">
         <label class="layui-form-label">专业</label>
         <div class="layui-input-block">
-          <input type="text" name="teacher_professional" value="{$teacherInfo.teacher_professional}" class="layui-input">
+          <input lay-verify="required" type="text" name="teacher_professional" value="{$teacherInfo.teacher_professional}" class="layui-input">
         </div>
       </div>
   
       <div class="layui-form-item layui-form-text">
-        <label class="layui-form-label">教师简介</label>
+        <label class="layui-form-label">老师简介</label>
         <div class="layui-input-block">
-          <textarea name="teacher_info" class="layui-textarea">{$teacherInfo.teacher_info}</textarea>
+          <textarea lay-verify="required" name="teacher_info" class="layui-textarea">{$teacherInfo.teacher_info}</textarea>
         </div>
       </div>
   
       <div class="layui-form-item layui-form-text">
-        <label class="layui-form-label">教师照片</label>
+        <label class="layui-form-label">老师照片</label>
         <div class="layui-input-block">
           <button type="button" class="layui-btn" id="btn-upload">
             <i class="layui-icon">&#xe67c;</i>上传图片
@@ -60,7 +60,7 @@
   
       <div class="layui-form-item">
         <div class="layui-input-block">
-          <button type="submit" class="layui-btn" id="submit">提交修改</button>
+          <button lay-submit lay-filter="*" type="submit" class="layui-btn" id="submit">提交修改</button>
           <button type="reset" id="reset" class="layui-btn layui-btn-primary">重置</button>
         </div>
       </div>
@@ -112,7 +112,25 @@ layui.use('laydate', function(){
   });
 });
 
+layui.use('form', function(){
+  var form = layui.form;
 
+  //各种基于事件的操作，下面会有进一步介绍
+  form.verify({
+  username: function(value, item){ //value：表单的值、item：表单的DOM对象
+    if(!new RegExp("^[a-zA-Z0-9_\u4e00-\u9fa5\\s·]+$").test(value)){
+      return '老师名不能有特殊字符';
+    }
+    if(/(^\_)|(\__)|(\_+$)/.test(value)){
+      return '老师名首尾不能出现下划线\'_\'';
+    }
+    if(/^\d+\d+\d$/.test(value)){
+      return '老师名不能全为数字';
+    }
+  }
+});  
+});
+</script>
 
 </script>
 <!--包含尾部文件-->

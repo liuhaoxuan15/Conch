@@ -72,26 +72,19 @@ class Ad extends Controller
         return $this->fetch('banner_ad_add');
     }
     public function addBanner($ad_type) {
-        // return json($ad_type);
+        $admin = \think\Session::get('super_admin');
+        // return json($admin);
         $info = '';
         $file = $this->request->file('file');
         if ($file) {
-            //图片存的路径
             $imgUrl= ROOT_PATH . 'public' . DS . 'static' . DS . 'images' . DS . 'banner';
-            // $imgUrl = $file->rule('uniqid')->move(ROOT_PATH . 'public' . DS . 'static' . DS . 'images' . DS . 'classes' . DS . 'photos');
-            // 移动到框架应用根目录/public/uploads/ 目录下
-
             $info = $file->validate(['ext' => 'jpg,png,jpeg'])->rule('uniqid')->move($imgUrl);
-            
             $error = $file->getError();
-            //验证文件后缀后大小
             if (!empty($error)) {
                 dump($error);
                 exit;
             }
             if ($info) {
-                // 成功上传后 获取上传信息
-                //获取图片的名字
                 $imgName = $info->getFilename();
                 $photo = $imgUrl . "/" . $imgName;
                 $data = [
@@ -100,18 +93,16 @@ class Ad extends Controller
                     'ad_img' => $imgName,
                     'upload_time' => date('Y-m-d H:i:s'),
                     'ad_state' => 1,
+                    'master_id' => $admin['master_id']
                 ];
                 $res = Db::name("ad")->insert($data);
                 if($res) {
+
                     return json(['code' => 1, 'msg' => '成功', 'data' => $data]);
                 } else {
                     return json(['code' => 404, 'msg' => '失败', 'data' => '上传失败']);
                 }
-                // return json($data);
-                //获取图片的路径
-                
             } else {
-                // 上传失败获取错误信息
                 return $file->getError();
             }
         } else {
@@ -119,8 +110,11 @@ class Ad extends Controller
         }
     }
     
-    public function editSort($ad_id,$ad_sort) {
-        $res = Db::name("ad")->where('ad_id',$ad_id)->update(['ad_sort'=>$ad_sort]);
+    public function editSort($ad_id,$ad_sort){
+        preg_match_all('/\d+/',$ad_sort,$arr);
+        $arr = join('',$arr[0]);
+
+        $res = Db::name("ad")->where('ad_id',$ad_id)->update(['ad_sort'=>$arr]);
         // return $res;
         if($res) {
             return json("修改成功");
@@ -129,5 +123,8 @@ class Ad extends Controller
         }
     }
 
-
+    public function logout() {
+        \think\Session::delete('super_admin');
+        return $this->redirect('login/index');
+    }
 }

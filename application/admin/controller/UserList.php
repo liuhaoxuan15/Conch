@@ -47,4 +47,8 @@ class UserList extends Controller
             return json($res);
         }
     }
+    public function logout() {
+        \think\Session::delete('super_admin');
+        return $this->redirect('login/index');
+    }
 }

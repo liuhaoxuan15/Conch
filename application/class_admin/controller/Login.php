@@ -37,7 +37,8 @@ class Login extends Controller
             } else if ($classList) {
                 \think\Session::set('class_admin', $admin);
                 return json($classList);
-            } else {
+            } 
+            else {
                 \think\Session::set('class_admin', $admin);
                 return json("未注册辅导班");
             }

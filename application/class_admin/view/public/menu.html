@@ -1,5 +1,5 @@
 <div class="layui-header">
-  <div class="layui-logo" style="padding-left:18px;text-align:left;width:100%">班级：{$classInfo.class_name}</div>
+  <div class="layui-logo" style="width:800px;padding-left:16px;text-align:left">班级：{$classInfo.class_name}</div>
   <!-- 头部区域（可配合layui已有的水平导航） -->
   <!-- <ul class="layui-nav layui-layout-left">
             <li class="layui-nav-item"><a href="">控制台</a></li>
@@ -22,6 +22,7 @@
       </a>
       <dl class="layui-nav-child">
         <dd><a href="#" id="changeBtn">切换辅导班</a></dd>
+        <dd><a href="{:url('apply/index1')}">申请辅导班</a></dd>
         <!-- <dd><a href="">安全设置</a></dd> -->
       </dl>
     </li>
@@ -59,8 +60,16 @@
           <dd><a href="{:url('photos/GoAddPhoto')}">添加照片</a></dd>
         </dl>
       </li>
-      <li class="layui-nav-item"><a href="javascript:;">文章管理</a></li>
-      <li class="layui-nav-item"><a href="javascript:;">评价管理</a></li>
+      <li class="layui-nav-item layui-nav-itemed"><a href="javascript:;">预约管理</a>
+      <dl class="layui-nav-child">
+          <dd><a href="{:url('enrollform/index')}">预约列表</a></dd>
+      </dl>
+    </li>
+      <li class="layui-nav-item layui-nav-itemed"><a href="javascript:;">评价管理</a>
+        <dl class="layui-nav-child">
+            <dd><a href="{:url('evaluation/index')}">评价列表</a></dd>
+        </dl>
+      </li>
     </ul>
   </div>
 </div>
@@ -85,7 +94,6 @@
   </form>
 </div>
 <script src="__STATIC__/layui/layui.js"></script>
-
 <script src="__STATIC__/jquery-3.3.1.min.js"></script>
 <script>
   //JavaScript代码区域
@@ -98,8 +106,9 @@
       var layer = layui.layer, $ = layui.$;
       layer.open({
         type: 1,//类型
-        area:['400px','300px'],
+        area:['500px','400px'],
         fixed: false, //不固定
+        offset: 'auto',
         maxmin: false,//显示最大最小化按钮
         zIndex: 1500,//层
         scrollbar: false,

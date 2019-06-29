@@ -116,25 +116,46 @@ class Photos extends Controller
                 return json("删除失败");
             }
     }
-    public function show($photo_id) {
-        // 显示图片
-        $photo_state = Db::name("photos")->where('photo_id',$photo_id)->value('photo_state');
-        if(Db::name("photos")->update($photo_state,1)){
-            // 删除图片           
+    public function changeState($photo_id) {
+        $photo_state = Db::name('photos')->where('photo_id',$photo_id)->value('photo_state');
+        if($photo_state == 1) {
+            if(Db::name('photos')->where('photo_id',$photo_id)->update(['photo_state'=>0])){
                 return json("修改成功");
-            }else{
+            } else {
                 return json("修改失败");
             }
+        } else {
+            if(Db::name('photos')->where('photo_id',$photo_id)->update(['photo_state'=>1])){
+                return json("修改成功");
+            } else {
+                return json("修改失败");
+            }
+        }
     }
-    public function hide($photo_id) {
-        // 显示图片
-        $photo_state = Db::name("photos")->where('photo_id',$photo_id)->value('photo_state');
-        if(Db::name("photos")->update($photo_state,0)){
-            // 删除图片           
-                return json("修改成功");
-            }else{
-                return json("修改失败");
-            }
+    // public function show($photo_id) {
+    //     // 显示图片
+    //     $photo_state = Db::name("photos")->where('photo_id',$photo_id)->value('photo_state');
+    //     if(Db::name("photos")->update($photo_state,1)){
+    //         // 删除图片           
+    //             return json("修改成功");
+    //         }else{
+    //             return json("修改失败");
+    //         }
+    // }
+    // public function hide($photo_id) {
+    //     // 隐藏图片
+    //     $photo_state = Db::name("photos")->where('photo_id',$photo_id)->value('photo_state');
+    //     return json($photo_state);
+    //     if(Db::name("photos")->update(['photo_state'=>0])){
+    //         // 删除图片           
+    //             return json("修改成功");
+    //         }else{
+    //             return json("修改失败");
+    //         }
+    // }
+    public function logout() {
+        \think\Session::delete('class_admin');
+        return $this->redirect('login/index');
     }
 }
 

@@ -31,16 +31,16 @@ class EvaluationList extends Controller
         return json(['code' => 0, 'count' => $count, 'data' => $res]);
     }
     public function del($evaluation_array) {
-        // return json($evaluation_array.length);
-        $evaluation_id = '';
-        $length = count($evaluation_array);
-        // return json($evaluation_array[1]);
-        for($i = 0; $i< $length ; $i++){
-            $evaluation_id = $evaluation_array[$i];
-            $res = Db::name('evaluation')->where('evaluation_id',$evaluation_id)->delete();
+        $res = Db::name('evaluation')->delete($evaluation_array);
+        if($res){
+            return json("删除成功");
+        } else {
+            return json("删除失败");
         }
-        // 
-        return json("删除成功");
+    }
+    public function logout() {
+        \think\Session::delete('super_admin');
+        return $this->redirect('login/index');
     }
    
 }

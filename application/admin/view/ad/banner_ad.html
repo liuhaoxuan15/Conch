@@ -154,9 +154,8 @@
             function (data) {
               console.log(data);
               console.log('----------');
-              layer.msg(data,{end:function(){
-                window.location.reload();
-              }});
+              layer.msg(data,{time:800});
+              table.reload('test');
             }
           )
 
@@ -171,9 +170,8 @@
             function (data) {
               console.log(data);
               console.log('----------');
-              layer.msg(data,{end:function(){
-                window.location.reload();
-              }});
+              layer.msg(data,{time:800});
+              table.reload('test');
             }
           )
 
@@ -195,6 +193,7 @@
             function (data) {
               console.log(data);
               layer.msg(data);
+              table.reload('test');
             }
           )
           //这里一般是发送修改的Ajax请求

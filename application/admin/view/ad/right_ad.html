@@ -154,8 +154,8 @@
             function (data) {
               console.log(data);
               console.log('----------');
-              layer.msg(data,{end:function(){
-                window.location.reload();
+              layer.msg(data,{time:800,end:function(){
+                table.reload('test');
               }});
             }
           )
@@ -171,7 +171,7 @@
             function (data) {
               console.log(data);
               console.log('----------');
-              layer.msg(data,{end:function(){
+              layer.msg(data,{time:800,end:function(){
                 window.location.reload();
               }});
             }

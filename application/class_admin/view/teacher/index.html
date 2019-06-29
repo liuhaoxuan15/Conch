@@ -149,7 +149,7 @@
       }
       if(obj.event === 'pass') {
         layer.confirm('确定要通过该教师？', function(index){
-          layer.close(index);
+          // layer.close(index);
           $.post(
             "{:url('pass')}",
             { teacher_id : data.teacher_id },

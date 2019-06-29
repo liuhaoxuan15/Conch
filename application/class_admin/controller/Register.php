@@ -20,7 +20,6 @@ class Register extends Controller
                 $data = [
                     'admin_account' => $m,
                     'admin_password' => input('param.admin_password'),
-                    'admin_type' => 1
                 ];
                 $res = Db::table('admins')->insert($data);
                 if($res){

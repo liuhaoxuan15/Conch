@@ -162,13 +162,14 @@
         clear: both;
         padding-left: 118px;
     }
+    
 </style>
 
 <body>
     <div class="header-bar">
         <div class="header-inner">
             <ul class="father">
-                <li style="visibility:hidden"><a>北京</a></li>
+                <li ><a href="{:url('home/goClassAdminLogin')}">辅导班入口</a></li>
                 <li style="visibility:hidden">|</li>
                 <li style="visibility:hidden" class="city">
                     <a>切换城市<span class="arrow-down-logo"></span></a>
@@ -200,7 +201,7 @@
                 {present name="login_user"}
 
                 <li>
-                    <a href="{:url('logout')}">退出</a>
+                    <a href="{:url('home/logout')}">退出</a>
                 </li>
                 <li>|</li>
                 <li><a href="{:url('user/index')}">欢迎您：{$login_user.user_name}</a></li>
@@ -342,12 +343,12 @@
                     <div>
                         {present name="hasCollection"}
                         <!-- 收藏 -->
-                        <a href="{:url('collection',['class_id'=>$class.class_id,'flag'=>0])}"><i
+                        <a title="取消收藏" href="{:url('collection',['class_id'=>$class.class_id,'flag'=>0])}"><i
                                 class="layui-icon layui-icon-star-fill"
                                 style="font-size: 30px; color:rgb(240,131, 0)"></i></a>
                         {else/}
                         <!-- 未收藏 -->
-                        <a href="{:url('collection',['class_id'=>$class.class_id,'flag'=>1])}"><i
+                        <a title="收藏" href="{:url('collection',['class_id'=>$class.class_id,'flag'=>1])}"><i
                                 class="layui-icon layui-icon-star"
                                 style="font-size: 30px; color:rgb(240,131, 0);margin-right:15px"></i></a>
                         {/present}
@@ -394,8 +395,8 @@
                     <li
                         style="list-style: none;display:inline-block;vertical-align: top;width: 260px;height: 300px;padding: 10px">
                         <div class="teacher">
-                            <div>
-                                <img style="width:258px" src="__STATIC__/images/teachers/{$t.teacher_img}" alt="">
+                            <div style="overflow:hidden">
+                                <img style="height:193.5px;max-width: 100%" src="__STATIC__/images/teachers/{$t.teacher_img}" alt="">
                             </div>
                             <div>
                                 <div class="name">

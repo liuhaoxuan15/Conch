@@ -137,6 +137,10 @@ class ClassList extends Controller
 
         return $this->fetch();
     }
-
+    public function logout(){
+        // 清除session（当前作用域）
+        \think\Session::delete('user');
+        $this->redirect('login/index');
+    }
 
 }

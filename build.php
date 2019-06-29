@@ -14,27 +14,27 @@ return [
     '__file__' => ['common.php', 'config.php', 'database.php'],
 
     // 定义demo模块的自动生成 （按照实际定义的文件名生成）
-    'admin'     => [
-        '__file__'   => ['common.php'],
-        '__dir__'    => ['behavior', 'controller', 'model', 'view'],
-        'controller' => ['Index', 'Classes', 'Users','Teachers','Posts'],
-        'model'      => ['Classes', 'Users','Teachers','Posts'],
-        'view'       => ['index/index'],
-    ],
-    'class_admin'     => [
-        '__file__'   => ['common.php'],
-        '__dir__'    => ['behavior', 'controller', 'model', 'view'],
-        'controller' => ['Index', 'Info', 'Teachers','Users'],
-        'model'      => ['Classes', 'Info','Teachers','Users'],
-        'view'       => ['index/index'],
-    ],
-    'web_view'     => [
-        '__file__'   => ['common.php'],
-        '__dir__'    => ['behavior', 'controller', 'model', 'view'],
-        'controller' => ['Index'],
-        'model'      => [],
-        'view'       => ['index/index'],
-    ],
+    // 'admin'     => [
+    //     '__file__'   => ['common.php'],
+    //     '__dir__'    => ['behavior', 'controller', 'model', 'view'],
+    //     'controller' => ['Index', 'Classes', 'Users','Teachers','Posts'],
+    //     'model'      => ['Classes', 'Users','Teachers','Posts'],
+    //     'view'       => ['index/index'],
+    // ],
+    // 'class_admin'     => [
+    //     '__file__'   => ['common.php'],
+    //     '__dir__'    => ['behavior', 'controller', 'model', 'view'],
+    //     'controller' => ['Index', 'Info', 'Teachers','Users'],
+    //     'model'      => ['Classes', 'Info','Teachers','Users'],
+    //     'view'       => ['index/index'],
+    // ],
+    // 'web_view'     => [
+    //     '__file__'   => ['common.php'],
+    //     '__dir__'    => ['behavior', 'controller', 'model', 'view'],
+    //     'controller' => ['Index'],
+    //     'model'      => [],
+    //     'view'       => ['index/index'],
+    // ],
     // 其他更多的模块定义
     // 'jsonAPI'     => [
     //     '__file__'   => ['common.php'],

@@ -18,7 +18,7 @@
         <div class="layui-form-item" style="margin-top:30px">
             <label class="layui-form-label">管理员密码</label>
             <div class="layui-input-block">
-                <input type="text" name="password" id="password" placeholder="密码" autocomplete="off"
+                <input type="password" name="password" id="password" placeholder="密码" autocomplete="off"
                     class="layui-input">
             </div>
         </div>
@@ -28,7 +28,7 @@
             <div class="layui-input-block">
                 <input class="layui-input" lay-verify="required" type="text" id="verifycode" placeholder="请输入验证码"
                     name="verifycode">
-                <div><img src="{:url('show_captcha')}" alt="captcha" onclick="this.src=this.src" +'?' /></div>
+                <div><img id="v_img" src="{:url('show_captcha')}" alt="captcha" onclick="this.src=this.src" +'?' /></div>
             </div>
         </div>
 
@@ -66,34 +66,6 @@
 <script src="__STATIC__/layer/layer.js"></script>
 <script src="__STATIC__/layui/layui.js"></script>
 
-<script type="text/javascript">
-    var code;//声明一个变量用于存储生成的验证码  
-    document.getElementById("code").onclick = changeImg;
-    function changeImg() {
-        //alert("换图片");  
-        var arrays = new Array(
-            '1', '2', '3', '4', '5', '6', '7', '8', '9', '0',
-            'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j',
-            'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't',
-            'u', 'v', 'w', 'x', 'y', 'z',
-            'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J',
-            'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T',
-            'U', 'V', 'W', 'X', 'Y', 'Z'
-        );
-        code = '';//重新初始化验证码  
-        //alert(arrays.length);  
-        //随机从数组中获取四个元素组成验证码  
-        for (var i = 0; i < 4; i++) {
-            //随机获取一个数组的下标  
-            var r = parseInt(Math.random() * arrays.length);
-            code += arrays[r];
-            //alert(arrays[r]);  
-        }
-        //alert(code);  
-        document.getElementById('code').innerHTML = code;//将验证码写入指定区域  
-    }
-
-</script>
 <script>
     // $('#submit').click(function(){
     //     layer.open({
@@ -107,7 +79,9 @@
     $('#submit').click(function () {
         // console.log($("#account").val())
         if ($("#account").val() == '' || $("#password").val() == '' || $("#verifycode").val() == '') {
-            layer.msg('请输入完整的登录信息');
+            layer.msg('请输入完整的登录信息',{time:800,end:function(){
+                            $('#v_img').click();
+                        }});
         } else {
             $.post("{:url('login/login')}",
                 {
@@ -117,17 +91,22 @@
                 }
                 , function (data) {
                     if (data == "账号不存在") {
-                        layer.msg("账号不存在")
+                        layer.msg("账号不存在",{time:800,end:function(){
+                            $('#v_img').click();
+                        }})
                     } else if (data == "密码错误") {
-                        layer.msg("密码错误")
+                        layer.msg("密码错误",{time:800,end:function(){
+                            $('#v_img').click();
+                        }})
                     } else if (data == "验证码错误") {
-                        layer.msg("验证码错误")
+                        layer.msg("验证码错误",{time:800,end:function(){
+                            $('#v_img').click();
+                        }})
                     } else if (data == "未注册辅导班") {
-                        layer.msg(data,{end:function(){
+                        layer.msg(data,{time:800,end:function(){
                             window.location.href="{:url('apply/index1')}";
                         }});
                     } else {
-                        // console.log(data);
                         var content = "<option value=''>请选择班级</option>"
                         for (var i = 0; i < data.length; i++) {
                            content += "<option value='"+data[i].class_id+"'>"+data[i].class_name+"</option>";
@@ -139,14 +118,15 @@
                             var layer = layui.layer, $ = layui.$;
                             layer.open({
                                 type: 1,//类型
-                                area: ['400px', '300px'],
-                                fixed: false, //不固定
+                                area: ['500px', '400px'],
+                                fixed: true, //不固定
                                 maxmin: false,//显示最大最小化按钮
                                 zIndex: 1500,//层
+                                offset: 'auto',
                                 scrollbar: false,
                                 shadeClose: true,//点击外部关闭
                                 shade: 0.4,//阴影
-                                title: '切换辅导班',//题目
+                                title: '选择辅导班',//题目
                                 content: $('#change')//打开的内容
                                 
                             });

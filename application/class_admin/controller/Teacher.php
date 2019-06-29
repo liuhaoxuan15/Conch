@@ -137,7 +137,6 @@ class Teacher extends Controller
         // 切换班级
         $classList = Db::name("classes")->where("admin_id",$admin_id)->select();
         $this->assign("classlist",$classList);
-
         $info = "";
         $file = request()->file('teacher_img'); //手册里上传文件
         // return $file;
@@ -188,6 +187,10 @@ class Teacher extends Controller
                 
             }
         }
+    }
+    public function logout() {
+        \think\Session::delete('class_admin');
+        return $this->redirect('login/index');
     }
 }
 

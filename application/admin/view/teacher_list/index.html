@@ -48,7 +48,7 @@
       ,title: '用户数据表'
       ,cols: [[ //表头
        {type: 'checkbox', fixed: 'left'}
-      ,{field: 'teacher_id', title: 'ID',  sort: true, fixed: 'left'}
+      ,{type: 'numbers',field: 'teacher_id', title: 'ID',  sort: true, fixed: 'left'}
       ,{field: 'teacher_name',  title: '教师'}
       ,{field: 'teacher_img', title: '教师照片'
           ,templet:
@@ -58,7 +58,7 @@
           }
       ,{field: 'teacher_start',title: '开始教学日期'}
       ,{field: 'teacher_professional', title: '专业'}
-      ,{field: 'class_name', title: '所属班级'}      
+      ,{field: 'class_name', title: '所属辅导班'}      
       ,{field: 'teacher_info', title: '简介'}
       ,{fixed: 'right', title:'状态', templet:function(d){
         if(d.teacher_state == 0) {

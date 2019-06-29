@@ -11,22 +11,23 @@ class Login extends Controller
             // return $captcha;
             $account = input('param.account');
             $password = input('param.password');
-            $admin =Db::name("admins")->where('admin_account',$account)->where('admin_type',0)->find();
+            $admin =Db::name("master")->where('master_account',$account)->find();
+            // return json($admin);
             // return $admin;
             if (!$admin) {
                 // return json("账号不存在");
                 return json("账号不存在");
             }
-            else if ($password!=$admin['admin_password']) {
+            else if ($password!=$admin['master_password']) {
                 return json("密码错误");
             }
             else if(!captcha_check($captcha)){
                 return json("验证码错误");
             } 
             else {
-                // return json("登录成功");
-                // \think\Session::set('class_admin',$admin);
                 \think\Session::set('super_admin',$admin);
+                return json("登录成功");
+                // \think\Session::set('class_admin',$admin);
                 $this->redirect('index/index');
             }           
         }

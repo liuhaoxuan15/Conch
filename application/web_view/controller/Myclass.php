@@ -66,10 +66,5 @@ class Myclass extends Controller
         
         return $this->fetch();
     }
-    public function logout()
-    {
-        \think\Session::delete('user');
-        $this->redirect('home/index');
-    }
 
 }

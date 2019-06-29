@@ -16,18 +16,14 @@ class Login extends Controller
             $account = $_POST['account'];
             $password = $_POST['password'];
             $user = Db::name("users")->where('user_phone', $account)->find();
-            // return json($user);
-            // return $admin;
             if (!$user) {
-                // return json("账号不存在");
                 return json("账号不存在");
             } else if ($password != $user['user_password']) {
                 return json("密码错误");
+            } else if ($user['user_state'] == 0) {
+                return json("您的账户已被冻结");
             } else {
-                // \think\Session::set('class_admin',$admin);
                 \think\Session::set('user', $user);
-                return json($user);
-                // $this->redirect('home/index');                
                 return json("登录成功");
             }
         }
@@ -42,6 +38,12 @@ class Login extends Controller
         $c = input('param.c');
         $url = "http://api.smsbao.com/sms?u=" . $u . "&p=" . $p . "&m=" . $m . "&c=" . $c . $randNum;
 
+        $rule = '/^0?(13|14|15|17|18)[0-9]{9}$/';
+        $result = preg_match($rule, $m);
+        if(!$result == 0){
+            return json("请输入正确的手机号");
+        }
+
         $isRegister = Db::name("admins")->where('admin_account', $m)->find();
         if (!$isRegister) {
             return json("该手机号尚未注册");
@@ -52,38 +54,33 @@ class Login extends Controller
             } else if ($file == -1) {
                 return json("请输入手机号");
             } else {
-                    $data = [
-                        'code' => $randNum,
-                        'update_time' => date('Y-m-d H-i-s')
-                    ];
-                    $res = Db::name("smscode")->where('mobile', $m)->update($data);
-                    return $file;
+                $data = [
+                    'code' => $randNum,
+                    'update_time' => date('Y-m-d H-i-s')
+                ];
+                $res = Db::name("smscode")->where('mobile', $m)->update($data);
+                return $file;
             }
         }
     }
 
-    public function retrieve()
-    {
-    // Session
-        $hasUser = \think\Session::has('user');
-        $this->assign('hasUser', $hasUser);
-        if ($hasUser) {
-            $a = \think\Session::get('user');
-            $user = Db::name('users')->where('user_id', $a['user_id'])->find();
-            $this->assign("login_user", $user);
-        }
-
+    // 找回密码
+    public function retrieve(){
         if (request()->isPost()) {
             $code = input('param.re_verifycode');
             $user_phone = input('param.re_phone');
             $password = input('param.re_password');
             $res = Db::name('smscode')->where('mobile', $user_phone)->find();
-            $user_id = Db::name('users')->where('user_phone',$user_phone)->value('user_id');
-            // return json($res);
-            if(!$code){
+            $user_id = Db::name('users')->where('user_phone', $user_phone)->value('user_id');
+            
+            $rule = '/^0?(13|14|15|17|18)[0-9]{9}$/';
+            $result = preg_match($rule, $user_phone);
+            if(!$result == 0){
+                return $this->error("请输入正确的手机号");
+            }
+            if (!$code) {
                 return $this->error('请输入验证码');
             }
-            
             if ($code != $res['code']) {
                 return $this->error('验证码错误');
             } else {

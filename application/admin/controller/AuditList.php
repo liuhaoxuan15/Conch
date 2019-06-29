@@ -42,18 +42,20 @@ class Auditlist extends Controller
             return json("审核通过");
         }
         else {
-            // return json("冻结失败");
-            return json($res);
+            return json("操作失败");
         }
     }
     public function reject($class_id) {
         $res = Db::name('classes')->where('class_id',$class_id)->update(['class_state' => '2']);
         if($res) {
-            return json("操作成功");
+            return json("拒绝成功");
         }
         else {
-            // return json("冻结失败");
             return json("该俱乐部已被冻结,请勿重复操作");
         }
+    }
+    public function logout() {
+        \think\Session::delete('super_admin');
+        return $this->redirect('login/index');
     }
 }

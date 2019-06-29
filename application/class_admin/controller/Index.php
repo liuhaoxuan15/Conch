@@ -116,12 +116,10 @@ class index extends Controller
         } else {
             return $this->error("切换班级失败");
         }
-        // return json($class_id);
-
     }
 
     public function logout() {
-        \think\Session::delete('class');
+        \think\Session::delete('class_admin');
         return $this->redirect('login/index');
     }
 }

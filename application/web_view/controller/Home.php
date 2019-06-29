@@ -35,7 +35,7 @@ class Home extends Controller
 
         // banner图 和 广告栏
         $banner = Db::name("ad")->where('ad_type', 0)->where('ad_state', 1)->order('ad_sort desc')->select();
-        $right_sidebar = Db::name("ad")->where('ad_type', 1)->where('ad_state', 1)->find();
+        $right_sidebar = Db::name("ad")->where('ad_type', 1)->where('ad_state', 1)->order('ad_sort','desc')->find();
         $this->assign('right_sidebar', $right_sidebar);
         $this->assign('banner', $banner);
 
@@ -142,6 +142,10 @@ class Home extends Controller
     public function logout()
     {
         \think\Session::delete('user');
-        $this->redirect('home/index');
+        $this->success('已退出');
+    }
+
+    function goClassAdminLogin(){
+        $this->redirect('class_admin/login/index');
     }
 }
